@@ -107,23 +107,12 @@ export default function Login() {
 
 
                                 </div>
-                                {/* <div className="w-full">
-                                    <FormInput
-                                        label={
-                                            <label htmlFor="firstName" className="text-gray-700">
-                                                Parol
-                                                <span className="text-red-500">*</span>
-                                            </label>
-                                        }
-                                        className="mt-1"
-                                        name="password"
-                                        placeholder="Parol kiriting"
-                                    />
-                                </div> */}
+                       
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">
                                     Parolni unutdingizmi?
                                 </div>
+                                
                                 <div className="mt-2">
 
                                     {isVerified ? (

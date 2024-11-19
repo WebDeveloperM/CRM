@@ -27,7 +27,6 @@ import {
     useQueryClient,
     UseQueryOptions,
 } from "react-query"
-import { errorToast } from "@core/components/Toastfy"
 import { useNavigate } from "react-router-dom"
 import { logout } from "@users/utils/auth"
 
@@ -43,7 +42,7 @@ function useErrorHandler(onError?: (err: BaseError) => void) {
         onError?.(error)
 
         if (error.response === undefined || error.response.status === 0) {
-            errorToast("Проверьте интернет соединение")
+            // errorToast("Проверьте интернет соединение")
             setToasts((prev) => [
                 ...prev,
                 { key: "network error", color: "error", children: "Проверьте интернет соединение" },

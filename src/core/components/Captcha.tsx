@@ -1,5 +1,4 @@
 import { useState } from "react";
-import IMask from 'imask';
 import { useMask } from "@react-input/mask";
 const MathCaptcha = ({ onVerify }: any) => {
     const [num1, setNum1] = useState(generateRandomNumber());
@@ -31,14 +30,14 @@ const MathCaptcha = ({ onVerify }: any) => {
     return (
         <div>
 
-            <div className="grid grid-cols-12 justify-between mt-2 gap-2 max-h-10">
+            <div className="grid grid-cols-12 justify-between mt-1 gap-2 max-h-8">
                 <div className="flex items-center gap-2 col-span-8">
                     <p
                         onClick={() => {
                             setNum1(generateRandomNumber())
                             setNum2(generateRandomNumber())
                         }}
-                        className="text-base sm:text-xl cursor-pointer">
+                        className="text-sm xl:text-lg cursor-pointer">
                         {num1} + {num2} =
                     </p>
 
@@ -47,7 +46,7 @@ const MathCaptcha = ({ onVerify }: any) => {
                         value={userInput}
                         onChange={handleChange}
                         placeholder="Javobni kiriting"
-                        className="xl:placeholder:pl-1 placeholder:text-sm py-1 pl-2 my-1 text-xs lg:text-base border max-w-[65%] sm:max-w-full "
+                        className="xl:placeholder:pl-0.5 placeholder:text-sm py-1 2xl:pl-2 pl-0.5 my-1 text-xs lg:text-base border max-w-[65%] md:max-w-[65%] lg:max-w-[57%] sm:max-w-full "
                         ref={(e) => {
                             inputRef.current = e
                         }}
@@ -57,7 +56,7 @@ const MathCaptcha = ({ onVerify }: any) => {
             </div>
             {error && 
             
-            <p style={{ color: "red" }} className="text-sm mt-1">{error}</p>
+            <p style={{ color: "red" }} className="text-sm mt-1.5">{error}</p>
             }
         </div>
     );

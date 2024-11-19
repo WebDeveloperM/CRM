@@ -72,17 +72,17 @@ export default function Register() {
     return (
         <div className="bg-[url('/src/users/static/login-bg.svg')] sm:h-screen min-h-[800px] sm:min-h-0 w-full bg-cover sm:bg-bottom relative  sm:py-0">
             <div
-                className="border-[0.7px] border-secondary rounded-lg bg-white sm:bg-white/70 pt-[2%]
+                className="border-[0.7px] border-secondary rounded-lg bg-white sm:bg-white/70 pt-[1%]
                             max-w-[90%] min-w-[85%] mx-auto sm:max-w-[50%] sm:min-w-[40%] md:max-w-[35%] md:min-w-[25%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2 md:left-[70%] xl:left-[75%] xl:max-w-[25%] xl:min-w-[20%] "
             >
                 <div>
                     <img src={logo} alt="logo" className="w-[20%] xl:w-1/5 2xl:w-1/4 mx-auto mt-5 sm:mt-0" />
                     <div className="px-7 ">
-                        <h5 className="text-xl font-medium text-gray-700 py-3 whitespace-normal tracking-wider text-center">
+                        <h5 className="text-xl font-medium text-gray-700 py-1 whitespace-normal tracking-wider text-center">
                             Ro'yhatdan o'tish
                         </h5>
                         <FormProvider {...methods}>
-                            <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
+                            <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-3">
                                 <div className="w-full">
                                     <FormInput
                                         label={
@@ -191,7 +191,7 @@ export default function Register() {
 
                                 <button
                                     type="submit"
-                                    className="w-full p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+                                    className="w-full p-1.5 my-2 mt-3 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
                                     disabled={isLoading}
                                 >
                                     Ro'yhatdan o'tish

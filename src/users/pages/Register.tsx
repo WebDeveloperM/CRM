@@ -26,8 +26,8 @@ export default function Register() {
     const methods = useForm<SignUpSuperUser>()
     const inputRef = useMask({ mask: "______________", replacement: { _: /\d/ } })
     const inputPasportRef = useMask({
-        mask: "11 | _______",
-        replacement: { 1: /[A-Za-z]/, _: /\d/ },
+        mask: "__ | _______",
+        replacement: { _: /[A-Za-z]/, _: /\d/ },
         onMask: (mask) => (mask.target.value = mask.target.value.toUpperCase()),
     })
 
@@ -121,7 +121,7 @@ export default function Register() {
                                         }
                                         className="mt-1"
                                         name="lastName"
-                                        placeholder="Ism kiriting"
+                                        placeholder="Familiya kiriting"
                                     />
                                 </div>
 
@@ -134,7 +134,7 @@ export default function Register() {
                                             </label>
                                         }
                                         name="clinicName"
-                                        placeholder="Ism kiriting"
+                                        placeholder="Klinika nomi kiriting"
                                         className="mt-1"
                                     />
                                 </div>
@@ -197,7 +197,7 @@ export default function Register() {
                                 </div>
                                 <div className="flex items-center my-2">
                                     <input id="link-radio" type="radio" onChange={(e) => setCheck(e.target.checked)} className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 " />
-                                    <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> <a href="#" className="text-secondary hover:underline">Qonun talablari </a> doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik bildiraman.</label>
+                                    <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> <a target="_blank" href="https://lex.uz/docs/-4396419" className="text-secondary hover:underline">Qonun talablari </a> doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik bildiraman.</label>
                                 </div>
 
 

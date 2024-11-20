@@ -10,48 +10,52 @@ import { errorToast } from "@core/components/Toastfy"
 import { toast, ToastContainer } from "react-toastify"
 import MathCaptcha from "@core/components/Captcha"
 import { SetStateAction, useState } from "react"
-import { FaRegCircleQuestion } from "react-icons/fa6";
 import jshshr from "../static/jshshr.png"
 
 export default function Register() {
     const navigate = useNavigate()
     const { mutateAsync, isLoading, error } = useSuperUserCreate()
-    const [isVerified, setIsVerified] = useState(false);
+    const [isVerified, setOnVerify] = useState<SetStateAction<boolean>>(false);
+    const [submitHandleVerify, setSubmitHandleVerify] = useState(false);
     const [showModal, setShowModal] = useState(false);
+
     const [check, setCheck] = useState<SetStateAction<boolean>>(false);
 
-    const handleCaptchaVerify = (status: boolean) => {
-        setIsVerified(status);
-    };
-    const methods = useForm<SignUpSuperUser>()
+
+    const methods = useForm<SignUpSuperUser>({ mode: "onBlur" })
     const inputRef = useMask({ mask: "______________", replacement: { _: /\d/ } })
-    const inputPasportRef = useMask({
-        mask: "__ | _______",
-        replacement: { _: /[A-Za-z]/, _: /\d/ },
-        onMask: (mask) => (mask.target.value = mask.target.value.toUpperCase()),
-    })
+    // const inputPasportRef = useMask({
+    //     mask: "11 | _______",
+    //     replacement: { 1: /[A-Za-z]/, _: /\d/ },
+    //     onMask: (mask) => (mask.target.value = mask.target.value.toUpperCase()),
+    // })
 
     const { ref: formInputRefP, ...rest } = methods.register("personalNumber")
     const { ref: formInputRefPNumber, ...restPerNum } = methods.register("pasportSerNum")
 
+
+
     async function onSubmit(data: SignUpSuperUser) {
+
+        setSubmitHandleVerify(true)
+
         if (isLoading) return
         if (error) {
             errorToast(error.message)
             return
         }
 
-        if (data.personalNumber.toString().length!=14) {
+        if (data.personalNumber.toString().length != 14) {
             toast.warning("JSHSHR kiritishda xatolik bor")
             return
         }
-        const pasportSerNum = data.pasportSerNum.replace(/ /gi, "").replace("|", "")
-        if (pasportSerNum.toString().length!=9) {
-            toast.warning("Pasport ma'lumotlari kiritishda xatolik bor")
-            return
-        }
-        
-        data = { ...data, pasportSerNum }
+        // const pasportSerNum = data.pasportSerNum.replace(/ /gi, "").replace("|", "")
+        // if (pasportSerNum.toString().length != 9) {
+        //     toast.warning("Pasport ma'lumotlari kiritishda xatolik bor")
+        //     return
+        // }
+
+        // data = { ...data, pasportSerNum }
 
 
         if (!check) {
@@ -87,9 +91,14 @@ export default function Register() {
         <div className="bg-[url('/src/users/static/login-bg.svg')] sm:h-screen min-h-[800px] sm:min-h-0 w-full bg-cover sm:bg-bottom relative  sm:py-0">
             <div
                 className="border-[0.7px] border-secondary rounded-lg bg-white sm:bg-white/70 pt-[1%]
-                            max-w-[90%] min-w-[85%] mx-auto sm:max-w-[50%] sm:min-w-[40%] md:max-w-[35%] md:min-w-[25%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2 md:left-[70%] xl:left-[75%] xl:max-w-[25%] xl:min-w-[20%] "
+                            max-w-[90%] min-w-[85%] mx-auto 
+                            sm:max-w-[60%] sm:min-w-[50%] 
+                            md:max-w-[45%] md:min-w-[35%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2  md:left-[70%] xl:left-[75%] 
+                            xl:max-w-[40%] xl:min-w-[35%] "
             >
                 <div>
+
+
                     <img src={logo} alt="logo" className="w-[20%] xl:w-1/5 2xl:w-1/4 mx-auto mt-5 sm:mt-0" />
                     <div className="px-7 ">
                         <h5 className="text-xl font-medium text-gray-700 py-1 whitespace-normal tracking-wider text-center">
@@ -105,9 +114,11 @@ export default function Register() {
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
+                                        errorText="Ism kiritish majburiy"
                                         className="mt-1"
                                         name="firstName"
                                         placeholder="Ism kiriting"
+
                                     />
                                 </div>
 
@@ -119,6 +130,7 @@ export default function Register() {
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
+                                        errorText="Familiya kiritish majburiy"
                                         className="mt-1"
                                         name="lastName"
                                         placeholder="Familiya kiriting"
@@ -129,94 +141,117 @@ export default function Register() {
                                     <FormInput
                                         label={
                                             <label htmlFor="firstName" className="text-gray-700">
-                                                Klinika
+                                                Otasining ismi
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
+                                        errorText="Otasining ismini kiritish majburiy"
                                         name="clinicName"
-                                        placeholder="Klinika nomi kiriting"
+                                        placeholder="Otasining ismi"
                                         className="mt-1"
                                     />
                                 </div>
 
-                                <div className="w-full mt-1 ">
-                                    <span className="">JSHSHR</span>
-                                    <span className="text-red-500">*</span>
+                                <div className="sm:grid grid-cols-12 gap-2">
+                                    <div className="col-span-6">
+                                        {/* <div className="w-full mt-1 ">
+                                            <span className="">JSHSHR</span>
+                                            <span className="text-red-500">*</span>
+                                            <div className="flex mt-1">
+                                                <input
+                                                    type="text"
+                                                    {...rest}
+                                                    ref={(e) => {
+                                                        formInputRefP(e)
+                                                        inputRef.current = e
+                                                    }}
 
-                                    {/* <input
-                                        {...rest}
-                                        ref={(e) => {
-                                            formInputRefP(e)
-                                            inputRef.current = e
-                                        }}
-                                        type="text"
-                                        name="personalNumber"
-                                        placeholder="00000000000000"
-                                        autoFocus
-                                        className="w-full input input-bordered mt-1 flex items-center gap-2 input-sm  bg-white hover:border-secondary cursor-pointer placeholder:text-gray-500 focus:ring-2 focus:ring-secondary focus:outline-none"
-                                    /> */}
+                                                    name="personalNumber"
+                                                    placeholder="00000000000000"
+                                                    id="website-admin" className="rounded-none rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-1.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 0" />
 
-                                    <div className="flex mt-1">
-                                        <input
-                                            type="text"
-                                            {...rest}
-                                            ref={(e) => {
-                                                formInputRefP(e)
-                                                inputRef.current = e
-                                            }}
 
+                                                <span onClick={() => setShowModal(true)} className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                    <FaRegCircleQuestion className="cursor-pointer hover:font-bold text-secondary hover:scale-110 duration-200 text-xl" />
+                                                </span>
+                                            </div>
+                                        </div> */}
+
+
+                                        <FormInput
+                                            label={
+                                                <label htmlFor="firstName" className="text-gray-700">
+                                                    JSHSHR
+                                                    <span className="text-red-500">*</span>
+                                                </label>
+                                            }
+                                            errorText="JSH SHR kiritish majburiy"
                                             name="personalNumber"
                                             placeholder="00000000000000"
-                                            id="website-admin" className="rounded-none rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-1.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 0" />
+                                            className="mt-0.5"
+                                            isIcon={true}
+                                            iconRight={true}
+                                            iconValue={
+                                                <>
+                                                    <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 ml-[1px] border-gray-300 border-s-0 rounded-e-md">
+                                                        <svg className="w-5 h-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.008-3.018a1.502 1.502 0 0 1 2.522 1.159v.024a1.44 1.44 0 0 1-1.493 1.418 1 1 0 0 0-1.037.999V14a1 1 0 1 0 2 0v-.539a3.44 3.44 0 0 0 2.529-3.256 3.502 3.502 0 0 0-7-.255 1 1 0 0 0 2 .076c.014-.398.187-.774.48-1.044Zm.982 7.026a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2h-.01Z" clipRule="evenodd" />
+                                                        </svg>
+
+                                                    </span>
+
+                                                </>
+                                            }
+                                            inputRef={inputRef}
+                                            formInputRef={formInputRefP}
+                                        />
+
+                                    </div>
+                                    <div className="col-span-6">
+                                        {/* <div className="w-full mt-1">
+                                            <span className="">Passport seria va raqami</span>
+                                            <span className="text-red-500">*</span>
 
 
-                                        <span onClick={() => setShowModal(true)} className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                                            <FaRegCircleQuestion className="cursor-pointer hover:font-bold text-secondary hover:scale-110 duration-200 text-xl" />
-                                        </span>
+                                            <input
+                                                {...restPerNum}
+                                                ref={(e) => {
+                                                    formInputRefPNumber(e)
+                                                    inputPasportRef.current = e
+                                                }}
+                                                type="text"
+                                                name="pasportSerNum"
+                                                placeholder="AB | 1234567"
+                                                autoFocus
+                                                onBlur={handlerBlur}
 
+                                                className="w-full input input-bordered mt-1 flex items-center gap-2 input-sm  bg-white hover:border-secondary cursor-pointer placeholder:text-gray-500 focus:ring-2 focus:ring-secondary focus:outline-none"
+                                            />
+                                            {jshshrErrors && <p className={"text-red-500  mb-1 text-sm"}>{jshshrErrors}</p>}
+                                        </div> */}
                                     </div>
 
                                 </div>
-                                <div className="w-full mt-1">
-                                    <span className="">Passport seria va raqami</span>
-                                    <span className="text-red-500">*</span>
 
-
-                                    <input
-                                        {...restPerNum}
-                                        ref={(e) => {
-                                            formInputRefPNumber(e)
-                                            inputPasportRef.current = e
-                                        }}
-                                        type="text"
-                                        name="pasportSerNum"
-                                        placeholder="AB | 1234567"
-                                        autoFocus
-                                        className="w-full input input-bordered mt-1 flex items-center gap-2 input-sm  bg-white hover:border-secondary cursor-pointer placeholder:text-gray-500 focus:ring-2 focus:ring-secondary focus:outline-none"
-                                    />
-                                </div>
-                                <div className="flex items-center my-2">
+                                <div className="flex items-center my-2 font-semibold">
                                     <input id="link-radio" type="radio" onChange={(e) => setCheck(e.target.checked)} className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 " />
-                                    <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> <a target="_blank" href="https://lex.uz/docs/-4396419" className="text-secondary hover:underline">Qonun talablari </a> doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik bildiraman.</label>
+                                    <label className="ms-2 text-sm  text-gray-900 dark:text-gray-300"> <a target="_blank" href="https://lex.uz/docs/-4396419" className="text-secondary hover:underline">Qonun talablari </a> doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik bildiraman.</label>
                                 </div>
 
+                                <div className="flex justify-between items-center">
 
-                                <div>
+                                    <MathCaptcha setOnVerify={setOnVerify} submitHandleVerify={submitHandleVerify} />
+                                    <button
+                                        onClick={() => setSubmitHandleVerify(true)}
+                                        type="submit"
+                                        className="w-full p-1.5 my-2 mt-3 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+                                        disabled={isLoading}
+                                    >
+                                        Ro'yhatdan o'tish
+                                    </button>
 
-                                    {isVerified ? (
-                                        <p></p>
-                                    ) : (
-                                        <MathCaptcha onVerify={handleCaptchaVerify} />
-                                    )}
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    className="w-full p-1.5 my-2 mt-3 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
-                                    disabled={isLoading}
-                                >
-                                    Ro'yhatdan o'tish
-                                </button>
 
                                 <Link to="/" className="w-full text-center text-gray-700 mt-1 rounded-md text-sm ">
                                     Hisobingiz mavjudmi? Kirish

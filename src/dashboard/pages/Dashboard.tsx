@@ -8,6 +8,8 @@ export default function Dashboard() {
     const [open, setOpen] = useState(true);
     const navigate = useNavigate()
 
+    console.log(isAuthenticated());
+    
     if (!isAuthenticated()) navigate('/')
 
     return (

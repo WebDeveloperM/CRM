@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { useQueryParams } from "@core/hooks/queryString.ts"
 import { errorToast, successToast } from "@core/components/Toastfy"
-import { ToastContainer } from "react-toastify"
+import { toast, ToastContainer } from "react-toastify"
 import { useState } from "react"
 
 export default function ComplateRegistrations() {
@@ -14,7 +14,7 @@ export default function ComplateRegistrations() {
     const params = useQueryParams()
     const [showPass, setShowPass] = useState(false)
     const [password, setPasword] = useState("")
-    
+
     const [showPassConfirm, setShowPassConfirm] = useState(false)
     const [confirmPassword, setConfirmPassword] = useState("")
 
@@ -43,7 +43,17 @@ export default function ComplateRegistrations() {
 
         const response = await mutateAsync(data)
 
-        if (!isError) {
+        if (!response.success && response.message == "Username already exists. Please choose a different username.") {
+            toast.warning("Bunday login mavjud")
+            return
+        }
+
+        if (!response.success) {
+            toast.warning("Parol juda sodda. (A-aZ-z/1-9/-+!@#$%^) belgilar bo'lishi majburiy")
+            return
+        }
+
+        if (!isError && response.success) {
             successToast("Muvaffaqqiyatli ro`yhatdan o'tdingiz")
         }
 

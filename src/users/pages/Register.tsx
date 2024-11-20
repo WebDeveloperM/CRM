@@ -9,7 +9,7 @@ import queryString from "query-string"
 import { errorToast } from "@core/components/Toastfy"
 import { toast, ToastContainer } from "react-toastify"
 import MathCaptcha from "@core/components/Captcha"
-import { useState } from "react"
+import { SetStateAction, useState } from "react"
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import jshshr from "../static/jshshr.png"
 
@@ -18,8 +18,7 @@ export default function Register() {
     const { mutateAsync, isLoading, error } = useSuperUserCreate()
     const [isVerified, setIsVerified] = useState(false);
     const [showModal, setShowModal] = useState(false);
-
-  
+    const [check, setCheck] = useState<SetStateAction<boolean>>(false);
 
     const handleCaptchaVerify = (status: boolean) => {
         setIsVerified(status);
@@ -47,6 +46,10 @@ export default function Register() {
 
         if (!isVerified) {
             toast.warning("Robot emasligizni tasdiqlang")
+            return
+        }
+        if (!check) {
+            toast.warning("Shartlarga rozilik bildiring")
             return
         }
         const response = await mutateAsync(data)
@@ -177,6 +180,10 @@ export default function Register() {
                                         autoFocus
                                         className="w-full input input-bordered mt-1 flex items-center gap-2 input-sm  bg-white hover:border-secondary cursor-pointer placeholder:text-gray-500 focus:ring-2 focus:ring-secondary focus:outline-none"
                                     />
+                                </div>
+                                <div className="flex items-center my-2">
+                                    <input id="link-radio" type="radio" onChange={(e) => setCheck(e.target.checked)} className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 " />
+                                    <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> <a href="#" className="text-secondary hover:underline">Qonun talablari </a> doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik bildiraman.</label>
                                 </div>
 
 

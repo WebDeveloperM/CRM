@@ -41,7 +41,7 @@ export default function Login() {
             toast.success("Ma'lumotlaringiz yuborildi")
             login(response)
             setTimeout(() => {
-                navigate("/dashboard/")
+                navigate("/dashboard")
             }, 3000)
         }
         else if (!response.success && response.message == "Invalid username or password.") {
@@ -107,12 +107,12 @@ export default function Login() {
 
 
                                 </div>
-                       
+
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">
                                     Parolni unutdingizmi?
                                 </div>
-                                
+
                                 <div className="mt-2">
 
                                     {isVerified ? (
@@ -126,9 +126,11 @@ export default function Login() {
                                     Kirish
                                 </button>
 
-                                <button className="w-full p-1.5 bg-neutral text-gray-700 rounded-md text-sm hover:bg-neutral/80 duration-200">
-                                    Hisobingiz yo'qmi? <Link to="/register" className="px-1">Ro'yhatdan o'tish</Link>
-                                </button>
+                                <Link to="/register">
+                                    <p className="w-full text-center  p-1.5 bg-neutral text-gray-700 rounded-md text-sm hover:bg-neutral/80 duration-200">
+                                        Hisobingiz yo'qmi? Ro'yhatdan o'tish
+                                    </p>
+                                </Link>
 
                             </form>
 

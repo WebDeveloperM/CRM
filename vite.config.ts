@@ -15,4 +15,9 @@ export default defineConfig({
             "@appointments": `${path.resolve(__dirname, "./src/appointments/")}`,
         },
     },
+
+    define: {
+        'process.env': process.env,
+    },
+
 })

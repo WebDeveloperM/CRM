@@ -27,16 +27,16 @@ import {
     useQueryClient,
     UseQueryOptions,
 } from "react-query"
-import { useNavigate } from "react-router-dom"
-import { logout } from "@users/utils/auth"
+// import { useNavigate } from "react-router-dom"
+// import { logout } from "@users/utils/auth"
 
 type ServerErrorType = Record<string, string>
 export type BaseError = AxiosError<ServerErrorType>
 
 function useErrorHandler(onError?: (err: BaseError) => void) {
     const { setToasts } = useContext(ToastContext)
-    const navigate = useNavigate()
-    const client = useQueryClient()
+    // const navigate = useNavigate()
+    // const client = useQueryClient()
 
     return (error: BaseError) => {
         onError?.(error)
@@ -50,7 +50,7 @@ function useErrorHandler(onError?: (err: BaseError) => void) {
         } else if (error.response.status >= 500) {
             setToasts((prev) => [...prev, { key: "server error", color: "error", children: "Ошибка сервера." }])
         } else if (error.response.status === 401) {
-            logout(navigate, client.invalidateQueries)
+            // logout(navigate, client.invalidateQueries)
         }
     }
 }
@@ -64,7 +64,7 @@ export function useFetch<Data = unknown>(
 
     return useQuery<Data, BaseError>(queryKey, queryFn, {
         ...options,
-        // onError,
+        onError,
     })
 }
 

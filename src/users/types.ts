@@ -18,6 +18,8 @@ export type SignUpSuperUser = {
     clinicName: string
     personalNumber: number
     pasportSerNum: string
+    paymentExpiryDate?: string
+    isActive?: boolean
 }
 
 
@@ -46,3 +48,7 @@ export type AccountLogin = {
 export type AccountLoginResponse = BaseResponse & {
     data: { token: string, expiration: string }
 }
+// export type AccountLoginResponseAuth = {
+//     token: string
+//     expiration: string
+// }

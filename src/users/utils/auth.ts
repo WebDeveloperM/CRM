@@ -1,12 +1,12 @@
 import { AccountLoginResponse } from "@users/types"
 import { useNavigate } from "react-router-dom"
 
-
+const authToken = import.meta.env.VITE_AUTHORIZATION_TOKEN
 
 export function auth() {
     return {
         headers: {
-            Authorization: `Token ${localStorage.token}`,
+            Authorization: authToken,
         },
     }
 }
@@ -30,9 +30,9 @@ export function clearPermissions() {
 //     return `${token}`
 // }
 
-export function login(value: AccountLoginResponse) {
-    localStorage.setItem("token", value.data.token)
-    localStorage.setItem("expiration", value.data.expiration)
+export function login(res: AccountLoginResponse) {
+    localStorage.setItem("token", res.data.token)
+    localStorage.setItem("expiration", res.data.expiration)
 }
 
 export function logout() {
@@ -49,6 +49,5 @@ export function isAuthenticated() {
     const now = new Date();
     const expiration = localStorage.getItem("expiration")
     const targetDate = new Date(expiration as string)
-
-    return localStorage.getItem("token") && (now > targetDate)
+    return localStorage.getItem("token") && (now < targetDate)
 }

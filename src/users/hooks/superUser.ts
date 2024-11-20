@@ -28,6 +28,6 @@ export const useAddSuperUserResgiter = () => {
 
 export const useAccountLogin = () => {
     return useMutate<AccountLoginResponse, AccountLogin>((data) =>
-        request({ url: ACCOUNT_LOGIN, method: "POST", data }, true)
+        request({ url: ACCOUNT_LOGIN, method: "POST", data })
     )
 }

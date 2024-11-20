@@ -44,12 +44,14 @@ export default function Register() {
 
         data = { ...data, pasportSerNum }
 
-        if (!isVerified) {
-            toast.warning("Robot emasligizni tasdiqlang")
-            return
-        }
+
         if (!check) {
             toast.warning("Shartlarga rozilik bildiring")
+            return
+        }
+
+        if (!isVerified) {
+            toast.warning("Robot emasligizni tasdiqlang")
             return
         }
         const response = await mutateAsync(data)
@@ -130,6 +132,7 @@ export default function Register() {
 
                                 <div className="w-full mt-1 ">
                                     <span className="">JSHSHR</span>
+                                    <span className="text-red-500">*</span>
 
                                     {/* <input
                                         {...rest}
@@ -167,6 +170,8 @@ export default function Register() {
                                 </div>
                                 <div className="w-full mt-1">
                                     <span className="">Passport seria va raqami</span>
+                                    <span className="text-red-500">*</span>
+
 
                                     <input
                                         {...restPerNum}

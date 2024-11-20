@@ -40,8 +40,17 @@ export default function Register() {
             errorToast(error.message)
             return
         }
-        const pasportSerNum = data.pasportSerNum.replace(/ /gi, "").replace("|", "")
 
+        if (data.personalNumber.toString().length!=14) {
+            toast.warning("JSHSHR kiritishda xatolik bor")
+            return
+        }
+        const pasportSerNum = data.pasportSerNum.replace(/ /gi, "").replace("|", "")
+        if (pasportSerNum.toString().length!=9) {
+            toast.warning("Pasport ma'lumotlari kiritishda xatolik bor")
+            return
+        }
+        
         data = { ...data, pasportSerNum }
 
 
@@ -58,7 +67,7 @@ export default function Register() {
 
         // successToast("Ma'lumotlaringiz yuborildi")
         if (response.success) {
-            toast.success("Ma'lumotlaringiz yuborildi")
+            toast.success("Ma'lumotlaringiz qabul qilindi")
             setTimeout(() => {
                 navigate("/add-username/?" + queryString.stringify(response.data as object))
             }, 3000)

@@ -72,8 +72,8 @@ const FormInput = ({
                 className
             )}>
 
-                {isIcon && iconLeft ? iconValue : null}
-
+                {isIcon && iconLeft ?
+                    iconValue : null}
 
                 {inputRef && formInputRef ?
                     <input

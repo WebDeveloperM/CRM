@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMask } from "@react-input/mask";
-const MathCaptcha = (setOnVerify: any, submitHandleVerify: boolean) => {
+const MathCaptcha = () => {
     const [num1, setNum1] = useState(generateRandomNumber());
     const [num2, setNum2] = useState(generateRandomNumber());
     const [userInput, setUserInput] = useState("");
     const [error, setError] = useState("");
     const inputRef = useMask({ mask: "____", replacement: { _: /\d/ } })
 
-    // Tasodifiy son yaratish funksiyasi
+
     function generateRandomNumber() {
         return Math.floor(Math.random() * 10) + 1; // 1 dan 10 gacha
     }
@@ -17,17 +17,18 @@ const MathCaptcha = (setOnVerify: any, submitHandleVerify: boolean) => {
     };
 
 
-    const handleVerify = () => {
-        const correctAnswer = num1 + num2;
-        if (parseInt(userInput, 10) === correctAnswer) {
-            setError("")
-            setOnVerify(true)
-        } else {
-            setError("Natija noto‘g‘ri. Iltimos, qayta urinib ko'ring.");
-            setOnVerify(false);
-        }
-    };
-    submitHandleVerify ? handleVerify() : null
+    // useEffect(() => {
+    //     const correctAnswer = num1 + num2;
+    //     if (parseInt(userInput, 10) === correctAnswer) {
+    //         setError("")
+    //         setIsVerified(true)
+    //     } else {
+    //         setError("Natija noto‘g‘ri. Iltimos, qayta urinib ko'ring.");
+    //         setIsVerified(false);
+    //     }
+    // }, [])
+
+
 
     return (
         <div>
@@ -58,7 +59,6 @@ const MathCaptcha = (setOnVerify: any, submitHandleVerify: boolean) => {
             {/* <button className="bg-secondary-light col-span-4 my-1 px-2" onClick={handleVerify}>Tasdiqlash</button> */}
 
             {error &&
-
                 <p style={{ color: "red" }} className="text-sm mt-1.5">{error}</p>
             }
         </div>

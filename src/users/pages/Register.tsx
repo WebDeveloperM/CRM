@@ -10,16 +10,16 @@ import { errorToast } from "@core/components/Toastfy"
 import { toast, ToastContainer } from "react-toastify"
 import { SetStateAction, useState } from "react"
 import jshshr from "../static/jshshr.png"
-import { UserOutlined } from "@ant-design/icons"
-import type { MenuProps } from "antd"
-import { Button, Dropdown, Space } from "antd"
-import { IoLanguageOutline } from "react-icons/io5"
+import MathCaptcha from "@core/components/Captcha"
+import LanguageChanger from "@core/components/LanguageChanger"
 
 export default function Register() {
     const navigate = useNavigate()
     const { mutateAsync, isLoading, error } = useSuperUserCreate()
+    const [isVerified, setIsVerified] = useState(false)
+    const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
-    // const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+    console.log(isVerified, isCaptchaVerified);
 
     const [showModal, setShowModal] = useState(false)
     const [check, setCheck] = useState<SetStateAction<boolean>>(false)
@@ -33,23 +33,16 @@ export default function Register() {
         onMask: (mask) => (mask.target.value = mask.target.value.toUpperCase()),
     })
 
+
+
     const { ref: formInputRefP } = methods.register("personalNumber")
     const { ref: formInputRefPNumber } = methods.register("pasportSerNum")
 
-    const items: MenuProps["items"] = [
-        {
-            label: "1st menu item",
-            key: "1",
-            icon: <UserOutlined />,
-        },
-        {
-            label: "2nd menu item",
-            key: "2",
-            icon: <UserOutlined />,
-            onClick: () => console.log("Ishladi"),
-        },
-    ]
 
+    const handleCaptchaVerify = (status: boolean) => {
+        setIsVerified(status);
+        setIsCaptchaVerified(true)
+    };
     async function onSubmit(data: SignUpSuperUser) {
         if (isLoading) return
         if (error) {
@@ -57,13 +50,14 @@ export default function Register() {
             return
         }
 
+
         if (data.personalNumber.toString().length != 14) {
             toast.warning("JSHSHR kiritishda xatolik bor")
             return
         }
         const pasportSerNum = data.pasportSerNum.replace(/ /gi, "").replace("|", "")
         const paymentExpiryDate = new Date().toISOString()
-        const personalNumber = 0
+
         const isActive = true
 
         if (pasportSerNum.toString().length != 9) {
@@ -71,17 +65,13 @@ export default function Register() {
             return
         }
 
-        data = { ...data, pasportSerNum, paymentExpiryDate, isActive, personalNumber }
+        data = { ...data, pasportSerNum, paymentExpiryDate, isActive }
 
         if (!check) {
             toast.warning("Shartlarga rozilik bildiring")
             return
         }
 
-        // if (!isCaptchaVerified) {
-        //     toast.warning("Robot emasligizni tasdiqlang")
-        //     return
-        // }
 
         const response = await mutateAsync(data)
 
@@ -111,16 +101,7 @@ export default function Register() {
             >
                 <div className="relative">
                     <div className="absolute top-0 right-5">
-                        <Space direction="vertical">
-                            <Space wrap>
-                                <Dropdown menu={{ items }} placement="bottom" className="text-secondary">
-                                    <Button>
-                                        <IoLanguageOutline className="text-xl" />
-                                        Uz
-                                    </Button>
-                                </Dropdown>
-                            </Space>
-                        </Space>
+                        <LanguageChanger />
                     </div>
                     <img src={logo} alt="logo" className="w-[20%] xl:w-1/5 2xl:w-1/4 mx-auto mt-5 sm:mt-0" />
 
@@ -169,7 +150,7 @@ export default function Register() {
                                             </label>
                                         }
                                         errorText="Otasining ismini kiritish majburiy"
-                                        name="fartherName"
+                                        name="fatherName"
                                         placeholder="Otasining ismi"
                                         className="mt-1"
                                     />
@@ -256,6 +237,9 @@ export default function Register() {
                                         doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik
                                         bildiraman.
                                     </label>
+                                </div>
+                                <div className="mt-2">
+                                    <MathCaptcha onVerify={handleCaptchaVerify} />
                                 </div>
 
                                 <button

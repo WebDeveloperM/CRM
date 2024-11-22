@@ -9,6 +9,7 @@ export default baseAxios
 
 export async function request(options: AxiosRequestConfig, isPublic = false) {
     options = isPublic ? options : { ...options, ...auth() }
+
     const { data } = await baseAxios(options)
     
     return data

@@ -13,12 +13,13 @@ export type BaseResponse = {
 export type SignUpSuperUser = {
     firstName: string
     lastName: string
-    fartherName: string
+    fatherName: string
     personalNumber: number
     pasportSerNum: string
     paymentExpiryDate: string
     isActive: boolean
 }
+
 
 export type SignUpSuperUserResponse = BaseResponse & {
     data?: { uniqueToken: string; uniqueUrl: string }

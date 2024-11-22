@@ -25,13 +25,13 @@ const MathCaptcha = ({ onVerify }: Props) => {
 
     return (
         <div>
-            <div className="flex items-center gap-2 col-span-8 max-h-8">
+            <div className="grid grid-cols-12 items-center gap-2 max-h-6  ">
                 <p
                     onClick={() => {
                         setNum1(generateRandomNumber())
                         setNum2(generateRandomNumber())
                     }}
-                    className=" 2xl:text-lg cursor-pointer"
+                    className=" 2xl:text-lg cursor-pointer col-span-3"
                 >
                     {num1} + {num2} =
                 </p>
@@ -41,8 +41,8 @@ const MathCaptcha = ({ onVerify }: Props) => {
                     value={userInput}
                     onChange={handleChange}
                     placeholder="Javobni kiriting"
-                    className="xl:placeholder:pl-0.5 placeholder:text-sm py-1 2xl:pl-2 pl-0.5 my-1 text-xs lg:text-base border
-                    max-w-[65%] md:max-w-[65%] lg:max-w-[%] 2xl:max-w-[60%] sm:max-w-full
+                    className="col-span-9 xl:placeholder:pl-0.5 placeholder:text-sm py-0.5 2xl:pl-2 pl-0.5  text-xs lg:text-base border rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none
+                    w-full
 
                     "
                     ref={(e) => {
@@ -50,8 +50,7 @@ const MathCaptcha = ({ onVerify }: Props) => {
                     }}
                 />
             </div>
-            {/* <button className="bg-secondary-light col-span-4 my-1 px-2" onClick={handleVerify}>Tasdiqlash</button> */}
-
+   
             {error && (
                 <p style={{ color: "red" }} className="text-sm mt-1.5">
                     {error}

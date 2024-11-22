@@ -1,19 +1,5 @@
-// /** @type {import('tailwindcss').Config} */
-// export default {
-//   content: [
-//     "./index.html",
-//     "./src/**/*.{js,ts,jsx,tsx}",
-//   ],
-//   theme: {
-//     extend: {},
-//   },
-//   plugins: [
-//     require('daisyui'),
-//   ],
-// }
-
-import type { Config } from "tailwindcss";
-import daisyui from "daisyui";
+import type { Config } from "tailwindcss"
+import daisyui from "daisyui"
 
 const config: Config = {
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -24,10 +10,7 @@ const config: Config = {
             },
         },
     },
-    plugins: [
-        daisyui,
-        require('tailwind-scrollbar'),
-    ],
+    plugins: [daisyui, require("tailwind-scrollbar")],
     daisyui: {
         themes: [
             {
@@ -46,5 +29,5 @@ const config: Config = {
             },
         ],
     },
-};
-export default config;
+}
+export default config

@@ -1,6 +1,5 @@
-import patient from "@doctors/static/patient.png";
-import patient1 from "@doctors/static/patient5.png";
-
+import patient from "@doctors/static/patient.png"
+import patient1 from "@doctors/static/patient5.png"
 
 export const data = [
     {

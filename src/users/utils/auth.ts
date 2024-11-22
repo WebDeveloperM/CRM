@@ -42,12 +42,11 @@ export function logout() {
     localStorage.removeItem("uniqueToken")
     localStorage.removeItem("uniqueUrl")
     navigate("/")
-
 }
 
 export function isAuthenticated() {
-    const now = new Date();
+    const now = new Date()
     const expiration = localStorage.getItem("expiration")
     const targetDate = new Date(expiration as string)
-    return localStorage.getItem("token") && (now < targetDate)
+    return localStorage.getItem("token") && now < targetDate
 }

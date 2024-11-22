@@ -5,8 +5,6 @@ export type BaseUserType = ModelType & {
     lastName: string
 }
 
-
-
 export type BaseResponse = {
     success: string
     message: string
@@ -22,11 +20,9 @@ export type SignUpSuperUser = {
     isActive: boolean
 }
 
-
 export type SignUpSuperUserResponse = BaseResponse & {
-    data?: { uniqueToken: string, uniqueUrl: string }
+    data?: { uniqueToken: string; uniqueUrl: string }
 }
-
 
 export type SignUpSuperUserAddRegister = {
     token?: string
@@ -39,15 +35,15 @@ export type SignUpSuperUserAddRegisterResponse = BaseResponse & {
     data: string
 }
 
-
 export type AccountLogin = {
     username: string
     password: string
 }
 
 export type AccountLoginResponse = BaseResponse & {
-    data: { token: string, expiration: string }
+    data: { token: string; expiration: string }
 }
+
 // export type AccountLoginResponseAuth = {
 //     token: string
 //     expiration: string

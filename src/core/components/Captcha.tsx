@@ -13,12 +13,14 @@ const MathCaptcha = ({ onVerify }: Props) => {
     const [num1, setNum1] = useState(generateRandomNumber())
     const [num2, setNum2] = useState(generateRandomNumber())
     const [userInput, setUserInput] = useState("")
-    const [error] = useState("")
+    const [error, setError] = useState("")
     const inputRef = useMask({ mask: "____", replacement: { _: /\d/ } })
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUserInput(e.target.value)
-        onVerify(num1 + num2 === parseInt(e.target.value))
+        const status = num1 + num2 === parseInt(e.target.value)
+        onVerify(status)
+        setError(status ? "" : "Natija noto‘g‘ri. Iltimos, qayta urinib ko'ring.")
     }
 
     return (

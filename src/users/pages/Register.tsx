@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from "@core/static/logo.svg"
 import { Link, useNavigate } from "react-router-dom"
 import { SignUpSuperUser } from "@users/types.ts"
@@ -11,10 +10,10 @@ import { errorToast } from "@core/components/Toastfy"
 import { toast, ToastContainer } from "react-toastify"
 import { SetStateAction, useState } from "react"
 import jshshr from "../static/jshshr.png"
-import { UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Button, Dropdown, Space } from 'antd';
-import { IoLanguageOutline } from "react-icons/io5";
+import { UserOutlined } from "@ant-design/icons"
+import type { MenuProps } from "antd"
+import { Button, Dropdown, Space } from "antd"
+import { IoLanguageOutline } from "react-icons/io5"
 
 export default function Register() {
     const navigate = useNavigate()
@@ -22,9 +21,8 @@ export default function Register() {
 
     // const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
-    const [showModal, setShowModal] = useState(false);
-    const [check, setCheck] = useState<SetStateAction<boolean>>(false);
-
+    const [showModal, setShowModal] = useState(false)
+    const [check, setCheck] = useState<SetStateAction<boolean>>(false)
 
     const methods = useForm<SignUpSuperUser>({ mode: "onBlur" })
     const inputRef = useMask({ mask: "______________", replacement: { _: /\d/ } })
@@ -38,24 +36,21 @@ export default function Register() {
     const { ref: formInputRefP } = methods.register("personalNumber")
     const { ref: formInputRefPNumber } = methods.register("pasportSerNum")
 
-    const items: MenuProps['items'] = [
+    const items: MenuProps["items"] = [
         {
-            label: '1st menu item',
-            key: '1',
+            label: "1st menu item",
+            key: "1",
             icon: <UserOutlined />,
         },
         {
-            label: '2nd menu item',
-            key: '2',
+            label: "2nd menu item",
+            key: "2",
             icon: <UserOutlined />,
-            onClick: (() => console.log("Ishladi"))
+            onClick: () => console.log("Ishladi"),
         },
-    ];
-
-
+    ]
 
     async function onSubmit(data: SignUpSuperUser) {
-
         if (isLoading) return
         if (error) {
             errorToast(error.message)
@@ -78,7 +73,6 @@ export default function Register() {
 
         data = { ...data, pasportSerNum, paymentExpiryDate, isActive, personalNumber }
 
-
         if (!check) {
             toast.warning("Shartlarga rozilik bildiring")
             return
@@ -96,15 +90,11 @@ export default function Register() {
             setTimeout(() => {
                 navigate("/add-username/?" + queryString.stringify(response.data as object))
             }, 3000)
-        }
-        else if (response.message == "Personal number or passport serial number already exists.") {
+        } else if (response.message == "Personal number or passport serial number already exists.") {
             toast.error("Bunday foydalanuvchi mavjud!")
             return
         }
-
     }
-
-
 
     return (
         <div className="bg-[url('/src/users/static/login-bg.svg')] sm:h-screen min-h-[800px] sm:min-h-0 w-full bg-cover sm:bg-bottom relative  sm:py-0">
@@ -112,20 +102,22 @@ export default function Register() {
 
             <div
                 className="border-[0.7px] border-secondary rounded-lg bg-white sm:bg-white/70 pt-[1%]
-                            max-w-[90%] min-w-[85%] mx-auto 
-                            sm:max-w-[60%] sm:min-w-[50%] 
-                            md:max-w-[45%] md:min-w-[35%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2  md:left-[70%] xl:left-[75%] 
-                            xl:max-w-[40%] xl:min-w-[35%] 
-                            2xl:max-w-[30%] 2xl:min-w-[25%] 
+                            max-w-[90%] min-w-[85%] mx-auto
+                            sm:max-w-[60%] sm:min-w-[50%]
+                            md:max-w-[45%] md:min-w-[35%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2  md:left-[70%] xl:left-[75%]
+                            xl:max-w-[40%] xl:min-w-[35%]
+                            2xl:max-w-[30%] 2xl:min-w-[25%]
                             "
             >
-
                 <div className="relative">
                     <div className="absolute top-0 right-5">
                         <Space direction="vertical">
                             <Space wrap>
-                                <Dropdown menu={{ items }} placement="bottom" className='text-secondary'>
-                                    <Button><IoLanguageOutline className='text-xl' />Uz</Button>
+                                <Dropdown menu={{ items }} placement="bottom" className="text-secondary">
+                                    <Button>
+                                        <IoLanguageOutline className="text-xl" />
+                                        Uz
+                                    </Button>
                                 </Dropdown>
                             </Space>
                         </Space>
@@ -150,7 +142,6 @@ export default function Register() {
                                         className="mt-1"
                                         name="firstName"
                                         placeholder="Ism kiriting"
-
                                     />
                                 </div>
 
@@ -199,22 +190,33 @@ export default function Register() {
                                             className="mt-0.5"
                                             isIcon={true}
                                             iconRight={true}
-
                                             iconValue={
                                                 <>
-                                                    <span onClick={() => setShowModal(true)} className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 ml-[1px] border-gray-300 border-s-0 rounded-e-md">
-                                                        <svg className="w-5 h-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.008-3.018a1.502 1.502 0 0 1 2.522 1.159v.024a1.44 1.44 0 0 1-1.493 1.418 1 1 0 0 0-1.037.999V14a1 1 0 1 0 2 0v-.539a3.44 3.44 0 0 0 2.529-3.256 3.502 3.502 0 0 0-7-.255 1 1 0 0 0 2 .076c.014-.398.187-.774.48-1.044Zm.982 7.026a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2h-.01Z" clipRule="evenodd" />
+                                                    <span
+                                                        onClick={() => setShowModal(true)}
+                                                        className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 ml-[1px] border-gray-300 border-s-0 rounded-e-md"
+                                                    >
+                                                        <svg
+                                                            className="w-5 h-5 text-gray-800 "
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="24"
+                                                            height="24"
+                                                            fill="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.008-3.018a1.502 1.502 0 0 1 2.522 1.159v.024a1.44 1.44 0 0 1-1.493 1.418 1 1 0 0 0-1.037.999V14a1 1 0 1 0 2 0v-.539a3.44 3.44 0 0 0 2.529-3.256 3.502 3.502 0 0 0-7-.255 1 1 0 0 0 2 .076c.014-.398.187-.774.48-1.044Zm.982 7.026a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2h-.01Z"
+                                                                clipRule="evenodd"
+                                                            />
                                                         </svg>
-
                                                     </span>
-
                                                 </>
                                             }
                                             inputRef={inputRef}
                                             formInputRef={formInputRefP}
                                         />
-
                                     </div>
                                     <div className="col-span-6">
                                         <FormInput
@@ -228,20 +230,33 @@ export default function Register() {
                                             name="pasportSerNum"
                                             placeholder="AB | 1234567"
                                             className="mt-0.5"
-
                                             inputRef={inputPasportRef}
                                             formInputRef={formInputRefPNumber}
                                         />
-
                                     </div>
-
                                 </div>
 
                                 <div className="flex items-center my-2 font-semibold">
-                                    <input id="link-radio" type="radio" onChange={(e) => setCheck(e.target.checked)} className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 " />
-                                    <label className="ms-2 text-sm  text-gray-900 "> <a target="_blank" href="https://lex.uz/docs/-4396419" className="text-secondary hover:underline">Qonun talablari </a> doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik bildiraman.</label>
+                                    <input
+                                        id="link-radio"
+                                        type="radio"
+                                        onChange={(e) => setCheck(e.target.checked)}
+                                        className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 "
+                                    />
+                                    <label className="ms-2 text-sm  text-gray-900 ">
+                                        {" "}
+                                        <a
+                                            target="_blank"
+                                            href="https://lex.uz/docs/-4396419"
+                                            className="text-secondary hover:underline"
+                                            rel="noreferrer"
+                                        >
+                                            Qonun talablari{" "}
+                                        </a>{" "}
+                                        doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik
+                                        bildiraman.
+                                    </label>
                                 </div>
-
 
                                 <button
                                     type="submit"
@@ -251,20 +266,23 @@ export default function Register() {
                                     Ro'yhatdan o'tish
                                 </button>
 
-
                                 <Link to="/" className="w-full text-center text-gray-700 mt-1 rounded-md text-sm ">
                                     Hisobingiz mavjudmi? Kirish
                                 </Link>
                             </form>
                         </FormProvider>
-
                     </div>
                 </div>
             </div>
             <dialog id="my_modal_2" className={`modal  ${showModal ? "modal-open" : ""} `}>
                 <div className="modal-box">
                     <form method="dialog">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mb-3" onClick={() => setShowModal(false)} >✕</button>
+                        <button
+                            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mb-3"
+                            onClick={() => setShowModal(false)}
+                        >
+                            ✕
+                        </button>
                     </form>
                     <img src={jshshr} alt="" className="mt-6" />
                 </div>

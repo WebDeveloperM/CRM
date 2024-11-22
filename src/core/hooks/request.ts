@@ -1,9 +1,8 @@
-import { useCallback, useContext, useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { UseInfiniteQueryOptions, UseMutationOptions } from "react-query/types/react/types"
 import { AxiosError } from "axios"
 import useIntersectionObserver from "@core/hooks/observer"
 import { ModelType, Pagination } from "@core/types"
-import { ToastContext } from "@core/components/ToastProvider.tsx"
 
 import {
     addToInfinite,
@@ -27,28 +26,19 @@ import {
     useQueryClient,
     UseQueryOptions,
 } from "react-query"
-// import { useNavigate } from "react-router-dom"
-// import { logout } from "@users/utils/auth"
+import { toast } from "react-toastify"
 
 type ServerErrorType = Record<string, string>
 export type BaseError = AxiosError<ServerErrorType>
 
 function useErrorHandler(onError?: (err: BaseError) => void) {
-    const { setToasts } = useContext(ToastContext)
-    // const navigate = useNavigate()
-    // const client = useQueryClient()
-
     return (error: BaseError) => {
         onError?.(error)
 
         if (error.response === undefined || error.response.status === 0) {
-            // errorToast("Проверьте интернет соединение")
-            setToasts((prev) => [
-                ...prev,
-                { key: "network error", color: "error", children: "Проверьте интернет соединение" },
-            ])
+            toast.error("Проверьте интернет соединение")
         } else if (error.response.status >= 500) {
-            setToasts((prev) => [...prev, { key: "server error", color: "error", children: "Ошибка сервера." }])
+            toast.error("Ошибка сервера")
         } else if (error.response.status === 401) {
             // logout(navigate, client.invalidateQueries)
         }
@@ -171,10 +161,10 @@ export function useMutate<Data, Variables>(
     options?: Omit<UseMutationOptions<Data, BaseError, Variables>, "mutationFn">
 ) {
     const onError = useErrorHandler(options?.onError as (err: BaseError) => void)
-    return useMutation(mutationFn, { 
-        ...options, 
-        onError
-     })
+    return useMutation(mutationFn, {
+        ...options,
+        onError,
+    })
 }
 
 export function useIsUpdating() {

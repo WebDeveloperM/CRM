@@ -2,7 +2,7 @@ import "@core/static/style.css"
 import { ReactNode } from "react"
 import { QueryClient, QueryClientProvider } from "react-query"
 import ModalProvider from "@core/components/ModalProvider.tsx"
-import ToastProvider from "@core/components/ToastProvider.tsx"
+import { ToastContainer } from "react-toastify"
 
 type Props = {
     children?: ReactNode
@@ -22,7 +22,8 @@ export default function BaseContextProvider({ children }: Props) {
     return (
         <QueryClientProvider client={queryClient}>
             <ModalProvider>
-                <ToastProvider>{children}</ToastProvider>
+                {children}
+                <ToastContainer />
             </ModalProvider>
         </QueryClientProvider>
     )

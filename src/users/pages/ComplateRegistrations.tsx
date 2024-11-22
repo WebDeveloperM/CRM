@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { useQueryParams } from "@core/hooks/queryString.ts"
 import { errorToast, successToast } from "@core/components/Toastfy"
-import { toast, ToastContainer } from "react-toastify"
+import { toast } from "react-toastify"
 import { useState } from "react"
 
 export default function ComplateRegistrations() {
@@ -26,9 +26,12 @@ export default function ComplateRegistrations() {
     const methods = useForm<SignUpSuperUserAddRegister>()
     // const { ref: formInputRefPassword, ...restPassword } = methods.register("password")
 
-
-    setTimeout(() => { setShowPass(false) }, 5000)
-    setTimeout(() => { setShowPassConfirm(false) }, 5000)
+    setTimeout(() => {
+        setShowPass(false)
+    }, 5000)
+    setTimeout(() => {
+        setShowPassConfirm(false)
+    }, 5000)
 
     async function onSubmit(data: SignUpSuperUserAddRegister) {
 
@@ -181,8 +184,8 @@ export default function ComplateRegistrations() {
 
                                 </div> */}
 
-                                {/* 
-                     
+                                {/*
+
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">
                                     Parolni unutdingizmi?
@@ -200,12 +203,9 @@ export default function ComplateRegistrations() {
                                 </button> */}
                             </form>
                         </FormProvider>
-                        <ToastContainer />
                     </div>
                 </div>
             </div>
         </div>
     )
 }
-
-// focus:border-secondary focus:ring-2 focus:ring-secondary focus:shadow-secondary/40

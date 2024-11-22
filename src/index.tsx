@@ -8,12 +8,11 @@ import DoctorsRoutes from "./doctors/Routes"
 import PatientsRoutes from "./patients/Routes"
 import AppointmentsRoutes from "./appointments/Routes"
 import NotFound from "@core/pages/NotFound"
-import 'react-toastify/dist/ReactToastify.css'
+import "react-toastify/dist/ReactToastify.css"
 
 export default function App() {
     return (
         <StrictMode>
-
             <BaseContextProvider>
                 <BrowserRouter>
                     <Routes>
@@ -24,7 +23,6 @@ export default function App() {
                         <Route path="/appointments/*" element={<AppointmentsRoutes />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
-
                 </BrowserRouter>
             </BaseContextProvider>
         </StrictMode>

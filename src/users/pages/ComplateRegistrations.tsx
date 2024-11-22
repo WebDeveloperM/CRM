@@ -91,7 +91,35 @@ export default function ComplateRegistrations() {
                                 </div>
 
 
-                                <div className="mt-1">
+                                <FormInput
+                                    label={
+                                        <label htmlFor="firstName" className="text-gray-700">
+                                            JSHSHR
+                                            <span className="text-red-500">*</span>
+                                        </label>
+                                    }
+                                    errorText="JSH SHR kiritish majburiy"
+                                    name="personalNumber"
+                                    placeholder="00000000000000"
+                                    className="mt-0.5"
+                                    isIcon={true}
+                                    iconRight={true}
+
+                                    iconValue={
+                                        <>
+                                            <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 ml-[1px] border-gray-300 border-s-0 rounded-e-md">
+                                                <svg className="w-5 h-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.008-3.018a1.502 1.502 0 0 1 2.522 1.159v.024a1.44 1.44 0 0 1-1.493 1.418 1 1 0 0 0-1.037.999V14a1 1 0 1 0 2 0v-.539a3.44 3.44 0 0 0 2.529-3.256 3.502 3.502 0 0 0-7-.255 1 1 0 0 0 2 .076c.014-.398.187-.774.48-1.044Zm.982 7.026a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2h-.01Z" clipRule="evenodd" />
+                                                </svg>
+
+                                            </span>
+
+                                        </>
+                                    }
+
+                                />
+
+                                {/* <div className="mt-1">
                                     <span>Parol</span><span className="text-red-500">*</span>
                                     <div className="flex">
                                         <input
@@ -100,9 +128,9 @@ export default function ComplateRegistrations() {
                                             name="password"
                                             value={password}
                                             placeholder="Parol kiriting"
-                                            id="website-admin" className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 0" />
+                                            id="website-admin" className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px] " />
 
-                                        <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm  bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                        <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm  bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
                                             <svg
                                                 onClick={() => {
                                                     setShowPass(!showPass)
@@ -131,9 +159,9 @@ export default function ComplateRegistrations() {
                                             name="confirmPassword"
                                             value={confirmPassword}
                                             placeholder="Parolni takrorlang"
-                                            id="website-admin" className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 0" />
+                                            id="website-admin" className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]" />
 
-                                        <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm  bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                        <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm  bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md ">
                                             <svg
                                                 onClick={() => {
                                                     setShowPassConfirm(!showPass)
@@ -151,37 +179,10 @@ export default function ComplateRegistrations() {
                                     </div>
 
 
-                                </div>
+                                </div> */}
 
                                 {/* 
-                                <div className="w-full">
-                                    <FormInput
-                                        label={
-                                            <label htmlFor="firstName" className="text-gray-700">
-                                                Parol
-                                                <span className="text-red-500">*</span>
-                                            </label>
-                                        }
-                                        className="mt-1"
-                                        name="password"
-                                        placeholder="Parol yarating"
-                                        type="password"
-                                    />
-                                </div>
-                                <div className="w-full">
-                                    <FormInput
-                                        label={
-                                            <label htmlFor="firstName" className="text-gray-700">
-                                                Parolni tasdiqlash
-                                                <span className="text-red-500">*</span>
-                                            </label>
-                                        }
-                                        className="mt-1"
-                                        name="confirmPassword"
-                                        placeholder="Parolni tasdiqlash"
-                                        type="password"
-                                    />
-                                </div> */}
+                     
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">
                                     Parolni unutdingizmi?

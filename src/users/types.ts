@@ -15,11 +15,11 @@ export type BaseResponse = {
 export type SignUpSuperUser = {
     firstName: string
     lastName: string
-    clinicName: string
+    fartherName: string
     personalNumber: number
     pasportSerNum: string
-    paymentExpiryDate?: string
-    isActive?: boolean
+    paymentExpiryDate: string
+    isActive: boolean
 }
 
 

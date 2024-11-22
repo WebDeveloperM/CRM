@@ -10,18 +10,19 @@ import MathCaptcha from "@core/components/Captcha"
 import { useState } from "react"
 
 export default function Login() {
-    const methods = useForm<AccountLogin>()
+    const methods = useForm<AccountLogin>({ mode: "onBlur" })
     const navigate = useNavigate()
     const { mutateAsync, isLoading } = useAccountLogin()
     const [isVerified, setIsVerified] = useState(false);
-    const [showPass, setShowPass] = useState(false)
     const [password, setPasword] = useState("")
 
+    const [showPass, setShowPass] = useState(false)
     setTimeout(() => { setShowPass(false) }, 5000)
 
     const handleCaptchaVerify = (status: boolean) => {
         setIsVerified(status);
     };
+
     async function onSubmit(data: AccountLogin) {
 
         if (isLoading) return
@@ -74,40 +75,48 @@ export default function Login() {
                                         className="mt-1"
                                         name="username"
                                         placeholder="Login kiriting"
+                                        errorText="Login kiritish majburiy"
                                     />
                                 </div>
 
-                                <div className="mt-1">
-                                    <span>Parol</span><span className="text-red-500">*</span>
-                                    <div className="flex">
-                                        <input
-                                            type={showPass ? "text" : "password"}
-                                            onChange={(e) => setPasword(e.target.value)}
-                                            name="password"
-                                            value={password}
-                                            placeholder="Parol kiriting"
-                                            id="website-admin" className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 0" />
 
-                                        <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm  bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                                            <svg
+                                <FormInput
+                                    label={
+                                        <label htmlFor="firstName" className="text-gray-700">
+                                            Parol
+                                            <span className="text-red-500">*</span>
+                                        </label>
+                                    }
+                                    errorText="Parol kiritish majburiy"
+                                    name="password"
+                                    placeholder="Parol kiriting"
+                                    className="mt-0.5"
+                                    isIcon={true}
+                                    iconRight={true}
+                                    type={!showPass ? "password" : "text"}
+                                    iconValue={
+                                        <>
+                                            <span
                                                 onClick={() => {
                                                     setShowPass(!showPass)
                                                 }}
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 16 16"
-                                                fill="currentColor"
-                                                className="h-4 w-4 opacity-70 hover:text-secondary">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                                                    clipRule="evenodd" />
-                                            </svg>
-                                        </span>
-                                    </div>
+                                                className="inline-flex cursor-pointer text-secondary items-center ml-[1px] px-3 text-sm  bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                                                <svg
 
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 16 16"
+                                                    fill="currentColor"
+                                                    className="h-4 w-4 opacity-70 hover:text-secondary">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                                                        clipRule="evenodd" />
+                                                </svg>
+                                            </span>
+                                        </>
+                                    }
 
-                                </div>
-
+                                />
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">
                                     Parolni unutdingizmi?
@@ -131,9 +140,7 @@ export default function Login() {
                                         Hisobingiz yo'qmi? Ro'yhatdan o'tish
                                     </p>
                                 </Link>
-
                             </form>
-
                         </FormProvider>
 
                         <ToastContainer />

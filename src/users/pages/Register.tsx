@@ -1,3 +1,4 @@
+import React from 'react';
 import logo from "@core/static/logo.svg"
 import { Link, useNavigate } from "react-router-dom"
 import { SignUpSuperUser } from "@users/types.ts"
@@ -8,9 +9,12 @@ import { useMask } from "@react-input/mask"
 import queryString from "query-string"
 import { errorToast } from "@core/components/Toastfy"
 import { toast, ToastContainer } from "react-toastify"
-
 import { SetStateAction, useState } from "react"
 import jshshr from "../static/jshshr.png"
+import { UserOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Button, Dropdown, Space } from 'antd';
+import { IoLanguageOutline } from "react-icons/io5";
 
 export default function Register() {
     const navigate = useNavigate()
@@ -34,6 +38,20 @@ export default function Register() {
     const { ref: formInputRefP } = methods.register("personalNumber")
     const { ref: formInputRefPNumber } = methods.register("pasportSerNum")
 
+    const items: MenuProps['items'] = [
+        {
+            label: '1st menu item',
+            key: '1',
+            icon: <UserOutlined />,
+        },
+        {
+            label: '2nd menu item',
+            key: '2',
+            icon: <UserOutlined />,
+            onClick: (() => console.log("Ishladi"))
+        },
+    ];
+
 
 
     async function onSubmit(data: SignUpSuperUser) {
@@ -49,13 +67,17 @@ export default function Register() {
             return
         }
         const pasportSerNum = data.pasportSerNum.replace(/ /gi, "").replace("|", "")
+        const paymentExpiryDate = new Date().toISOString()
+        const personalNumber = 0
+        const isActive = true
 
         if (pasportSerNum.toString().length != 9) {
             toast.warning("Pasport ma'lumotlari kiritishda xatolik bor")
             return
         }
 
-        data = { ...data, pasportSerNum }
+        data = { ...data, pasportSerNum, paymentExpiryDate, isActive, personalNumber }
+
 
         if (!check) {
             toast.warning("Shartlarga rozilik bildiring")
@@ -84,8 +106,6 @@ export default function Register() {
 
 
 
-
-
     return (
         <div className="bg-[url('/src/users/static/login-bg.svg')] sm:h-screen min-h-[800px] sm:min-h-0 w-full bg-cover sm:bg-bottom relative  sm:py-0">
             <ToastContainer />
@@ -99,10 +119,19 @@ export default function Register() {
                             2xl:max-w-[30%] 2xl:min-w-[25%] 
                             "
             >
-                <div>
 
-
+                <div className="relative">
+                    <div className="absolute top-0 right-5">
+                        <Space direction="vertical">
+                            <Space wrap>
+                                <Dropdown menu={{ items }} placement="bottom" className='text-secondary'>
+                                    <Button><IoLanguageOutline className='text-xl' />Uz</Button>
+                                </Dropdown>
+                            </Space>
+                        </Space>
+                    </div>
                     <img src={logo} alt="logo" className="w-[20%] xl:w-1/5 2xl:w-1/4 mx-auto mt-5 sm:mt-0" />
+
                     <div className="px-7 ">
                         <h5 className="text-xl font-medium text-gray-700 py-1 whitespace-normal tracking-wider text-center">
                             Ro'yhatdan o'tish
@@ -149,7 +178,7 @@ export default function Register() {
                                             </label>
                                         }
                                         errorText="Otasining ismini kiritish majburiy"
-                                        name="clinicName"
+                                        name="fartherName"
                                         placeholder="Otasining ismi"
                                         className="mt-1"
                                     />
@@ -203,34 +232,14 @@ export default function Register() {
                                             inputRef={inputPasportRef}
                                             formInputRef={formInputRefPNumber}
                                         />
-                                        {/* <div className="w-full mt-1">
-                                            <span className="">Passport seria va raqami</span>
-                                            <span className="text-red-500">*</span>
 
-
-                                            <input
-                                                {...restPerNum}
-                                                ref={(e) => {
-                                                    formInputRefPNumber(e)
-                                                    inputPasportRef.current = e
-                                                }}
-                                                type="text"
-                                                name="pasportSerNum"
-                                                placeholder="AB | 1234567"
-                                                autoFocus
-                                                onBlur={handlerBlur}
-
-                                                className="w-full input input-bordered mt-1 flex items-center gap-2 input-sm  bg-white hover:border-secondary cursor-pointer placeholder:text-gray-500 focus:ring-2 focus:ring-secondary focus:outline-none"
-                                            />
-                                            {jshshrErrors && <p className={"text-red-500  mb-1 text-sm"}>{jshshrErrors}</p>}
-                                        </div> */}
                                     </div>
 
                                 </div>
 
                                 <div className="flex items-center my-2 font-semibold">
                                     <input id="link-radio" type="radio" onChange={(e) => setCheck(e.target.checked)} className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 " />
-                                    <label className="ms-2 text-sm  text-gray-900 dark:text-gray-300"> <a target="_blank" href="https://lex.uz/docs/-4396419" className="text-secondary hover:underline">Qonun talablari </a> doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik bildiraman.</label>
+                                    <label className="ms-2 text-sm  text-gray-900 "> <a target="_blank" href="https://lex.uz/docs/-4396419" className="text-secondary hover:underline">Qonun talablari </a> doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik bildiraman.</label>
                                 </div>
 
 

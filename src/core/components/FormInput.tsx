@@ -73,7 +73,7 @@ const FormInput = ({
                      ${isIcon && iconLeft ? "rounded-r-lg" : ""}
                      
                      
-                     bg-gray-50 border text-gray-900  flex-1 min-w-0 w-full text-sm focus:ring-1 focus:ring-secondary focus:outline-none border-gray-300 p-1.5`}
+                      border text-gray-900  flex-1 min-w-0 w-full text-sm focus:ring-1 focus:ring-secondary focus:outline-none border-gray-300 p-1.5`}
                     /> : <input
                         {...register(name, { required: required, value })}
                         aria-invalid={errors[name] ? "true" : "false"}
@@ -86,7 +86,7 @@ const FormInput = ({
                         ${isIcon && iconLeft ? "rounded-r-lg" : ""}
                         
                         
-                        bg-gray-50 border text-gray-900  flex-1 min-w-0 w-full text-sm focus:ring-1 focus:ring-secondary focus:outline-none border-gray-300 p-1.5`}
+                         border text-gray-900  flex-1 min-w-0 w-full text-sm focus:ring-1 focus:ring-secondary focus:outline-none border-gray-300 p-1.5`}
                     />
                 }
 

@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react"
 import { useMask } from "@react-input/mask"
+import { useTranslation } from "react-i18next"
 
 function generateRandomNumber() {
     return Math.floor(Math.random() * 10) + 1
@@ -10,6 +11,8 @@ type Props = {
 }
 
 const MathCaptcha = ({ onVerify }: Props) => {
+    const { t } = useTranslation()
+
     const [num1, setNum1] = useState(generateRandomNumber())
     const [num2, setNum2] = useState(generateRandomNumber())
     const [userInput, setUserInput] = useState("")
@@ -20,7 +23,7 @@ const MathCaptcha = ({ onVerify }: Props) => {
         setUserInput(e.target.value)
         const status = num1 + num2 === parseInt(e.target.value)
         onVerify(status)
-        setError(status ? "" : "Natija noto‘g‘ri. Iltimos, qayta urinib ko'ring.")
+        setError(status ? "" : t("errorResultCaptcha"))
     }
 
     return (
@@ -40,8 +43,8 @@ const MathCaptcha = ({ onVerify }: Props) => {
                     type="text"
                     value={userInput}
                     onChange={handleChange}
-                    placeholder="Javobni kiriting"
-                    className="col-span-9 xl:placeholder:pl-0.5 placeholder:text-sm py-0.5 2xl:pl-2 pl-0.5  text-xs lg:text-base border rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none
+                    placeholder={t("resultCaptcha")}
+                    className="col-span-9 xl:placeholder:pl-0.5 placeholder:text-sm  sm:py-0.5 py-1.5  2xl:pl-2 pl-1  text-xs lg:text-base border rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none
                     w-full
 
                     "
@@ -50,7 +53,7 @@ const MathCaptcha = ({ onVerify }: Props) => {
                     }}
                 />
             </div>
-   
+
             {error && (
                 <p style={{ color: "red" }} className="text-sm mt-1.5">
                     {error}

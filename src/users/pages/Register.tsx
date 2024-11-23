@@ -10,16 +10,16 @@ import { errorToast } from "@core/components/Toastfy"
 import { toast, ToastContainer } from "react-toastify"
 import { SetStateAction, useState } from "react"
 import jshshr from "../static/jshshr.png"
+import pnfl from "../static/pnfl.jpeg"
 import MathCaptcha from "@core/components/Captcha"
 import LanguageChanger from "@core/components/LanguageChanger"
+import { useTranslation } from "react-i18next"
 
 export default function Register() {
     const navigate = useNavigate()
     const { mutateAsync, isLoading, error } = useSuperUserCreate()
     const [isVerified, setIsVerified] = useState(false)
-    const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
-
-    console.log(isVerified, isCaptchaVerified);
+    const { t, i18n } = useTranslation()
 
     const [showModal, setShowModal] = useState(false)
     const [check, setCheck] = useState<SetStateAction<boolean>>(false)
@@ -41,7 +41,7 @@ export default function Register() {
 
     const handleCaptchaVerify = (status: boolean) => {
         setIsVerified(status);
-        setIsCaptchaVerified(true)
+        
     };
     async function onSubmit(data: SignUpSuperUser) {
         if (isLoading) return
@@ -52,7 +52,7 @@ export default function Register() {
 
 
         if (data.personalNumber.toString().length != 14) {
-            toast.warning("JSHSHR kiritishda xatolik bor")
+            toast.warning(t("errorPNFL"))
             return
         }
         const pasportSerNum = data.pasportSerNum.replace(/ /gi, "").replace("|", "")
@@ -61,14 +61,18 @@ export default function Register() {
         const isActive = true
 
         if (pasportSerNum.toString().length != 9) {
-            toast.warning("Pasport ma'lumotlari kiritishda xatolik bor")
+            toast.warning(t("errorPasportData"))
             return
         }
 
         data = { ...data, pasportSerNum, paymentExpiryDate, isActive }
 
         if (!check) {
-            toast.warning("Shartlarga rozilik bildiring")
+            toast.warning(t("agreeTerms"))
+            return
+        }
+        if (!isVerified) {
+            toast.warning(t("proveNotRobot"))
             return
         }
 
@@ -76,12 +80,12 @@ export default function Register() {
         const response = await mutateAsync(data)
 
         if (response.success) {
-            toast.success("Ma'lumotlaringiz qabul qilindi")
+            toast.success(t("dataSendSuccessfuly"))
             setTimeout(() => {
                 navigate("/add-username/?" + queryString.stringify(response.data as object))
             }, 3000)
         } else if (response.message == "Personal number or passport serial number already exists.") {
-            toast.error("Bunday foydalanuvchi mavjud!")
+            toast.error(t("userExists"))
             return
         }
     }
@@ -107,7 +111,7 @@ export default function Register() {
 
                     <div className="px-7 ">
                         <h5 className="text-xl font-medium text-gray-700 py-1 whitespace-normal tracking-wider text-center">
-                            Ro'yhatdan o'tish
+                            {t("registerPage")}
                         </h5>
                         <FormProvider {...methods}>
                             <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-3">
@@ -115,14 +119,14 @@ export default function Register() {
                                     <FormInput
                                         label={
                                             <label htmlFor="firstName" className="text-gray-700">
-                                                Ism
+                                                {t("name")}
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
-                                        errorText="Ism kiritish majburiy"
+                                        errorText={t("errorName")}
                                         className="mt-1"
                                         name="firstName"
-                                        placeholder="Ism kiriting"
+                                        placeholder={t("placeholderName")}
                                     />
                                 </div>
 
@@ -130,14 +134,14 @@ export default function Register() {
                                     <FormInput
                                         label={
                                             <label htmlFor="firstName" className="text-gray-700">
-                                                Familiya
+                                                {t("lastName")}
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
-                                        errorText="Familiya kiritish majburiy"
+                                        errorText={t("placeLastName")}
                                         className="mt-1"
                                         name="lastName"
-                                        placeholder="Familiya kiriting"
+                                        placeholder={t("errorLast")}
                                     />
                                 </div>
 
@@ -145,13 +149,13 @@ export default function Register() {
                                     <FormInput
                                         label={
                                             <label htmlFor="firstName" className="text-gray-700">
-                                                Otasining ismi
+                                                {t("fatherName")}
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
-                                        errorText="Otasining ismini kiritish majburiy"
+                                        errorText={t("errorFatheName")}
                                         name="fatherName"
-                                        placeholder="Otasining ismi"
+                                        placeholder={t("placeFatherName")}
                                         className="mt-1"
                                     />
                                 </div>
@@ -161,11 +165,11 @@ export default function Register() {
                                         <FormInput
                                             label={
                                                 <label htmlFor="firstName" className="text-gray-700">
-                                                    JSHSHR
+                                                    {t("jshshr")}
                                                     <span className="text-red-500">*</span>
                                                 </label>
                                             }
-                                            errorText="JSH SHR kiritish majburiy"
+                                            errorText={t("errorJshshr")}
                                             name="personalNumber"
                                             placeholder="00000000000000"
                                             className="mt-0.5"
@@ -203,11 +207,11 @@ export default function Register() {
                                         <FormInput
                                             label={
                                                 <label htmlFor="firstName" className="text-gray-700">
-                                                    Pasport seria va raqam
+                                                    {t("passport")}
                                                     <span className="text-red-500">*</span>
                                                 </label>
                                             }
-                                            errorText="Pasport ma'lumotlari majburiy"
+                                            errorText={t("errorPassport")}
                                             name="pasportSerNum"
                                             placeholder="AB | 1234567"
                                             className="mt-0.5"
@@ -225,17 +229,31 @@ export default function Register() {
                                         className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 "
                                     />
                                     <label className="ms-2 text-sm  text-gray-900 ">
-                                        {" "}
-                                        <a
-                                            target="_blank"
-                                            href="https://lex.uz/docs/-4396419"
-                                            className="text-secondary hover:underline"
-                                            rel="noreferrer"
-                                        >
-                                            Qonun talablari{" "}
-                                        </a>{" "}
-                                        doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik
-                                        bildiraman.
+                                        {i18n.language == 'ru' ?
+                                            <>
+                                                Я согласен на использование и обработку моих персональных данных в соответствии
+                                                <a
+                                                    target="_blank"
+                                                    href="https://lex.uz/docs/-4396419"
+                                                    className="text-secondary hover:underline ml-1"
+                                                    rel="noreferrer"
+                                                >
+                                                    с требованиями законодательства.
+                                                </a> </>
+                                            :
+                                            <>
+                                                <a
+                                                    target="_blank"
+                                                    href="https://lex.uz/docs/-4396419"
+                                                    className="text-secondary hover:underline"
+                                                    rel="noreferrer"
+                                                >
+                                                    Qonun talablari
+                                                </a>
+                                                doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik
+                                                bildiraman.
+                                            </>
+                                        }
                                     </label>
                                 </div>
                                 <div className="mt-2">
@@ -247,11 +265,11 @@ export default function Register() {
                                     className="w-full p-1.5 my-2 mt-3 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
                                     disabled={isLoading}
                                 >
-                                    Ro'yhatdan o'tish
+                                    {t("registerPage")}
                                 </button>
 
                                 <Link to="/" className="w-full text-center text-gray-700 mt-1 rounded-md text-sm ">
-                                    Hisobingiz mavjudmi? Kirish
+                                    {t("haveAccount")} {t("login")}
                                 </Link>
                             </form>
                         </FormProvider>
@@ -268,7 +286,8 @@ export default function Register() {
                             ✕
                         </button>
                     </form>
-                    <img src={jshshr} alt="" className="mt-6" />
+
+                    <img src={i18n.language == "uz" ? jshshr : pnfl} alt="" className="mt-6" />
                 </div>
             </dialog>
         </div>

@@ -30,9 +30,12 @@ export function clearPermissions() {
 //     return `${token}`
 // }
 
-export function login(res: AccountLoginResponse) {
-    localStorage.setItem("token", res.data.token)
-    localStorage.setItem("expiration", res.data.expiration)
+export function login(response: AccountLoginResponse) {
+
+    console.log(response, "11111111111111111")
+    
+    localStorage.setItem("token",  response.data.token)
+    localStorage.setItem("expiration", response.data.expiration)
 }
 
 export function logout() {

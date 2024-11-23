@@ -7,20 +7,47 @@ import { Link, useNavigate } from "react-router-dom"
 import { useQueryParams } from "@core/hooks/queryString.ts"
 import { successToast } from "@core/components/Toastfy"
 import { toast } from "react-toastify"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import LanguageChanger from "@core/components/LanguageChanger"
+import { useTranslation } from "react-i18next"
+import clsx from "clsx"
 
 let passwordTimeOutId: ReturnType<typeof setTimeout>
-let passwordConfTimeOutId: ReturnType<typeof setTimeout>
+let confirmPasswordTimeOutId: ReturnType<typeof setTimeout>
 
 export default function ComplateRegistrations() {
     const navigate = useNavigate()
     const params = useQueryParams()
     const [showPass, setShowPass] = useState(false)
     const [password, setPassword] = useState("")
-
+    const [errorPassword, setErrorPassword] = useState("")
+    const [errorConfPassword, setErrorConfPassword] = useState("")
     const [showConfPass, setShowConfPass] = useState(false)
-    const [passwordConf, setPasswordConf] = useState("")
+    const [confirmPassword, setconfirmPassword] = useState("")
+
+    const { t } = useTranslation()
+
+
+    const onBlurPassword = () => {
+        if (password == "") {
+            setErrorPassword(t("errorPassword"))
+            return
+        }
+        else {
+            setErrorPassword("")
+        }
+    }
+
+
+    const onBlurConfPassword = () => {
+        if (confirmPassword == "") {
+            setErrorConfPassword(t("repeatConfPassword"))
+            return
+        } else {
+            setErrorConfPassword("")
+        }
+    }
+
 
     const handleShowPassword = () => {
         if (passwordTimeOutId) clearTimeout(passwordTimeOutId)
@@ -31,18 +58,18 @@ export default function ComplateRegistrations() {
     }
 
     const handleShowConfPassword = () => {
-        if (passwordConfTimeOutId) clearTimeout(passwordConfTimeOutId)
+        if (confirmPasswordTimeOutId) clearTimeout(confirmPasswordTimeOutId)
         if (showConfPass) return setShowConfPass(false)
 
         setShowConfPass(true)
-        passwordConfTimeOutId = setTimeout(() => setShowConfPass(false), 5000)
+        confirmPasswordTimeOutId = setTimeout(() => setShowConfPass(false), 5000)
     }
     const { isLoading: checkLoading } = useCheckUserUrl(params.uniqueUrl as string)
 
     const { mutateAsync, isLoading: registerLoading, isError } = useAddSuperUserResgiter()
     const isLoading = registerLoading || checkLoading
 
-    const methods = useForm<SignUpSuperUserAddRegister>()
+    const methods = useForm<SignUpSuperUserAddRegister>({ mode: "onBlur" })
     const { ref: formInputRefPassword, ...restPassword } = methods.register("password")
     const { ref: formInputRefConfPassword, ...restConfPassword } = methods.register("confirmPassword")
 
@@ -51,30 +78,33 @@ export default function ComplateRegistrations() {
 
         if (isLoading) return
 
-        data = { token: params.uniqueToken as string, ...data }
-        if (data.password !== data.confirmPassword) {
-            toast.warning("Takroriy parol mos kelmadi")
+        data = { token: params.uniqueToken as string, ...data, password, confirmPassword }
+
+        if (password !== confirmPassword) {
+            toast.warning(t("errorConfirmPassword"))
             return
         }
         const response = await mutateAsync(data)
 
         if (!response.success && response.message == "Username already exists. Please choose a different username.") {
-            toast.warning("Bunday login mavjud")
+            toast.warning(t("haveLoginError"))
             return
         }
 
-        if (!response.success) {
-            toast.warning("Parol juda sodda. (A-aZ-z/1-9/-+!@#$%^) belgilar bo'lishi majburiy")
+        if (!response.success && response.message == "Passwords must be at least 6 characters.") {
+            toast.warning(t("charactersPassword"))
+            return
+        }
+        if (!response.success && response.message == "Password must contain both letters and digits.") {
+            toast.warning(t("charactersDigitsPassword"))
             return
         }
 
         if (!isError && response.success) {
-            successToast("Muvaffaqqiyatli ro`yhatdan o'tdingiz")
+            successToast(t("registerSuccecfuly"))
         }
 
-        setTimeout(() => {
-            navigate("/")
-        }, 3000)
+        navigate("/")
     }
 
     return (
@@ -90,7 +120,7 @@ export default function ComplateRegistrations() {
                     <img src={logo} alt="logo" className="w-1/4 mx-auto mt-5 sm:mt-0" />
                     <div className="px-2 lg:px-3 xl:px-4">
                         <h5 className="text-xl font-medium text-gray-700 py-3 whitespace-normal tracking-wider text-center">
-                            Login va parol yaratish
+                            {t("createLoginPassword")}
                         </h5>
                         <FormProvider {...methods}>
                             <form action="" className="mb-7" onSubmit={methods.handleSubmit(onSubmit)}>
@@ -98,19 +128,20 @@ export default function ComplateRegistrations() {
                                     <FormInput
                                         label={
                                             <label htmlFor="firstName" className="text-gray-700">
-                                                Login
+                                                {t("createLogin")}
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
                                         className="mt-1"
                                         name="username"
-                                        placeholder="Login yarating"
+                                        placeholder={t("placeLogin")}
+                                        errorText={t("errorLogin")}
                                     />
                                 </div>
 
 
                                 <div className="mt-1">
-                                    <span>Parol</span>
+                                    <span className="text-sm font-medium text-gray-900 mt-1">{t("password")}</span>
                                     <span className="text-red-500">*</span>
                                     <div className="flex">
                                         <input
@@ -122,14 +153,15 @@ export default function ComplateRegistrations() {
                                             }}
                                             name="password"
                                             value={password}
-                                            placeholder="Parol kiriting"
+                                            placeholder={t("placePassword")}
                                             id="website-admin"
-                                            className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
+                                            onBlur={onBlurPassword}
+                                            className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
                                         />
 
-                                        <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                                        <span onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
                                             <svg
-                                                onClick={handleShowPassword}
+                                                
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 16 16"
                                                 fill="currentColor"
@@ -143,30 +175,33 @@ export default function ComplateRegistrations() {
                                             </svg>
                                         </span>
                                     </div>
+                                    {errorPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorPassword}</p>}
+
                                 </div>
 
 
                                 <div className="mt-1">
-                                    <span>Parolni takrorlang</span>
+                                    <span className="text-sm font-medium text-gray-900 mt-1">{t("repeatPassword")}</span>
                                     <span className="text-red-500">*</span>
                                     <div className="flex">
                                         <input
                                             {...restConfPassword}
                                             type={showConfPass ? "text" : "password"}
-                                            onChange={(e) => setPasswordConf(e.target.value)}
+                                            onChange={(e) => setconfirmPassword(e.target.value)}
                                             ref={(e) => {
                                                 formInputRefConfPassword(e)
                                             }}
                                             name="confirmPassword"
-                                            value={passwordConf}
-                                            placeholder="Parolni takrorlang"
+                                            onBlur={onBlurConfPassword}
+                                            value={confirmPassword}
+                                            placeholder={t("repeatPassword")}
                                             id="website-admin"
-                                            className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
+                                            className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none  border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
                                         />
 
-                                        <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                                        <span onClick={handleShowConfPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
                                             <svg
-                                                onClick={handleShowConfPassword}
+                                                
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 16 16"
                                                 fill="currentColor"
@@ -180,22 +215,24 @@ export default function ComplateRegistrations() {
                                             </svg>
                                         </span>
                                     </div>
+                                    {errorConfPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorConfPassword}</p>}
+
                                 </div>
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">
-                                    Parolni unutdingizmi?
+                                    {t("forgotPassword")}
                                 </div>
 
                                 <button
                                     type="submit"
                                     className="w-full p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
                                 >
-                                    Kirish
+                                    {t("login")}
                                 </button>
 
                                 <Link to="/register" >
                                     <div className="w-full text-center p-1.5 bg-neutral text-gray-700 rounded-md text-sm hover:bg-neutral/80 duration-200">
-                                        Hisobingiz yo'qmi? Ro'yhatdan o'tish
+                                        {t("doNotHaveAccount")} {t("registerPage")}
 
                                     </div>
                                 </Link>

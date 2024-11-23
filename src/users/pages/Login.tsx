@@ -9,16 +9,22 @@ import { toast } from "react-toastify"
 import MathCaptcha from "@core/components/Captcha"
 import { useState } from "react"
 import LanguageChanger from "@core/components/LanguageChanger"
+import clsx from "clsx"
+import { useTranslation } from "react-i18next"
 
 let passwordTimeOutId: ReturnType<typeof setTimeout>
 
 export default function Login() {
     const methods = useForm<AccountLogin>({ mode: "onBlur" })
     const navigate = useNavigate()
+    const { t } = useTranslation()
+
     const { mutateAsync, isLoading } = useAccountLogin()
     const [isVerified, setIsVerified] = useState(false)
+
     const [showPass, setShowPass] = useState(false)
     const [password, setPassword] = useState("")
+    const [errorPassword, setErrorPassword] = useState("")
 
     const handleShowPassword = () => {
         if (passwordTimeOutId) clearTimeout(passwordTimeOutId)
@@ -28,26 +34,37 @@ export default function Login() {
         passwordTimeOutId = setTimeout(() => setShowPass(false), 5000)
     }
 
+    const onBlurPassword = () => {
+        if (password == "") {
+            setErrorPassword(t("errorPassword"))
+            return
+        } else {
+            setErrorPassword("")
+        }
+    }
+
     const handleCaptchaVerify = (status: boolean) => {
         setIsVerified(status);
     };
+
     async function onSubmit(data: AccountLogin) {
         if (isLoading) return
 
         if (!isVerified) {
-            toast.warning("Robot emasligizni tasdiqlang")
+            toast.warning(t("proveNotRobot"))
             return
         }
+
         data = { ...data, password }
 
         const response = await mutateAsync(data)
 
         if (response.success) {
-            toast.success("Ma'lumotlaringiz yuborildi")
-            login(response)
+            toast.success(t("succesfulLogin"))
+            // login(response)
             navigate("/dashboard")
         } else if (!response.success && response.message == "Invalid username or password.") {
-            toast.error("Login yoki parol noto'g'ri")
+            toast.error(t("errorLoginPassword"))
             return
         }
     }
@@ -65,7 +82,7 @@ export default function Login() {
                     <img src={logo} alt="logo" className="w-1/4 mx-auto mt-5 sm:mt-0" />
                     <div className="px-2 lg:px-3 xl:px-4">
                         <h5 className="text-xl font-medium text-gray-700 py-3 whitespace-normal tracking-wider text-center">
-                            Kirish
+                            {t("login")}
                         </h5>
                         <FormProvider {...methods}>
                             <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
@@ -73,19 +90,19 @@ export default function Login() {
                                     <FormInput
                                         label={
                                             <label htmlFor="firstName" className="text-gray-700">
-                                                Login
+                                                {t("login")}
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
                                         className="mt-1"
                                         name="username"
-                                        placeholder="Login kiriting"
-                                        errorText="Login kiritish majburiy"
+                                        placeholder={t("placeLogin")}
+                                        errorText={t("errorLogin")}
                                     />
                                 </div>
 
                                 <div className="mt-1">
-                                    <span>Parol</span>
+                                    <span className="text-sm font-medium text-gray-900 mt-1">{t("password")}</span>
                                     <span className="text-red-500">*</span>
                                     <div className="flex">
                                         <input
@@ -93,9 +110,11 @@ export default function Login() {
                                             onChange={(e) => setPassword(e.target.value)}
                                             name="password"
                                             value={password}
-                                            placeholder="Parol kiriting"
+                                            onBlur={onBlurPassword}
+                                            placeholder={t("placePassword")}
                                             id="website-admin"
-                                            className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none bg-white border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
+
+                                            className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
                                         />
 
                                         <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
@@ -114,10 +133,12 @@ export default function Login() {
                                             </svg>
                                         </span>
                                     </div>
+                                    {errorPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorPassword}</p>}
+
                                 </div>
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">
-                                    Parolni unutdingizmi?
+                                    {t("forgotPassword")}
                                 </div>
 
                                 <div className="mt-2">
@@ -128,12 +149,12 @@ export default function Login() {
                                     type="submit"
                                     className="w-full p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
                                 >
-                                    Kirish
+                                    {t("login")}
                                 </button>
 
                                 <Link to="/register">
                                     <p className="w-full text-center  p-1.5 bg-neutral text-gray-700 rounded-md text-sm hover:bg-neutral/80 duration-200">
-                                        Hisobingiz yo'qmi? Ro'yhatdan o'tish
+                                        {t("doNotHaveAccount")} {t("registerPage")}
                                     </p>
                                 </Link>
                             </form>

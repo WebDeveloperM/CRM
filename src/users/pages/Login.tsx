@@ -10,6 +10,7 @@ import { useState } from "react"
 import LanguageChanger from "@core/components/LanguageChanger"
 import clsx from "clsx"
 import { useTranslation } from "react-i18next"
+import { login } from "@users/utils/auth"
 
 let passwordTimeOutId: ReturnType<typeof setTimeout>
 
@@ -60,7 +61,7 @@ export default function Login() {
 
         if (response.success) {
             toast.success(t("succesfulLogin"))
-            // login(response)
+            login(response)
             navigate("/dashboard")
         } else if (!response.success && response.message == "Invalid username or password.") {
             toast.error(t("errorLoginPassword"))

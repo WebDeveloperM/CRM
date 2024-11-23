@@ -20,7 +20,6 @@ export type SignUpSuperUser = {
     isActive: boolean
 }
 
-
 export type SignUpSuperUserResponse = BaseResponse & {
     data?: { uniqueToken: string; uniqueUrl: string }
 }
@@ -42,7 +41,7 @@ export type AccountLogin = {
 }
 
 export type AccountLoginResponse = BaseResponse & {
-    data: { token: string; expiration: string }
+    data: { token: string; expiration: string }[]
 }
 
 // export type AccountLoginResponseAuth = {

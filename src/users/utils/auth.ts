@@ -1,5 +1,4 @@
-import { AccountLoginResponse } from "@users/types"
-import { useNavigate } from "react-router-dom"
+import { NavigateFunction } from "react-router-dom"
 
 const authToken = import.meta.env.VITE_AUTHORIZATION_TOKEN
 
@@ -30,26 +29,22 @@ export function clearPermissions() {
 //     return `${token}`
 // }
 
-export function login(response: AccountLoginResponse) {
-
-    console.log(response, "11111111111111111")
-    
-    localStorage.setItem("token",  response.data.token)
-    localStorage.setItem("expiration", response.data.expiration)
+export function login({ token, expiration }: { token: string; expiration: string }, navigate: NavigateFunction) {
+    localStorage.setItem("token", token)
+    localStorage.setItem("expiration", expiration)
+    navigate("/dashboard")
 }
 
-export function logout() {
-    const navigate = useNavigate()
-    localStorage.removeItem("token")
-    localStorage.removeItem("expiration")
-    localStorage.removeItem("uniqueToken")
-    localStorage.removeItem("uniqueUrl")
+export function logout(navigate: NavigateFunction) {
+    localStorage.clear()
     navigate("/")
 }
 
 export function isAuthenticated() {
     const now = new Date()
     const expiration = localStorage.getItem("expiration")
+    if (!expiration) return false
+
     const targetDate = new Date(expiration as string)
     return localStorage.getItem("token") && now < targetDate
 }

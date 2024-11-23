@@ -3,14 +3,14 @@ import { useAccountLogin } from "@users/hooks/superUser"
 import { AccountLogin } from "@users/types"
 import FormInput from "@core/components/FormInput"
 import { FormProvider, useForm } from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import MathCaptcha from "@core/components/Captcha"
 import { useState } from "react"
 import LanguageChanger from "@core/components/LanguageChanger"
 import clsx from "clsx"
 import { useTranslation } from "react-i18next"
-import { login } from "@users/utils/auth"
+import { isAuthenticated, login } from "@users/utils/auth"
 
 let passwordTimeOutId: ReturnType<typeof setTimeout>
 
@@ -44,29 +44,30 @@ export default function Login() {
     }
 
     const handleCaptchaVerify = (status: boolean) => {
-        setIsVerified(status);
-    };
+        setIsVerified(status)
+    }
 
     async function onSubmit(data: AccountLogin) {
         if (isLoading) return
 
-        if (!isVerified) {
-            toast.warning(t("proveNotRobot"))
-            return
-        }
+        if (!isVerified) return toast.warning(t("proveNotRobot"))
 
         data = { ...data, password }
-
         const response = await mutateAsync(data)
 
         if (response.success) {
             toast.success(t("succesfulLogin"))
-            login(response)
-            navigate("/dashboard")
-        } else if (!response.success && response.message == "Invalid username or password.") {
-            toast.error(t("errorLoginPassword"))
+            login(response.data[0], navigate)
             return
         }
+
+        if (!response.success && response.message == "Invalid username or password.") {
+            return toast.error(t("errorLoginPassword"))
+        }
+    }
+
+    if (isAuthenticated()) {
+        return <Navigate to="/dashboard" />
     }
 
     return (
@@ -113,7 +114,6 @@ export default function Login() {
                                             onBlur={onBlurPassword}
                                             placeholder={t("placePassword")}
                                             id="website-admin"
-
                                             className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
                                         />
 
@@ -133,8 +133,9 @@ export default function Login() {
                                             </svg>
                                         </span>
                                     </div>
-                                    {errorPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorPassword}</p>}
-
+                                    {errorPassword && (
+                                        <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorPassword}</p>
+                                    )}
                                 </div>
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">

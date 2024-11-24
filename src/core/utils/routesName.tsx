@@ -1,5 +1,5 @@
 
 const routerNames = {
-    key: "dashboard",
-    value: ""
+    key: "/dashboard",
+    value: "/Asosiy"
 }

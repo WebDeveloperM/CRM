@@ -10,6 +10,7 @@ import AppointmentsRoutes from "./appointments/Routes"
 import NotFound from "@core/pages/NotFound"
 import "react-toastify/dist/ReactToastify.css"
 import Clinica from "./clinica/pages/Clinica"
+import ClinicaRoutes from "./clinica/Routes"
 
 export default function App() {
     return (
@@ -22,7 +23,7 @@ export default function App() {
                         <Route path="/patients/*" element={<PatientsRoutes />} />
                         <Route path="/doctors/*" element={<DoctorsRoutes />} />
                         <Route path="/appointments/*" element={<AppointmentsRoutes />} />
-                        <Route path="/clinica/*" element={<Clinica />} />
+                        <Route path="/clinica/*" element={<ClinicaRoutes />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </BrowserRouter>

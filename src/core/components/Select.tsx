@@ -6,11 +6,12 @@ export type InputProps = {
     children: ReactNode
     labelText?: string
     className?: string
+    requiredLabel?: boolean
 }
 
-export default function Select({ children, labelText, className }: InputProps) {
+export default function Select({ children, labelText, className, requiredLabel }: InputProps) {
     return (
-        <Label text={labelText}>
+        <Label text={labelText} required={requiredLabel}>
             <select className={clsx("select select-bordered w-full", className)}>{children}</select>
         </Label>
     )

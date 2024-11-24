@@ -1,7 +1,7 @@
 import Layout from "@core/components/Layout";
 import { useState } from "react";
 import clinica from "../static/clinica.jpg"
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Clinica() {
     const [open, setOpen] = useState(true);
@@ -21,10 +21,9 @@ export default function Clinica() {
                         <div className="text-center mt-[24%]">
                             <h1 className="">Shifoxonangizni ro'yxatdan o'tkazing.</h1>
                             <p className="mt-2 mb-4">Tizimdan foydalana olishingiz uchun shifoxona qo'shing</p>
-                            <NavLink to="plus-clinica" className="bg-secondary py-2 hover:bg-secondary/90 text-white px-3 rounded-md">Shifoxona qo'shish</NavLink>
+                            <Link to="/clinica/add-clinica" className="bg-secondary py-2 hover:bg-secondary/90 text-white px-3 rounded-md">Shifoxona qo'shish</Link>
                         </div>
                     </div>
-
                 </div>
             </Layout>
         </>

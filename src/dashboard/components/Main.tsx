@@ -123,7 +123,7 @@ export default function Main() {
                         </div>
                     </div>
 
-                    <div className="col-span-4 mt-5 2xl:mt-0 ">
+                    <div className="col-span-4 mt-5  2xl:mt-0 ">
                         <div className="bg-white shadow-md rounded-lg p-4  h-full">
                             <div className="flex justify-center py-5">
                                 <img src={lungs} alt="Lungs" className="w-[200px] h-[200px]" />

@@ -2,7 +2,7 @@ import { RiMessage3Line } from "react-icons/ri";
 import { AiFillAlert } from "react-icons/ai";
 import { RiListCheck3 } from "react-icons/ri";
 import { MdOutlineStarOutline } from "react-icons/md";
-import { fleg_uz, doctor3 } from "../../dashboard/utils";
+import { doctor3 } from "../../dashboard/utils";
 import { RiHome3Line } from "react-icons/ri";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import logo from "@core/static/logo.png";
@@ -10,7 +10,11 @@ import { FaBars } from "react-icons/fa6";
 import { Dispatch, SetStateAction } from "react";
 import { useLocation } from "react-router-dom";
 import AvatarWithDot from "./AvatarWithDot";
-import DropdownAnt from "./DropdownAnt";
+import LanguageChanger from "./LanguageChanger";
+import type { MenuProps } from 'antd';
+import { Button, Dropdown, Space } from 'antd';
+import "../static/style.css"
+
 // import DropdownUser from "./DropdownUser";
 // import Dropdown from "./Dropdown";
 
@@ -21,12 +25,39 @@ type Prop = {
     link: string
 }
 
+const items: MenuProps['items'] = [
+    {
+        key: '1',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                1st menu item
+            </a>
+        ),
+    },
+    {
+        key: '2',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                2nd menu item
+            </a>
+        ),
+    },
+    {
+        key: '3',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+                3rd menu item
+            </a>
+        ),
+    },
+];
+
 export default function Header({ open, setOpen }: Prop) {
     const pathname = useLocation();
     // const linkName = pathname.pathname.split("/");
 
     return (
-        <div className="fixed top-0 left-0 right-0">
+        <div className="fixed top-0 left-0 right-0 Z-[50]">
             <div className="w-full h-[57px] bg-white border-b border-gray-200 ">
                 <div className="flex justify-between sm:justify-between lg:justify-between  items-center mx-auto h-full px-4 min-w-1/2">
                     <div className="flex items-center gap-x-3  ">
@@ -52,11 +83,11 @@ export default function Header({ open, setOpen }: Prop) {
                         </div>
 
                     </div>
-                    <div className='flex items-center gap-3.5 '>
+                    <div className='flex items-center '>
                         <div className='hidden md:inline-block'>
                             <div className='flex items-center gap-2 '>
-                                <span className='w-8 h-8  bg-secondary/10 rounded-full flex items-center            justify-center'>
-                                    <img src={fleg_uz} alt="flag" className='items-center w-5 h-5 rounded-full ' />
+                                <span className='w-8 h-8  bg-secondary/10 rounded-full flex items-center justify-center'>
+                                    <LanguageChanger />
                                 </span>
 
                                 <span className='w-8 h-8  bg-secondary/10 rounded-full'>
@@ -73,19 +104,20 @@ export default function Header({ open, setOpen }: Prop) {
                                 </span>
                             </div>
                         </div>
-                        <div className='avatar'>
-                            <div className="">
-                                {/* <img src={doctor3} alt="avatar" className=" hidden md:inline-block" /> */}
 
-                                <DropdownAnt children={
-                                    <AvatarWithDot url={doctor3} isOnline={true} />
-                                } />
+                        {/* <DropdownAnt children={
+                                } /> */}
+                        <Space direction="vertical">
+                            <Space wrap>
+                                <Dropdown menu={{ items }} placement="bottomRight" arrow>
+                                    <Button className="btn-ghost border-none btn-circle p-0 m-0">
+                                        <AvatarWithDot url={doctor3} isOnline={true} /></Button>
+                                </Dropdown>
+                            </Space>
+                        </Space>
+                        <FaBars className="text-secondary text-xl md:hidden translate-y-1/2  cursor-pointer  rounded-md" onClick={() => setOpen(!open)} />
 
-                                <FaBars className="text-secondary text-xl md:hidden translate-y-1/2  cursor-pointer  rounded-md" onClick={() => setOpen(!open)} />
 
-
-                            </div>
-                        </div>
                     </div>
 
                 </div>

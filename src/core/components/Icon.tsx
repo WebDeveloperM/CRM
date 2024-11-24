@@ -8,5 +8,5 @@ export type Props = {
 export default function Icon({ icon, className }: Props) {
     if (!icon) return
     const Icon = icon
-    return <Icon className={className ?? "h-6 w-6"} />
+    return <Icon className={className ?? "h-5 w-5 text-secondary"} />
 }

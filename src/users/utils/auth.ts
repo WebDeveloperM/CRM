@@ -32,7 +32,7 @@ export function clearPermissions() {
 export function login({ token, expiration }: { token: string; expiration: string }, navigate: NavigateFunction) {
     localStorage.setItem("token", token)
     localStorage.setItem("expiration", expiration)
-    navigate("/dashboard")
+    navigate("/clinica")
 }
 
 export function logout(navigate: NavigateFunction) {
@@ -48,3 +48,5 @@ export function isAuthenticated() {
     const targetDate = new Date(expiration as string)
     return localStorage.getItem("token") && now < targetDate
 }
+
+

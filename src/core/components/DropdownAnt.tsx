@@ -2,13 +2,12 @@ import { ReactNode } from 'react';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import { Link } from 'react-router-dom';
-import { logout } from '@users/utils/auth';
 
 const items: MenuProps['items'] = [
     {
         key: '1',
         label: (
-            <Link to={"/"} onClick={logout} rel="noopener noreferrer">
+            <Link to={"/"} rel="noopener noreferrer">
                 <span className={`origin-left text-base group-hover:text-secondary  duration-200 text-secondary`}>Signout</span>
             </Link>
         ),

@@ -2,6 +2,8 @@ import FormInput from "@core/components/FormInput";
 import Select, { Option } from "@core/components/Select";
 import { FormProvider, useForm } from "react-hook-form";
 import { CreateClinica } from "src/clinica/types";
+import AddField from "../AddField";
+import SelectedData from "../SelectedData";
 
 
 export default function AddClinicaTab1() {
@@ -63,7 +65,7 @@ export default function AddClinicaTab1() {
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
-                    Elektrom pochta
+                    Elektron pochta
                     <span className="text-red-500">*</span>
                   </label>
                 }
@@ -104,13 +106,13 @@ export default function AddClinicaTab1() {
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
-                    OGRN
+                    STIR
                     <span className="text-red-500">*</span>
                   </label>
                 }
                 className="mt-1"
                 name="username"
-                placeholder={"Ro'yxatdan o'tgan raqami"}
+                placeholder={"STIR raqami"}
                 errorText={""}
               />
             </div>
@@ -123,10 +125,89 @@ export default function AddClinicaTab1() {
                 <Option className=""> Davlat tashkiloti</Option>
                 <Option className="">Ixtisoslashtirilgan</Option>
               </Select>
-
-
-
             </div>
+
+            <div className="col-span-3">
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    Xodimlar soni
+                    <span className="text-red-500">*</span>
+                  </label>
+                }
+                className="mt-1"
+                name="username"
+                placeholder={"Hodimlar sonini kiriting"}
+                errorText={""}
+              />
+            </div>
+            <div className="col-span-3">
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    Litsenziya raqami
+                    <span className="text-red-500">*</span>
+                  </label>
+                }
+                className="mt-1"
+                name="username"
+                placeholder={"Litsenziya raqamini kiriting"}
+                errorText={""}
+              />
+            </div>
+            <div className="col-span-3">
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    Litsenziya amal qilish muddati
+                    <span className="text-red-500">*</span>
+                  </label>
+                }
+                className="mt-1"
+                name="username"
+                placeholder={"Litsenziya amal qilish muddati kiriting"}
+                errorText={""}
+              />
+            </div>
+            <div className="col-span-3">
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    Bank xisob raqami
+                    <span className="text-red-500">*</span>
+                  </label>
+                }
+                className="mt-1"
+                name="username"
+                placeholder={"Bank xisob raqamini kiriting"}
+                errorText={""}
+              />
+            </div>
+            <div className="col-span-3">
+              <label className="text-gray-700 font-medium mt-2">
+                Xizmat turlari
+                <span className="text-red-500">*</span>
+              </label>
+
+              <SelectedData />
+            </div>
+            <div className="col-span-3">
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    Qayq qilish tizimi
+
+                  </label>
+                }
+                className="mt-1"
+                name="username"
+                errorText={""}
+              />
+            </div>
+            {/* <div className="col-span-3">
+              <AddField />
+            </div> */}
+
 
 
           </div>
@@ -136,7 +217,7 @@ export default function AddClinicaTab1() {
 
           <button
             type="submit"
-            className="w-full p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+            className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
           >
             Qo'shish
           </button>

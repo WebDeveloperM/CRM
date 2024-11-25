@@ -10,7 +10,7 @@ export default function AddClinicaTab1() {
   const methods = useForm<CreateClinica>({ mode: "onBlur" })
 
 
-  async function onSubmit(data: CreateClinica) {
+  async function onSubmit() {
 
   }
 

@@ -7,37 +7,37 @@ const handleChange = (value: string[]) => {
 const options = [
     {
         label: 'Stomatalogiya',
-        value: 'stomatalogiya',
+        value: 'Stomatalogiya',
         desc: 'Stomatalogiya',
     },
     {
         label: 'Nevralogiya',
-        value: 'nevralogiya',
+        value: 'Nevralogiya',
         desc: 'Nevralogiya',
     },
     {
         label: 'Narkalogiya',
-        value: 'narkalogiya',
+        value: 'Narkalogiya',
         desc: 'Narkalogiya',
     },
     {
         label: "Tibiiy ko'rik",
-        value: 'tibbiyKorik',
+        value: 'TibbiyKorik',
         desc: "Tibiiy ko'rik",
     },
     {
         label: "Terapiya",
-        value: 'terapiya',
+        value: 'Terapiya',
         desc: "Terapiya",
     },
     {
         label: "Laboratoriya",
-        value: 'laboratoriya',
+        value: 'Laboratoriya',
         desc: "Laboratoriya",
     },
     {
         label: "Logoped",
-        value: 'logoped',
+        value: 'Logoped',
         desc: "Logoped",
     },
 
@@ -51,7 +51,7 @@ export default function SelectedData() {
             style={{ width: '100%' }}
             placeholder="Xizmat turlarini tanlang"
             onChange={handleChange}
-            className='mt-1'
+            className='mt-1 focus:ring-secondary'
             options={options}
             optionRender={(option) => (
                 <Space>

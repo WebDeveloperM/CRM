@@ -2,7 +2,7 @@ import FormInput from "@core/components/FormInput";
 import Select, { Option } from "@core/components/Select";
 import { FormProvider, useForm } from "react-hook-form";
 import { CreateClinica } from "src/clinica/types";
-import AddField from "../AddField";
+
 import SelectedData from "../SelectedData";
 
 

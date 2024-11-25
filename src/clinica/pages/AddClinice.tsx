@@ -1,7 +1,5 @@
 import Layout from "@core/components/Layout";
 import { useState } from "react";
-import clinica from "../static/clinica.jpg"
-import { Link } from "react-router-dom";
 import AddClinicaTab from "../components/AddClinicaTabs/AddClinicaTab";
 
 export default function AddClinice() {

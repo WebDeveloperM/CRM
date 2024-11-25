@@ -44,7 +44,7 @@ export default function AddField() {
                     },
                 ]}
             >
-                {(fields, { add, remove }, { errors }) => (
+                {(fields, { add, remove }) => (
                     <>
                         {fields.map((field, index) => (
                             <>

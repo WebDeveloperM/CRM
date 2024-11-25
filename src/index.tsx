@@ -9,7 +9,6 @@ import PatientsRoutes from "./patients/Routes"
 import AppointmentsRoutes from "./appointments/Routes"
 import NotFound from "@core/pages/NotFound"
 import "react-toastify/dist/ReactToastify.css"
-import Clinica from "./clinica/pages/Clinica"
 import ClinicaRoutes from "./clinica/Routes"
 
 export default function App() {

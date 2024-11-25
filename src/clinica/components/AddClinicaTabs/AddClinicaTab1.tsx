@@ -5,8 +5,12 @@ import { CreateClinica } from "src/clinica/types";
 
 import SelectedData from "../SelectedData";
 
+type Props = {
+  stepHandler: () => {}
+}
 
-export default function AddClinicaTab1() {
+
+export default function AddClinicaTab1({ stepHandler }: Props) {
   const methods = useForm<CreateClinica>({ mode: "onBlur" })
 
 
@@ -15,7 +19,7 @@ export default function AddClinicaTab1() {
   }
 
   return (
-    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll 2xl:m-5 m-3 ">
+    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll 2xl:m-5 m-3 max-w-[90%] mt-6 mx-auto">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
           <div className="grid grid-cols-12 gap-3 px-0.5">
@@ -30,7 +34,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="clinicName"
                 placeholder={"Nomini kiriting"}
-                errorText="Nomini kiritish majburiy"
               />
             </div>
             <div className="col-span-3">
@@ -44,7 +47,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="string"
                 placeholder={"Manzil kiriting"}
-                errorText={"Manzil kiritish majbur"}
               />
             </div>
             <div className="col-span-3">
@@ -58,7 +60,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="phoneNumber"
                 placeholder={"Telefon raqam kiriting"}
-                errorText={"Telefon raqam kiritish majburiy"}
               />
             </div>
             <div className="col-span-3">
@@ -99,7 +100,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="taxpayerIdNumber"
                 placeholder={"INN raqam kiriting"}
-                errorText={"INN raqam kiritish majburiy"}
               />
             </div>
             <div className="col-span-3">
@@ -113,7 +113,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="stateRegistrationNumber"
                 placeholder={"STIR raqami"}
-                errorText={"STIR raqam kiritish majburiy"}
               />
             </div>
             <div className="col-span-3 px-0.5 mt-1">
@@ -138,7 +137,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="employeeCount"
                 placeholder={"Hodimlar sonini kiriting"}
-                errorText={"Hodimlar sonini kiriting majburiy"}
               />
             </div>
             <div className="col-span-3">
@@ -152,7 +150,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="licenseNumber"
                 placeholder={"Litsenziya raqamini kiriting"}
-                errorText={"Litsenziya raqamini kiritish majburiy"}
               />
             </div>
             <div className="col-span-3">
@@ -166,7 +163,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="licenseExpiryDate"
                 placeholder={"Litsenziya amal qilish muddati kiriting"}
-                errorText={"Litsenziya amal qilish muddati kiritish majburiy"}
               />
             </div>
             <div className="col-span-3">
@@ -180,7 +176,6 @@ export default function AddClinicaTab1() {
                 className="mt-1"
                 name="bankAccountDetails"
                 placeholder={"Bank xisob raqamini kiriting"}
-                errorText={"Bank xisob raqamini kiritish majburiy"}
               />
             </div>
             <div className="col-span-3">
@@ -206,12 +201,22 @@ export default function AddClinicaTab1() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
-          >
-            Qo'shish
-          </button>
+          <div className=" flex gap-2">
+            <button
+              disabled
+              type="submit"
+              className="w-24 p-1.5 cursor-not-allowed my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+            >
+              Oldingi
+            </button>
+            <button
+              onClick={() => stepHandler(true)}
+              type="submit"
+              className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+            >
+              Keyingi
+            </button>
+          </div>
 
         </form>
       </FormProvider>

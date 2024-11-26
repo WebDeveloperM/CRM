@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { clsx } from "clsx"
-import { LanguageIcon } from "@heroicons/react/24/outline"
-import Icon from "@core/components/Icon.tsx"
+// import { LanguageIcon } from "@heroicons/react/24/outline"
+// import Icon from "@core/components/Icon.tsx"
 import uzFlag from "../static/uz-flag.png"
 import ruFlag from "../static/ru-flag.png"
 
@@ -26,11 +26,11 @@ export default function LanguageChanger() {
         <div className="dropdown dropdown-bottom dropdown-end ">
 
             <div tabIndex={0} role="button" className="btn btn-sm px-1 rounded-full btn-ghost">
-                <Icon icon={LanguageIcon} />
+                {i18n.language == "uz" ? <img src={uzFlag} alt="" className="w-6 h-5 rounded-full" /> : <img src={ruFlag} alt="" className="w-6 h-5 rounded-full" />}
             </div>
 
 
-            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40 ">
+            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-24 ">
                 {languages.map((lang, index) => (
                     <li key={index} className="mb-0.5">
                         <button

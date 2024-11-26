@@ -14,6 +14,7 @@ import LanguageChanger from "./LanguageChanger";
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import "../static/style.css"
+import { routerNames } from "@core/utils/routesName";
 
 // import DropdownUser from "./DropdownUser";
 // import Dropdown from "./Dropdown";
@@ -127,7 +128,11 @@ export default function Header({ open, setOpen }: Prop) {
                     <div className={`text-white text-sm font-semi  tracking-wider ml-[1%] 2xl:ml-[2%] ${open ? "md:max-w-[calc(100%-250px)] md:ml-[275px] 2xl:ml-[275px] " : "md:max-w-[calc(100%-70px)] md:ml-[80px] 2xl:ml-[80px]"}`}>
                         <div className='flex items-center gap-2 text-secondary text-base 2xl:text-lg'>
                             <RiHome3Line className="text-secondary text-xl" />
-                            <span>  {pathname.pathname}</span>
+                            <span>
+                                {routerNames.map((route) => (
+                                    route.key == pathname.pathname ? route.value : ""
+                                ))}
+                            </span>
                         </div>
                     </div>
 

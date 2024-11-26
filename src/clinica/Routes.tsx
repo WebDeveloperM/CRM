@@ -3,7 +3,6 @@ import Clinica from "./pages/Clinica"
 import AddClinice from "./pages/AddClinice"
 import "./static/style.css"
 
-
 export default function ClinicaRoutes() {
 
     return (

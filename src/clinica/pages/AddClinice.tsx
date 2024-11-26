@@ -12,7 +12,7 @@ export default function AddClinice() {
     <>
       <Layout open={open} setOpen={setOpen}>
 
-        <div className=" bg-secondary-light/80 bg-white overflow-y-auto rounded-md text-gray-700 pb-5 mt-[15px] 2xl:mx-5">
+        <div className=" bg-secondary-light/80 md:max-w-[97%] 2xl:w-full mx-auto bg-white overflow-y-auto rounded-md text-gray-700 pb-5 mt-[15px] 2xl:mx-5">
           <CheckoutStepper />
         </div>
       </Layout>

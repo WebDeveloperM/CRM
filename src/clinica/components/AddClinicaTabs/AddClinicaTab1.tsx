@@ -3,6 +3,8 @@ import Select, { Option } from "@core/components/Select";
 import { FormProvider, useForm } from "react-hook-form";
 import { CreateClinica } from "src/clinica/types";
 import SelectedData from "../SelectedData";
+import { DatePicker, Form, Space } from 'antd';
+import { useState } from "react";
 
 
 type Props = {
@@ -10,32 +12,46 @@ type Props = {
   onNext: (status: boolean) => void
 }
 
+
 export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   const methods = useForm<CreateClinica>({ mode: "onBlur" })
+  const [selectedDates, setSelectedDates] = useState<string[] | null>(null)
+  const [_, setIsTouched] = useState(false);
 
+
+  const handleDateChange = (dates: any, dateStrings: [string, string]) => {
+    console.log(dates);
+    setSelectedDates(dateStrings)
+  };
+
+  const handleBlur = () => {
+    setIsTouched(true)
+  };
   async function onSubmit() {
 
   }
 
+  console.log(selectedDates, "11111111111111111");
+
   return (
-    <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll mt-6 ">
+    <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 ">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
-          <div className="2xl:grid grid-cols-12 gap-3 px-0.5">
-            <div className="col-span-3">
+          <div className="sm:grid grid-cols-12 gap-3 px-0.5">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
-                    Name
+                    Shifoxona rasmiy nomi
                     <span className="text-red-500">*</span>
                   </label>
                 }
                 className="mt-1"
                 name="clinicName"
-                placeholder={"Nomini kiriting"}
+                placeholder={"Shifoxona nomini kiriting"}
               />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -48,11 +64,11 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 placeholder={"Manzil kiriting"}
               />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
-                    Telefon nomer
+                    Telefon raqam
                     <span className="text-red-500">*</span>
                   </label>
                 }
@@ -61,7 +77,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 placeholder={"Telefon raqam kiriting"}
               />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -75,7 +91,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 required={false}
               />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -88,7 +104,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 required={false}
               />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -101,7 +117,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 placeholder={"INN raqam kiriting"}
               />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -114,9 +130,9 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 placeholder={"STIR raqami"}
               />
             </div>
-            <div className="col-span-3 px-0.5 mt-1">
+            <div className="2xl:col-span-3 col-span-4 px-0.5 mt-1">
               <Select
-                className="bg-white focus:ring-1  focus:outline-none focus:ring-secondary select-sm mt-1" labelText="Turi"
+                className="bg-white focus:ring-1  focus:outline-none focus:ring-secondary select-sm mt-1" labelText="Shifoxona turi"
                 requiredLabel={true}>
                 <Option className="" disabled selected>Turini tanlang </Option>
                 <Option className="" value="Xusisiy">Xususiy</Option>
@@ -125,7 +141,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               </Select>
             </div>
 
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -135,10 +151,10 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 }
                 className="mt-1"
                 name="employeeCount"
-                placeholder={"Hodimlar sonini kiriting"}
+                placeholder={"Xodimlar sonini kiriting"}
               />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -149,9 +165,10 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 className="mt-1"
                 name="licenseNumber"
                 placeholder={"Litsenziya raqamini kiriting"}
+
               />
             </div>
-            <div className="col-span-3">
+            {/* <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -163,8 +180,37 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 name="licenseExpiryDate"
                 placeholder={"Litsenziya amal qilish muddati kiriting"}
               />
+            </div> */}
+
+            <div className="2xl:col-span-3 col-span-4 min-w-[320px] pt-1">
+
+              <label htmlFor="firstName" className="text-gray-700">
+                Litsenziya amal qilish muddati
+                <span className="text-red-500">*</span>
+              </label>
+
+              <Space direction="vertical" style={{ width: '100%' }} className="mt-1" >
+                <Form.Item
+                  name="dateRange"
+                  rules={[
+                    { required: true, message: "Bu majburiy maydon!", validateTrigger: "onBlur", }
+                  ]}
+                >
+                  <DatePicker.RangePicker
+                    style={{ width: '100%' }}
+                    placement="topRight"
+                    onChange={handleDateChange}
+                    placeholder={["Boshlanish sanasi", "Tugash sanasi"]}
+                    format="DD-MM-YYYY"
+                    onBlur={handleBlur}
+                  />
+                </Form.Item>
+
+              </Space>
+
+
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -177,7 +223,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 placeholder={"Bank xisob raqamini kiriting"}
               />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <label className="text-gray-700 font-medium mt-2">
                 Xizmat turlari
                 <span className="text-red-500">*</span>
@@ -185,7 +231,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
 
               <SelectedData />
             </div>
-            <div className="col-span-3">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -219,6 +265,6 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
           </div>
         </form>
       </FormProvider>
-    </div>
+    </div >
   )
 }

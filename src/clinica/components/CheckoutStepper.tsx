@@ -1,5 +1,5 @@
 import { Steps, Panel } from 'rsuite';
-import React from 'react';
+import React, { useState } from 'react';
 import AddClinicaTab1 from './AddClinicaTabs/AddClinicaTab1';
 import AddClinicaTab2 from './AddClinicaTabs/AddClinicaTab2';
 
@@ -13,17 +13,21 @@ export default function CheckoutStepper() {
         setStep(nextStep < 0 ? 0 : nextStep > 3 ? 3 : nextStep);
     };
 
+    const [screenSize] = useState({
+        width: window.innerWidth
+    })
+
     const onNext = () => onChange(step + 1);
     const onPrevious = () => onChange(step - 1);
 
     return (
-        <div className='pt-9 ' >
+        <div className='2xl:pt-9 pt-5' >
 
             <Steps current={step} className='px-10'>
-                <Steps.Item title="Ma'lumotlar" />
-                <Steps.Item title="Profile" />
-                <Steps.Item title="Ish vaqti" />
-                <Steps.Item title="Account" />
+                <Steps.Item title={`${screenSize.width > 768 ? "Umumiy ma'lumotlar" : ""} `} />
+                <Steps.Item title={`${screenSize.width > 768 ? "Profile" : ""} `} />
+                <Steps.Item title={`${screenSize.width > 768 ? "Ish vaqti" : ""} `} />
+                <Steps.Item title={`${screenSize.width > 768 ? "Account" : ""} `} />
             </Steps>
 
             <hr />
@@ -31,7 +35,7 @@ export default function CheckoutStepper() {
             <Panel
                 className='px-5'
                 header={`
-                    ${step == 0 ? "Ma'lumotlar" : ""}  
+                    ${step == 0 ? "Umumiy ma'lumotlar" : ""}  
                     ${step == 1 ? "Profile" : ""} 
                     ${step == 2 ? "Ish vaqti" : ""}  
                     ${step == 3 ? "Account" : ""} 

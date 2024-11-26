@@ -13,13 +13,12 @@ type Props = {
 export default function Layout({ children, open, setOpen }: Props) {
     const [link] = useState<string>("Dashboard")
     return (
-        <div className="scrollbar-thin h-[100vh]  z-[10]">
+        <div className="scrollbar-thin ">
             <Sidebar open={open} setOpen={setOpen} />
             <Header open={open} setOpen={setOpen} link={link} />
-            <div className={`w-[95%] bg-secondary-light/80 mx-auto pb-5 mt-[105px] pt-1 duration-300  ${open ? "md:ml-64 md:max-w-[calc(100%-256px)]" : "md:ml-20 md:max-w-[calc(100%-80px)]"}`}>
+            <div className={`2xl:w-[95%] w-[100%] overflow-y-auto bg-gray-100  mx-auto pb-5 mt-[100px] pt-1 duration-300  ${open ? "md:ml-64 md:max-w-[calc(100%-256px)]" : "md:ml-20 md:max-w-[calc(100%-80px)]"}`}>
                 {children}
             </div>
-
         </div>
     )
 }

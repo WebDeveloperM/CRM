@@ -1,0 +1,4 @@
+.steps-container {
+    position: relative; /* Stepsni konteyner ichida joylashtirish uchun */
+    z-index: 0; /* Navbardan pastroq qiymat qo'ying */
+  }

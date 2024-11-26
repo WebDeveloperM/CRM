@@ -17,19 +17,21 @@ export default function CheckoutStepper() {
     const onPrevious = () => onChange(step - 1);
 
     return (
-        <div className='pt-9' >
+        <div className='pt-9 ' >
+
             <Steps current={step} className='px-10'>
-                <Steps.Item title="Umumiy ma'lumotlar" />
+                <Steps.Item title="Ma'lumotlar" />
                 <Steps.Item title="Profile" />
                 <Steps.Item title="Ish vaqti" />
                 <Steps.Item title="Account" />
             </Steps>
+
             <hr />
 
-            <Panel 
+            <Panel
                 className='px-5'
                 header={`
-                    ${step == 0 ? "Umumiy ma'lumotlar" : ""}  
+                    ${step == 0 ? "Ma'lumotlar" : ""}  
                     ${step == 1 ? "Profile" : ""} 
                     ${step == 2 ? "Ish vaqti" : ""}  
                     ${step == 3 ? "Account" : ""} 
@@ -42,3 +44,89 @@ export default function CheckoutStepper() {
         </div>
     );
 };
+
+
+
+// ___--------------------------------------------------------------------------------------------------------------------------------------------
+
+// import React, { useState } from 'react';
+// import { Button, message, Steps, theme } from 'antd';
+// import AddClinicaTab1 from './AddClinicaTabs/AddClinicaTab1';
+
+// const steps = [
+//     {
+//         title: 'First',
+//         content: <AddClinicaTab1 />,
+//     },
+//     {
+//         title: 'Second',
+//         content: 'Second-content',
+//     },
+//     {
+//         title: 'Last',
+//         content: 'Last-content',
+//     },
+//     {
+//         title: 'Last',
+//         content: 'Last-content',
+//     },
+// ];
+
+// export default function CheckoutStepper() {
+//     const { token } = theme.useToken();
+//     const [current, setCurrent] = useState(0);
+
+//     const next = () => {
+//         setCurrent(current + 1);
+//     };
+
+//     const prev = () => {
+//         setCurrent(current - 1);
+//     };
+
+//     const items = steps.map((item) => ({ key: item.title, title: item.title }));
+
+//     const contentStyle: React.CSSProperties = {
+//         lineHeight: '260px',
+//         textAlign: 'center',
+//         color: token.colorTextTertiary,
+//         backgroundColor: token.colorFillAlter,
+//         borderRadius: token.borderRadiusLG,
+//         border: `1px dashed ${token.colorBorder}`,
+//         marginTop: 16,
+//     };
+
+//     return (
+//         <div className='mx-auto max-w-[97%] pt-7'>
+//             <Steps current={current} items={items} className='' />
+//             <div style={contentStyle}>{steps[current].content}</div>
+//             <div style={{ marginTop: 24 }}>
+
+//                 {current > 0 && (
+//                     <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+//                         Previous
+//                     </Button>
+//                 )}
+//                 {current < steps.length - 1 && (
+//                     <Button type="primary" onClick={() => next()}>
+//                         Next
+//                     </Button>
+//                 )}
+
+//                 {current === steps.length - 1 && (
+//                     <Button type="primary" onClick={() => message.success('Processing complete!')}>
+//                         Done
+//                     </Button>
+//                 )}
+
+//             </div>
+//         </div>
+//     );
+// }
+
+
+
+// -----------------------------------------------------------------------------------------------------------------
+
+
+

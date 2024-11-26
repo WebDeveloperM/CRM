@@ -18,10 +18,10 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   }
 
   return (
-    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll mt-6 ">
+    <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll mt-6 ">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
-          <div className="grid grid-cols-12 gap-3 px-0.5">
+          <div className="2xl:grid grid-cols-12 gap-3 px-0.5">
             <div className="col-span-3">
               <FormInput
                 label={

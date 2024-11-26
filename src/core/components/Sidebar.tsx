@@ -58,7 +58,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             className={`text-gray-900  overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname.startsWith("/dashboard") ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary"}`}
                         />
                         <span
-                            className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/dashboard") ? "text-secondary" : ""} duration-200 ${!open ? "scale-0" : ""} text-gray-800`}
+                            className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/dashboard") ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800`}
                         >
                             Dashboard
                         </span>
@@ -72,7 +72,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             className={`text-gray-900 overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname.startsWith("/doctors") ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary "}`}
                         />
                         <span
-                            className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/doctors") ? "text-secondary" : ""} duration-200 ${!open ? "scale-0" : ""} text-gray-800`}
+                            className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/doctors") ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800`}
                         >
                             Doctors
                         </span>
@@ -86,7 +86,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             className={`text-gray-900 overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname === "/patients" ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary "}`}
                         />
                         <span
-                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/patients" ? "text-secondary" : ""} duration-200 ${!open ? "scale-0" : ""} text-gray-800`}
+                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/patients" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800`}
                         >
                             Patients
                         </span>
@@ -100,7 +100,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             className={`text-gray-900 overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname === "/appointments" ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary "}`}
                         />
                         <span
-                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/appointments" ? "text-secondary" : ""} duration-200 ${!open ? "scale-0" : ""} text-gray-800  ${pathname === "/appointments" ? "text-secondary" : ""}`}
+                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/appointments" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800  ${pathname === "/appointments" ? "text-secondary" : ""}`}
                         >
                             Appointments
                         </span>
@@ -114,7 +114,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             className={`text-gray-900 overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname === "/finances" ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary "}`}
                         />
                         <span
-                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/finances" ? "text-secondary" : ""} duration-200 ${!open ? "scale-0" : ""} text-gray-800  ${pathname === "/finances" ? "text-secondary" : ""}`}
+                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/finances" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800  ${pathname === "/finances" ? "text-secondary" : ""}`}
                         >
                             Finances
                         </span>
@@ -130,7 +130,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             className={`text-gray-900 overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname === "/settings" ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary "}`}
                         />
                         <span
-                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/settings" ? "text-secondary" : ""} duration-200 ${!open ? "scale-0" : ""} text-gray-800  ${pathname === "/settings" ? "text-secondary" : ""}`}
+                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/settings" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800  ${pathname === "/settings" ? "text-secondary" : ""}`}
                         >
                             Settings
                         </span>
@@ -145,12 +145,13 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             className={`text-gray-900 overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname === "/" ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary "}`}
                         />
                         <span
-                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/" ? "text-secondary" : ""} duration-200 ${!open ? "scale-0" : ""} text-gray-800  ${pathname === "/" ? "text-secondary" : ""}`}
+                            className={`origin-left text-base group-hover:text-secondary  ${pathname === "/" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800  ${pathname === "/" ? "text-secondary" : ""}`}
                         >
                             Signout
                         </span>
                     </Link>
                 </ul>
+
             </div>
         </div>
     )

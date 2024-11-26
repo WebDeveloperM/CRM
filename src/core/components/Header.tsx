@@ -55,10 +55,9 @@ const items: MenuProps['items'] = [
 
 export default function Header({ open, setOpen }: Prop) {
     const pathname = useLocation();
-    // const linkName = pathname.pathname.split("/");
 
     return (
-        <div className="fixed top-0 left-0 right-0 Z-[50]">
+        <div className="fixed top-0 left-0 right-0 z-10">
             <div className="w-full h-[57px] bg-white border-b border-gray-200 ">
                 <div className="flex justify-between sm:justify-between lg:justify-between  items-center mx-auto h-full px-4 min-w-1/2">
                     <div className="flex items-center gap-x-3  ">
@@ -108,7 +107,7 @@ export default function Header({ open, setOpen }: Prop) {
 
                         {/* <DropdownAnt children={
                                 } /> */}
-                        <Space direction="vertical">
+                        <Space direction="vertical" className="sm:block hidden">
                             <Space wrap>
                                 <Dropdown menu={{ items }} placement="bottomRight" arrow>
                                     <Button className="btn-ghost border-none btn-circle p-0 m-0">
@@ -116,7 +115,7 @@ export default function Header({ open, setOpen }: Prop) {
                                 </Dropdown>
                             </Space>
                         </Space>
-                        <FaBars className="text-secondary text-xl md:hidden translate-y-1/2  cursor-pointer  rounded-md" onClick={() => setOpen(!open)} />
+                        <FaBars className="text-secondary text-xl md:hidden translate-y-1/3  cursor-pointer  rounded-md" onClick={() => setOpen(!open)} />
 
 
                     </div>

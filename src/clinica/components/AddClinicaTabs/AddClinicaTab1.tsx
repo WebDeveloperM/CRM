@@ -182,7 +182,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               />
             </div> */}
 
-            <div className="2xl:col-span-3 col-span-4 min-w-[320px] pt-1">
+            <div className="2xl:col-span-3 col-span-4 pt-1">
 
               <label htmlFor="firstName" className="text-gray-700">
                 Litsenziya amal qilish muddati

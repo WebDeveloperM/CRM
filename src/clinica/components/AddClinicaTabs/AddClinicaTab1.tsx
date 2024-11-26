@@ -2,24 +2,23 @@ import FormInput from "@core/components/FormInput";
 import Select, { Option } from "@core/components/Select";
 import { FormProvider, useForm } from "react-hook-form";
 import { CreateClinica } from "src/clinica/types";
-
 import SelectedData from "../SelectedData";
 
+
 type Props = {
-  stepHandler: () => {}
+  onPrevious: (status: boolean) => void
+  onNext: (status: boolean) => void
 }
 
-
-export default function AddClinicaTab1({ stepHandler }: Props) {
+export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   const methods = useForm<CreateClinica>({ mode: "onBlur" })
-
 
   async function onSubmit() {
 
   }
 
   return (
-    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll 2xl:m-5 m-3 max-w-[90%] mt-6 mx-auto">
+    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll mt-6 ">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
           <div className="grid grid-cols-12 gap-3 px-0.5">
@@ -27,7 +26,7 @@ export default function AddClinicaTab1({ stepHandler }: Props) {
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
-                    Nomi
+                    Name
                     <span className="text-red-500">*</span>
                   </label>
                 }
@@ -201,23 +200,23 @@ export default function AddClinicaTab1({ stepHandler }: Props) {
             </div>
           </div>
 
-          <div className=" flex gap-2">
+          <div className=" flex gap-2 mt-5">
             <button
               disabled
+              onClick={() => onPrevious(true)}
               type="submit"
-              className="w-24 p-1.5 cursor-not-allowed my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+              className="w-24 p-1.5 cursor-not-allowed mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Oldingi
             </button>
             <button
-              onClick={() => stepHandler(true)}
+              onClick={() => onNext(true)}
               type="submit"
-              className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+              className="w-24 p-1.5  mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Keyingi
             </button>
           </div>
-
         </form>
       </FormProvider>
     </div>

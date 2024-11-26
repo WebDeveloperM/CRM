@@ -10,6 +10,7 @@ import AppointmentsRoutes from "./appointments/Routes"
 import NotFound from "@core/pages/NotFound"
 import "react-toastify/dist/ReactToastify.css"
 import ClinicaRoutes from "./clinica/Routes"
+import 'rsuite/dist/rsuite.min.css';
 
 export default function App() {
     return (

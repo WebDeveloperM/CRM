@@ -33,7 +33,8 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.23.1",
     "react-scrollbars-custom": "^4.1.1",
-    "react-toastify": "^10.0.6"
+    "react-toastify": "^10.0.6",
+    "rsuite": "^5.74.2"
   },
   "devDependencies": {
     "@types/humps": "^2.0.6",

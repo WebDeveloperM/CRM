@@ -16,7 +16,7 @@ export default function Layout({ children, open, setOpen }: Props) {
         <div className="scrollbar-thin h-[100vh]  z-[10]">
             <Sidebar open={open} setOpen={setOpen} />
             <Header open={open} setOpen={setOpen} link={link} />
-            <div className={`w-full mt-[105px] pt-0.5 duration-300  ${open ? "md:ml-64 md:max-w-[calc(100%-256px)]" : "md:ml-20 md:max-w-[calc(100%-80px)]"}`}>
+            <div className={`w-[95%] bg-secondary-light/80 mx-auto pb-5 mt-[105px] pt-1 duration-300  ${open ? "md:ml-64 md:max-w-[calc(100%-256px)]" : "md:ml-20 md:max-w-[calc(100%-80px)]"}`}>
                 {children}
             </div>
 

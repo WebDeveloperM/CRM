@@ -1,31 +1,44 @@
-import { SetStateAction, useState } from "react";
-import AddClinicaTab1 from "./AddClinicaTabs/AddClinicaTab1";
+import { Steps, Panel } from 'rsuite';
+import React from 'react';
+import AddClinicaTab1 from './AddClinicaTabs/AddClinicaTab1';
+import AddClinicaTab2 from './AddClinicaTabs/AddClinicaTab2';
+
+import AddClinicaTab3 from './AddClinicaTabs/AddClinicaTab3';
+import AddClinicaTab4 from './AddClinicaTabs/AddClinicaTab4';
 
 export default function CheckoutStepper() {
-    const [step1, setStep1] = useState<boolean>(false)
-    const [step2, setStep2] = useState<boolean>(false)
-    const [step3, setStep3] = useState<boolean>(false)
-    const [step4, setStep4] = useState<boolean>(false)
+    const [step, setStep] = React.useState(0);
 
+    const onChange = (nextStep: number) => {
+        setStep(nextStep < 0 ? 0 : nextStep > 3 ? 3 : nextStep);
+    };
 
-    console.log(setStep1, "22222222222222222222");
+    const onNext = () => onChange(step + 1);
+    const onPrevious = () => onChange(step - 1);
 
-    const handlerStep1 = (status) => {
-        setStep1(status)
-    }
     return (
-        <div className="z-50 mt-3">
-            <ul className="steps w-full my-2 -z-10">
-                <li className={`step step-secondary `}>Umumiy ma'lumotlar</li>
-                <li className={`step  `}>Profile</li>
-                <li className={`step  `}>Ish vaqti</li>
-                <li className={`step `}>Account</li>
-            </ul>
+        <div className='pt-9' >
+            <Steps current={step} className='px-10'>
+                <Steps.Item title="Umumiy ma'lumotlar" />
+                <Steps.Item title="Profile" />
+                <Steps.Item title="Ish vaqti" />
+                <Steps.Item title="Account" />
+            </Steps>
+            <hr />
 
-
-            <AddClinicaTab1 step1={step1} stepHandler={handlerStep1} />
-
-
+            <Panel 
+                className='px-5'
+                header={`
+                    ${step == 0 ? "Umumiy ma'lumotlar" : ""}  
+                    ${step == 1 ? "Profile" : ""} 
+                    ${step == 2 ? "Ish vaqti" : ""}  
+                    ${step == 3 ? "Account" : ""} 
+                `}>
+                {step == 0 ? <AddClinicaTab1 onPrevious={onPrevious} onNext={onNext} /> : ""}
+                {step == 1 ? <AddClinicaTab2 onPrevious={onPrevious} onNext={onNext} /> : ""}
+                {step == 2 ? <AddClinicaTab3 onPrevious={onPrevious} onNext={onNext} /> : ""}
+                {step == 3 ? <AddClinicaTab4 onPrevious={onPrevious} onNext={onNext} /> : ""}
+            </Panel>
         </div>
-    )
-}
+    );
+};

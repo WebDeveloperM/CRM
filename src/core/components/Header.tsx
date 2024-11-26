@@ -132,6 +132,7 @@ export default function Header({ open, setOpen }: Prop) {
                                 {routerNames.map((route) => (
                                     route.key == pathname.pathname ? route.value : ""
                                 ))}
+
                             </span>
                         </div>
                     </div>

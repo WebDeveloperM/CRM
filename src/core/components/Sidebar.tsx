@@ -52,10 +52,10 @@ export default function Sidebar({ open, setOpen }: Prop) {
                 <ul className="pt-1 scrollbar-thumb-indigo-50 scrollbar-white h-2/3 overflow-y-scroll">
                     <Link
                         to="/dashboard"
-                        className={`flex items-center   pl-[18px] text-secondary text-sm gap-x-4 cursor-pointer px-2 py-1.5 hover:bg-secondary/10 rounded-r-full group ${pathname.startsWith("/dashboard") ? "bg-secondary-light" : ""}`}
+                        className={`flex items-center pl-[18px] text-secondary text-sm gap-x-4 cursor-pointer px-2 py-1.5 hover:bg-secondary/10 rounded-r-full group ${pathname.startsWith("/dashboard") ? "bg-secondary-light" : ""}`}
                     >
                         <RiHome3Line
-                            className={`text-gray-900  overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname.startsWith("/dashboard") ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary "}`}
+                            className={`text-gray-900  overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname.startsWith("/dashboard") ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary"}`}
                         />
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/dashboard") ? "text-secondary" : ""} duration-200 ${!open ? "scale-0" : ""} text-gray-800`}

@@ -1,7 +1,5 @@
 import { useTranslation } from "react-i18next"
 import { clsx } from "clsx"
-// import { LanguageIcon } from "@heroicons/react/24/outline"
-// import Icon from "@core/components/Icon.tsx"
 import uzFlag from "../static/uz-flag.png"
 import ruFlag from "../static/ru-flag.png"
 

@@ -14,13 +14,13 @@
 }
 
 .rs-steps-item-status-process .rs-steps-item-icon {
-  background-color: #238781;
+  background-color: #13ace9;
   border-color: #238781;
 }
 
 /* Tugallangan (finished) holatdagi ikonka */
 .rs-steps-item-status-finish .rs-steps-item-icon {
-  background-color: #0da8f0;
+  background-color: #238781;
   padding: 7px 0;
 
 }

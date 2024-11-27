@@ -15,7 +15,7 @@ export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
   }
 
   return (
-    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll 2xl:m-5 m-3 max-w-[90%] mt-6 mx-auto">
+    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll mt-6">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
           {/* <div className="grid grid-cols-12 gap-3 px-0.5">
@@ -197,7 +197,7 @@ export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
             </div>
           </div> */}
 
-          <div className=" flex gap-2">
+          <div className="flex gap-2 justify-between">
             <button
 
               onClick={() => onPrevious(true)}

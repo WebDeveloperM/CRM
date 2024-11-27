@@ -168,47 +168,36 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
 
               />
             </div>
-            {/* <div className="2xl:col-span-3 col-span-4">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Litsenziya amal qilish muddati
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="licenseExpiryDate"
-                placeholder={"Litsenziya amal qilish muddati kiriting"}
-              />
-            </div> */}
-
-            <div className="2xl:col-span-3 col-span-4 pt-1">
-
-              <label htmlFor="firstName" className="text-gray-700">
-                Litsenziya amal qilish muddati
-                <span className="text-red-500">*</span>
-              </label>
-
-              <Space direction="vertical" style={{ width: '100%' }} className="mt-1" >
-                <Form.Item
-                  name="dateRange"
-                  rules={[
-                    { required: true, message: "Bu majburiy maydon!", validateTrigger: "onBlur", }
-                  ]}
-                >
-                  <DatePicker.RangePicker
-                    style={{ width: '100%' }}
-                    placement="topRight"
-                    onChange={handleDateChange}
-                    placeholder={["Boshlanish sanasi", "Tugash sanasi"]}
-                    format="DD-MM-YYYY"
-                    onBlur={handleBlur}
-                  />
-                </Form.Item>
-
-              </Space>
 
 
+            <div className="2xl:col-span-3 col-span-4">
+              <div className="pt-1">
+                <label htmlFor="firstName" className="text-gray-700">
+                  Litsenziya amal qilish muddati
+                  <span className="text-red-500">*</span>
+                </label>
+
+                <Space direction="vertical" style={{ width: '100%' }} className="mt-1" >
+                  <Form.Item
+                    name="dateRange"
+                    rules={[
+                      { required: true, message: "Bu majburiy maydon!", validateTrigger: "onBlur", }
+                    ]}
+                  >
+                    <DatePicker.RangePicker
+                      style={{ width: '100%' }}
+                      placement="topRight"
+                      onChange={handleDateChange}
+                      placeholder={["Boshlanish sanasi", "Tugash sanasi"]}
+                      format="DD-MM-YYYY"
+                      onBlur={handleBlur}
+                    />
+                  </Form.Item>
+
+                </Space>
+
+
+              </div>
             </div>
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
@@ -246,7 +235,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
             </div>
           </div>
 
-          <div className=" flex gap-2 mt-5">
+          <div className="flex gap-2 justify-between">
             <button
               disabled
               onClick={() => onPrevious(true)}

@@ -32,9 +32,9 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
 
 
-          <div className="relative h-[300px]">
+        
             <YandexMap onSelectPoint={handleSelectPoint} />
-          </div>
+        
           <br />
           <br />
           {coordinates && (

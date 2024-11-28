@@ -15,7 +15,7 @@ type Props = {
 
 export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   const methods = useForm<CreateClinica>({ mode: "onBlur" })
-  const [selectedDates, setSelectedDates] = useState<string[] | null>(null)
+  const [__, setSelectedDates] = useState<string[] | null>(null)
   const [_, setIsTouched] = useState(false);
 
 
@@ -31,7 +31,6 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
 
   }
 
-  console.log(selectedDates, "11111111111111111");
 
   return (
     <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 ">
@@ -254,7 +253,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
           </div>
         </form>
       </FormProvider>
-      {/* <YandexMaps /> */}
+   
     </div >
   )
 }

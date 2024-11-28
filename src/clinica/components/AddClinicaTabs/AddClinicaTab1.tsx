@@ -5,7 +5,6 @@ import { CreateClinica } from "src/clinica/types";
 import SelectedData from "../SelectedData";
 import { DatePicker, Form, Space } from 'antd';
 import { useState } from "react";
-import GoogleMapComponent from "../GoogleMapComponent";
 
 
 type Props = {
@@ -255,7 +254,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
           </div>
         </form>
       </FormProvider>
-      <GoogleMapComponent />
+      {/* <YandexMaps /> */}
     </div >
   )
 }

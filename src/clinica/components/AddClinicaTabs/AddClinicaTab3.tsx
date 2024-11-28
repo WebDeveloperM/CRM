@@ -1,7 +1,9 @@
 
 import { FormProvider, useForm } from "react-hook-form";
 import { CreateClinica } from "src/clinica/types";
-import GoogleMapComponent from "../GoogleMapComponent";
+
+import YandexMap from "../YandexMap";
+import { useState } from "react";
 
 type Props = {
   onPrevious: (status: boolean) => void
@@ -16,14 +18,32 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
   }
 
 
+  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+
+  const handleSelectPoint = (coords: { lat: number; lng: number }) => {
+    setCoordinates(coords);
+  };
+
+
   return (
     <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll  mt-6 ">
       <FormProvider {...methods}>
 
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
-          <GoogleMapComponent />
 
 
+          <div className="relative h-[300px]">
+            <YandexMap onSelectPoint={handleSelectPoint} />
+          </div>
+          <br />
+          <br />
+          {coordinates && (
+            <div style={{ marginTop: '20px' }}>
+              <p><strong>Latitude:</strong> {coordinates.lat}</p>
+              <p><strong>Longitude:</strong> {coordinates.lng}</p>
+            </div>
+          )}
+          <br />
           <div className="flex gap-2 justify-between">
             <button
               onClick={() => onPrevious(true)}

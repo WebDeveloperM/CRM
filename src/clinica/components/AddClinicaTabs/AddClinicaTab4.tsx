@@ -1,3 +1,5 @@
+import { useClinica } from "@clinica/context/ClinicaContext";
+import { useClinicRegister } from "@clinica/hooks/addClinic";
 import MathCaptcha from "@core/components/Captcha";
 import { SetStateAction, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -16,14 +18,25 @@ export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
   const [check, setCheck] = useState<SetStateAction<boolean>>(false)
   const [isVerified, setIsVerified] = useState(false)
   const { t, i18n } = useTranslation()
+  const { data } = useClinica();
 
+  const { mutateAsync, isLoading, error } = useClinicRegister()
 
   const handleCaptchaVerify = (status: boolean) => {
     setIsVerified(status);
 
   };
 
+  console.log(data, "----------");
+
   async function onSubmit() {
+
+    if (isLoading) return
+    if (error) {
+      toast.error(error.message)
+      return
+    }
+
     if (!check) {
       toast.warning(t("agreeTerms"))
       return
@@ -32,6 +45,11 @@ export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
       toast.warning(t("proveNotRobot"))
       return
     }
+
+    const response = await mutateAsync(data)
+    console.log(response, "0000000000");
+
+
   }
 
   return (
@@ -40,7 +58,7 @@ export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
 
 
-          <h4 className=" mb-5">Barcha kiritilgan ma`lumotni tasdiqlang</h4>
+          <h4 className=" mb-5">Barcha kiritilgan ma'lumotni tasdiqlang</h4>
           <div className="flex items-center my-5 font-semibold">
             <input
               id="link-radio"
@@ -77,7 +95,7 @@ export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
             </label>
           </div>
 
-          <div className="my-5 sm:max-w-[20%] ">
+          <div className="my-5 2xl:max-w-[20%] sm:max-w-[30%] ">
             <MathCaptcha onVerify={handleCaptchaVerify} />
           </div>
 

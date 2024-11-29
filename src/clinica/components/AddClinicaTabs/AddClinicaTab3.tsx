@@ -14,20 +14,17 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
   const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
   const { data, setData } = useClinica();
 
-  async function onSubmit() {
-
-  }
-
-
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>();
-
+  console.log(coordinates, "3333333333333333");
+  
   useEffect(() => {
-    setData({ ...data, geolocationLatitude: coordinates?.lat as number })
     setData({ ...data, geolocationLongitude: coordinates?.lng as number })
   }, [coordinates])
 
-  console.log(data.geolocationLatitude);
-  console.log(data.geolocationLongitude);
+  useEffect(() => {
+    setData({ ...data, geolocationLatitude: coordinates?.lat as number })
+  }, [coordinates])
+
 
   const handleSelectPoint = (coords: { lat: number; lng: number }) => {
     setCoordinates(coords);
@@ -38,7 +35,7 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
     <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll  mt-6 ">
       <FormProvider {...methods}>
 
-        <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
+        <form  action="" className="mb-7">
 
 
           <div className="relative h-[300px]">

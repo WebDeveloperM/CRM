@@ -20,17 +20,11 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   const { data, setData } = useClinica();
   const [openMedia, setOpenMedia] = useState(false);
 
-  async function onSubmit() {
-
-  }
-
-  console.log(data, "111111111111111111111");
-
 
   return (
     <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 ">
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
+        <form action="" className="mb-7">
           <div className="sm:grid grid-cols-12 gap-3 px-0.5">
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
@@ -152,8 +146,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, employeeCount: 0 })}
-                type="text"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, employeeCount: parseInt(e.target.value) })}
+                type="number"
                 className="mt-1"
                 name="employeeCount"
                 placeholder={"Xodimlar sonini kiriting"}
@@ -230,9 +224,19 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
             </div>
 
           </div>
+
+
+          <div className="mt-2 px-1">
+            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Ta'rif</label>
+            <textarea id="message" rows={3}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setData({ ...data, description: e.target.value })}
+              name="description"
+              className=" p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-1 focus:ring-secondary focus:outline-none block " placeholder="Shifoxona to'grisida ma'lomotlar..."></textarea>
+          </div>
+
           <p
             onClick={() => setOpenMedia(!openMedia)}
-            className="p-1.5 pl-3 my-4 cursor-pointer w-52 flex items-center gap-2 bg-primary hover:bg-primary/80 text-sm text-white rounded-md duration-200"
+            className="p-1.5 pl-3 my-4 cursor-pointer w-full sm:w-52 flex items-center gap-2 bg-primary hover:bg-primary/80 text-sm text-white rounded-md duration-200"
           >
             <FaLink />
             Ijtimoiy tarmoq manzillari
@@ -248,7 +252,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                   </div>
                   <input type="text" id="input-group-1"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, instagram: e.target.value })}
-                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 w-64" placeholder="Username kiriting" />
+                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 2xl:w-64 sm:w-48 w-full" placeholder="Username kiriting" />
                 </div>
               </div>
               <div className="col-span-2">
@@ -259,7 +263,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                   </div>
                   <input type="text" id="input-group-1"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, telegram: e.target.value })}
-                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block  ps-10 p-2.5 w-64" placeholder="Username kiriting" />
+                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block  ps-10 p-2.5 2xl:w-64 sm:w-48 w-full" placeholder="Username kiriting" />
                 </div>
               </div>
               <div className="col-span-2">
@@ -270,7 +274,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                   </div>
                   <input type="text" id="input-group-1"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, facebook: e.target.value })}
-                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 w-64" placeholder="Username kiriting" />
+                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 2xl:w-64 sm:w-48 w-full" placeholder="Username kiriting" />
                 </div>
               </div>
               <div className="col-span-4 mr-0.5">

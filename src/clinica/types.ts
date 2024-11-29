@@ -17,7 +17,7 @@ export type ClinicaFormData = {
     taxpayerIdNumber: string;
     stateRegistrationNumber: string;
     clinicType: string;
-    employeeCount: string;
+    employeeCount: number;
     licenseNumber: string;
     licenseExpiryDate: string;
     bankAccountDetails: string;

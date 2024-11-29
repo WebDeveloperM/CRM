@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom"
-import Clinica from "./pages/Clinica"
-import AddClinice from "./pages/AddClinice"
+import Clinica from "@clinica/pages/Clinica"
+import AddClinice from "@clinica/pages/AddClinice"
 import "./static/style.css"
 
 export default function ClinicaRoutes() {

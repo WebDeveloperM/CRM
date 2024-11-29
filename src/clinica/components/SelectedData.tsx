@@ -1,8 +1,8 @@
 import { Select, Space } from 'antd';
+import { useClinica } from '../context/ClinicaContext';
 
-const handleChange = (value: string[]) => {
-    console.log(`selected ${value}`);
-};
+
+
 
 const options = [
     {
@@ -45,6 +45,15 @@ const options = [
 
 
 export default function SelectedData() {
+    const { setData } = useClinica();
+
+    const handleChange = (value: string[]) => {
+        setData((prevData) => ({
+            ...prevData,
+            additionalServices: value,
+        }));
+    };
+
     return (
         <Select
             mode="multiple"

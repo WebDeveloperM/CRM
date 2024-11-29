@@ -1,5 +1,9 @@
+import MathCaptcha from "@core/components/Captcha";
+import { SetStateAction, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { CreateClinica } from "src/clinica/types";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { ClinicaFormData } from "src/clinica/types";
 
 type Props = {
   onPrevious: (status: boolean) => void
@@ -8,194 +12,75 @@ type Props = {
 
 
 export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
-  const methods = useForm<CreateClinica>({ mode: "onBlur" })
+  const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
+  const [check, setCheck] = useState<SetStateAction<boolean>>(false)
+  const [isVerified, setIsVerified] = useState(false)
+  const { t, i18n } = useTranslation()
+
+
+  const handleCaptchaVerify = (status: boolean) => {
+    setIsVerified(status);
+
+  };
 
   async function onSubmit() {
-
+    if (!check) {
+      toast.warning(t("agreeTerms"))
+      return
+    }
+    if (!isVerified) {
+      toast.warning(t("proveNotRobot"))
+      return
+    }
   }
 
   return (
     <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll mt-6">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
-          {/* <div className="grid grid-cols-12 gap-3 px-0.5">
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    1
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="clinicName"
-                placeholder={"Nomini kiriting"}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Manzili
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="string"
-                placeholder={"Manzil kiriting"}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Telefon nomer
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="phoneNumber"
-                placeholder={"Telefon raqam kiriting"}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Elektron pochta
-                  </label>
-                }
-                type="email"
-                className="mt-1"
-                name="email"
-                placeholder={"Elektron manzil kiriting"}
-                required={false}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Website nomi
-                  </label>
-                }
-                className="mt-1"
-                name="website"
-                placeholder={"Web sahifa kiriting"}
-                required={false}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    INN
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="taxpayerIdNumber"
-                placeholder={"INN raqam kiriting"}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    STIR
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="stateRegistrationNumber"
-                placeholder={"STIR raqami"}
-              />
-            </div>
-            <div className="col-span-3 px-0.5 mt-1">
-              <Select
-                className="bg-white focus:ring-1  focus:outline-none focus:ring-secondary select-sm mt-1" labelText="Turi"
-                requiredLabel={true}>
-                <Option className="" disabled selected>Turini tanlang </Option>
-                <Option className="" value="Xusisiy">Xususiy</Option>
-                <Option className="" value="Davlat tashkilot"> Davlat tashkiloti</Option>
-                <Option className="" value="Ixtisoslashtirilgan">Ixtisoslashtirilgan</Option>
-              </Select>
-            </div>
 
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Xodimlar soni
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="employeeCount"
-                placeholder={"Hodimlar sonini kiriting"}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Litsenziya raqami
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="licenseNumber"
-                placeholder={"Litsenziya raqamini kiriting"}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Litsenziya amal qilish muddati
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="licenseExpiryDate"
-                placeholder={"Litsenziya amal qilish muddati kiriting"}
-              />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Bank xisob raqami
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                className="mt-1"
-                name="bankAccountDetails"
-                placeholder={"Bank xisob raqamini kiriting"}
-              />
-            </div>
-            <div className="col-span-3">
-              <label className="text-gray-700 font-medium mt-2">
-                Xizmat turlari
-                <span className="text-red-500">*</span>
-              </label>
 
-              <SelectedData />
-            </div>
-            <div className="col-span-3">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Qayd qilish tizimi
-                  </label>
-                }
-                className="mt-1"
-                placeholder="Qayd qilish tizimini kiriting"
-                name="accountingSystem"
-                required={false}
-              />
-            </div>
-          </div> */}
+          <h4 className=" mb-5">Barcha kiritilgan ma`lumotni tasdiqlang</h4>
+          <div className="flex items-center my-5 font-semibold">
+            <input
+              id="link-radio"
+              type="radio"
+              onChange={(e) => setCheck(e.target.checked)}
+              className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 "
+            />
+            <label className="ms-2 text-sm  text-gray-900 ">
+              {i18n.language == 'ru' ?
+                <>
+                  Я согласен на использование и обработку моих персональных данных в соответствии
+                  <a
+                    target="_blank"
+                    href="https://lex.uz/docs/-4396419"
+                    className="text-secondary hover:underline ml-1"
+                    rel="noreferrer"
+                  >
+                    с требованиями законодательства.
+                  </a> </>
+                :
+                <>
+                  <a
+                    target="_blank"
+                    href="https://lex.uz/docs/-4396419"
+                    className="text-secondary hover:underline"
+                    rel="noreferrer"
+                  >
+                    Qonun talablari
+                  </a>
+                  doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik
+                  bildiraman.
+                </>
+              }
+            </label>
+          </div>
+
+          <div className="my-5 sm:max-w-[20%] ">
+            <MathCaptcha onVerify={handleCaptchaVerify} />
+          </div>
+
 
           <div className="flex gap-2 justify-between">
             <button
@@ -207,12 +92,11 @@ export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
               Oldingi
             </button>
             <button
-              disabled
               onClick={() => onNext(true)}
               type="submit"
-              className="w-24 p-1.5 my-2 mt-4 cursor-not-allowed bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+              className="w-24 p-1.5 my-2 mt-4  bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
-              Keyingi
+              Tasdiqlash
             </button>
           </div>
 

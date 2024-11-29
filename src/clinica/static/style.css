@@ -9,7 +9,7 @@
   background-color: #238781; /* Ikonka foni */
   color: #ffffff; 
   border-radius: 50%;/* Ikonka ichidagi matn rangi */
-  border-color: #238781;
+  border-color: #fff;
 
 }
 
@@ -25,6 +25,9 @@
 
 }
 
+.rs-steps-line {
+  background-color: #4caf50 !important; /* Yashil rang */
+}
 
 
 /* Focus holatida border rangini o'zgartirish */

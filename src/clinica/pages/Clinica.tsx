@@ -1,11 +1,10 @@
 import Layout from "@core/components/Layout";
 import { useState } from "react";
-import clinica from "../static/clinica1.jpg"
+import clinica from "@clinica/static/clinica1.jpg"
 import { Link } from "react-router-dom";
 
 export default function Clinica() {
     const [open, setOpen] = useState(true);
-    // const [filter, setFilter] = useState(false);
 
 
     return (

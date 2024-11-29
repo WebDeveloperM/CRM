@@ -19,3 +19,8 @@ export type ID = number | string
 export type ModelType = { id: ID }
 export type Pagination<T> = { count: number; results: T[] }
 export type Permissions = string[]
+
+export type BaseResponse = {
+    success: string
+    message: string
+}

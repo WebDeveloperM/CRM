@@ -1,5 +1,4 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { CreateClinica } from "src/clinica/types";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { useRef, useState } from "react";
@@ -7,6 +6,7 @@ import { toast } from "react-toastify";
 import { VscRefresh } from "react-icons/vsc";
 
 import { ConfigProvider, Flex, Input, Typography } from 'antd';
+import { ClinicaFormData } from "src/clinica/types";
 
 
 type Props = {
@@ -15,9 +15,10 @@ type Props = {
 }
 
 export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
-  const methods = useForm<CreateClinica>({ mode: "onBlur" })
-  const [file, setFile] = useState("")
-  const [_, setFileSuccess] = useState(false)
+  const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
+  const [file, setFile] = useState<File | null>(null);
+  const [image, setImage] = useState<string | null>(null);
+  const cropperRef = useRef<HTMLImageElement>(null);
 
   async function onSubmit() {
 
@@ -28,25 +29,29 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
     },
   };
 
-  const [image, setImage] = useState<string | null>(null);
-  const cropperRef = useRef<HTMLImageElement>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Foydalanuvchi tanlagan fayl
+    const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setImage(reader.result as string); // Base64 formatdagi tasvirni o'rnatish
+        setImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
+
   const getCropData = () => {
     const cropper = (cropperRef.current as any)?.cropper;
     if (cropper) {
-      setFile(cropper.getCroppedCanvas().toDataURL())
-      setFileSuccess(true)
-      toast.success("Logotip muvaffaqiyatli qo'shildi")
+      cropper.getCroppedCanvas().toBlob((blob: Blob | null) => {
+        if (blob) {
+          const croppedFile = new File([blob], "cropped-image.png", { type: "image/png" });
+          setFile(croppedFile);
+          console.log(croppedFile, "Cropped File");
+          toast.success("Logotip muvaffaqiyatli qo'shildi");
+        }
+      }, 'image/png');
     }
   };
 
@@ -94,10 +99,9 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
 
           {file ?
             <>
-              <img src={file} alt="" className="w-40 rounded-xl" />
+              <img src={URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" />
               <button onClick={() => {
                 setImage(null)
-                setFile("")
               }} className="w- p-1.5  bg-slate-400 mt-2 text-sm text-white rounded-md duration-200 flex items-center gap-2">
                 <VscRefresh />
                 Rasmni yangilash
@@ -125,11 +129,11 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
           </ConfigProvider>
 
 
-          <div className="form-control mt-4">
-            <label className="cursor-pointer label sm:max-w-[13.5%] max-w-[55%]">
-              <input type="checkbox" defaultChecked className="checkbox checkbox-xs checkbox-secondary" />
-              <span className="label-text">Asosiy logo sifatida o'rnatish</span>
-            </label>
+          <div className="flex items-start my-6 ml-1">
+            <div className="flex items-center h-5">
+              <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " required />
+            </div>
+            <label className="ms-2 text-sm font-medium text-gray-900">Asosiy logo sifatida o'rnatish</label>
           </div>
 
           <div className="flex gap-2 justify-between">
@@ -142,7 +146,6 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
             </button>
             <button
               onClick={() => onNext(true)}
-              type="submit"
               className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Keyingi

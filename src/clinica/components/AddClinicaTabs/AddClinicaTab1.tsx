@@ -1,12 +1,14 @@
 import FormInput from "@core/components/FormInput";
-import Select, { Option } from "@core/components/Select";
 import { FormProvider, useForm } from "react-hook-form";
-import { CreateClinica } from "src/clinica/types";
+import { ClinicaFormData } from "src/clinica/types";
 import SelectedData from "../SelectedData";
-import { DatePicker, Form, Space } from 'antd';
+import { useClinica } from "../../context/ClinicaContext";
+import { FaLink } from "react-icons/fa";
 import { useState } from "react";
-
-
+import instagram from "../../static/instagram.webp";
+import telegram from "../../static/telegram.png";
+import facebook from "../../static/facebook.png";
+import youtube from "../../static/youtube.png";
 type Props = {
   onPrevious: (status: boolean) => void
   onNext: (status: boolean) => void
@@ -14,22 +16,15 @@ type Props = {
 
 
 export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
-  const methods = useForm<CreateClinica>({ mode: "onBlur" })
-  const [__, setSelectedDates] = useState<string[] | null>(null)
-  const [_, setIsTouched] = useState(false);
+  const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
+  const { data, setData } = useClinica();
+  const [openMedia, setOpenMedia] = useState(false);
 
-
-  const handleDateChange = (dates: any, dateStrings: [string, string]) => {
-    console.log(dates);
-    setSelectedDates(dateStrings)
-  };
-
-  const handleBlur = () => {
-    setIsTouched(true)
-  };
   async function onSubmit() {
 
   }
+
+  console.log(data, "111111111111111111111");
 
 
   return (
@@ -45,6 +40,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, clinicName: e.target.value })}
                 className="mt-1"
                 name="clinicName"
                 placeholder={"Shifoxona nomini kiriting"}
@@ -58,8 +54,9 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, legalAddress: e.target.value })}
                 className="mt-1"
-                name="string"
+                name="legalAddress"
                 placeholder={"Manzil kiriting"}
               />
             </div>
@@ -71,6 +68,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, phoneNumber: e.target.value })}
                 className="mt-1"
                 name="phoneNumber"
                 placeholder={"Telefon raqam kiriting"}
@@ -83,6 +81,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     Elektron pochta
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, email: e.target.value })}
                 type="email"
                 className="mt-1"
                 name="email"
@@ -97,6 +96,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     Website nomi
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, website: e.target.value })}
                 className="mt-1"
                 name="website"
                 placeholder={"Web sahifa kiriting"}
@@ -111,6 +111,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, taxpayerIdNumber: e.target.value })}
                 className="mt-1"
                 name="taxpayerIdNumber"
                 placeholder={"INN raqam kiriting"}
@@ -124,20 +125,23 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, stateRegistrationNumber: e.target.value })}
                 className="mt-1"
                 name="stateRegistrationNumber"
                 placeholder={"STIR raqami"}
               />
             </div>
+
             <div className="2xl:col-span-3 col-span-4 px-0.5 mt-1">
-              <Select
-                className="bg-white focus:ring-1  focus:outline-none focus:ring-secondary select-sm mt-1" labelText="Shifoxona turi"
-                requiredLabel={true}>
-                <Option className="" disabled selected>Turini tanlang </Option>
-                <Option className="" value="Xusisiy">Xususiy</Option>
-                <Option className="" value="Davlat tashkilot"> Davlat tashkiloti</Option>
-                <Option className="" value="Ixtisoslashtirilgan">Ixtisoslashtirilgan</Option>
-              </Select>
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Shifoxona turi</label>
+              <select id="countries" name="clinicType"
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setData({ ...data, clinicType: e.target.value })}
+                className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  ">
+                <option selected>Shifoxona turini tanlang</option>
+                <option value="Xususiy">Xususiy</option>
+                <option value="Davlat tashkiloti">Davlat tashkiloti</option>
+                <option value="Ixtisoslashtirilgan">Ixtisoslashtirilgan</option>
+              </select>
             </div>
 
             <div className="2xl:col-span-3 col-span-4">
@@ -148,6 +152,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, employeeCount: 0 })}
+                type="text"
                 className="mt-1"
                 name="employeeCount"
                 placeholder={"Xodimlar sonini kiriting"}
@@ -161,6 +167,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, licenseNumber: e.target.value })}
                 className="mt-1"
                 name="licenseNumber"
                 placeholder={"Litsenziya raqamini kiriting"}
@@ -168,36 +175,22 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               />
             </div>
 
-
             <div className="2xl:col-span-3 col-span-4">
-              <div className="pt-1">
-                <label htmlFor="firstName" className="text-gray-700">
-                  Litsenziya amal qilish muddati
-                  <span className="text-red-500">*</span>
-                </label>
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    Litsenziya amal qilish muddati
+                    <span className="text-red-500">*</span>
+                  </label>
+                }
 
-                <Space direction="vertical" style={{ width: '100%' }} className="mt-1" >
-                  <Form.Item
-                    name="dateRange"
-                    rules={[
-                      { required: true, message: "Bu majburiy maydon!", validateTrigger: "onBlur", }
-                    ]}
-                  >
-                    <DatePicker.RangePicker
-                      style={{ width: '100%' }}
-                      placement="topRight"
-                      onChange={handleDateChange}
-                      placeholder={["Boshlanish sanasi", "Tugash sanasi"]}
-                      format="DD-MM-YYYY"
-                      onBlur={handleBlur}
-                    />
-                  </Form.Item>
-
-                </Space>
-
-
-              </div>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, licenseExpiryDate: e.target.value })}
+                className="mt-1"
+                name="licenseExpiryDate"
+                type="date"
+              />
             </div>
+
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
@@ -206,12 +199,14 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, bankAccountDetails: e.target.value })}
                 className="mt-1"
                 name="bankAccountDetails"
                 placeholder={"Bank xisob raqamini kiriting"}
               />
             </div>
-            <div className="2xl:col-span-3 col-span-4">
+
+            <div className="2xl:col-span-3 col-span-4 mt-1">
               <label className="text-gray-700 font-medium mt-2">
                 Xizmat turlari
                 <span className="text-red-500">*</span>
@@ -226,26 +221,83 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     Qayd qilish tizimi
                   </label>
                 }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, accountingSystem: e.target.value })}
                 className="mt-1"
                 placeholder="Qayd qilish tizimini kiriting"
                 name="accountingSystem"
                 required={false}
               />
             </div>
+
           </div>
+          <p
+            onClick={() => setOpenMedia(!openMedia)}
+            className="p-1.5 pl-3 my-4 cursor-pointer w-52 flex items-center gap-2 bg-primary hover:bg-primary/80 text-sm text-white rounded-md duration-200"
+          >
+            <FaLink />
+            Ijtimoiy tarmoq manzillari
+          </p>
+
+          {openMedia ?
+            <div className="sm:grid grid-cols-10 gap-2">
+              <div className="col-span-2 ml-0.5">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Instagram</label>
+                <div className="relative mb-2">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <img src={instagram} alt="" className="w-5 h-5" />
+                  </div>
+                  <input type="text" id="input-group-1"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, instagram: e.target.value })}
+                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 w-64" placeholder="Username kiriting" />
+                </div>
+              </div>
+              <div className="col-span-2">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telegram</label>
+                <div className="relative mb-6">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <img src={telegram} alt="" className="w-5 h-5" />
+                  </div>
+                  <input type="text" id="input-group-1"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, telegram: e.target.value })}
+                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block  ps-10 p-2.5 w-64" placeholder="Username kiriting" />
+                </div>
+              </div>
+              <div className="col-span-2">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Facebook</label>
+                <div className="relative mb-6">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <img src={facebook} alt="" className="w-5 h-5" />
+                  </div>
+                  <input type="text" id="input-group-1"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, facebook: e.target.value })}
+                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 w-64" placeholder="Username kiriting" />
+                </div>
+              </div>
+              <div className="col-span-4 mr-0.5">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Youtube</label>
+                <div className="relative mb-6">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <img src={youtube} alt="" className="w-5 h-5" />
+                  </div>
+                  <input type="text" id="input-group-1"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, youtube: e.target.value })}
+                    className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 w-full" placeholder="Havola kiriting" />
+                </div>
+              </div>
+            </div>
+            : null}
+
 
           <div className="flex gap-2 justify-between">
             <button
               disabled
               onClick={() => onPrevious(true)}
-              type="submit"
               className="w-24 p-1.5 cursor-not-allowed mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Oldingi
             </button>
             <button
               onClick={() => onNext(true)}
-              type="submit"
               className="w-24 p-1.5  mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Keyingi
@@ -253,7 +305,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
           </div>
         </form>
       </FormProvider>
-   
+
     </div >
   )
 }

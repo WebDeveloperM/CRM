@@ -1,4 +1,4 @@
-import { ModelType } from "@core/types.ts"
+import { BaseResponse, ModelType } from "@core/types.ts"
 
 export type BaseUserType = ModelType & {
     email: string
@@ -8,20 +8,30 @@ export type BaseUserType = ModelType & {
 }
 
 
-export type CreateClinica = {
-    clinicName: string
-    legalAddress: string
-    actualAddress: string
-    phoneNumber: string
-    email: string
-    website: string
-    taxpayerIdNumber: string
-    stateRegistrationNumber: string
-    clinicType: string
-    employeeCount: number
-    licenseNumber: string
-    licenseExpiryDate: string
-    bankAccountDetails: string
-    additionalServices: [string]
-    accountingSystem: string
+export type ClinicaFormData = {
+    clinicName: string;
+    legalAddress: string;
+    phoneNumber: string;
+    email: string;
+    website: string;
+    taxpayerIdNumber: string;
+    stateRegistrationNumber: string;
+    clinicType: string;
+    employeeCount: string;
+    licenseNumber: string;
+    licenseExpiryDate: string;
+    bankAccountDetails: string;
+    additionalServices: number[];
+    accountingSystem: string;
+    instagram: string;
+    telegram: string;
+    facebook: string;
+    youtube: string;
+    geolocationLatitude?: number | undefined;
+    geolocationLongitude?: number | undefined;
+    description: string;
+}
+
+export type ClinicaFormDataResponse = BaseResponse & {
+    data?: []
 }

@@ -27,7 +27,7 @@ export default function CheckoutStepper() {
                 <Steps.Item title={`${screenSize.width > 768 ? "Umumiy ma'lumotlar" : ""} `} />
                 <Steps.Item title={`${screenSize.width > 768 ? "Profile" : ""} `} />
                 <Steps.Item title={`${screenSize.width > 768 ? "Manzil" : ""} `} />
-                <Steps.Item title={`${screenSize.width > 768 ? "Account" : ""} `} />
+                <Steps.Item title={`${screenSize.width > 768 ? "Tasdiqlash" : ""} `} />
             </Steps>
 
             <hr />
@@ -38,7 +38,7 @@ export default function CheckoutStepper() {
                     ${step == 0 ? "Umumiy ma'lumotlar" : ""}  
                     ${step == 1 ? "Profile" : ""} 
                     ${step == 2 ? "Manzil" : ""}  
-                    ${step == 3 ? "Account" : ""} 
+                    ${step == 3 ? "Tasdiqlash" : ""} 
                 `}>
                 {step == 0 ? <AddClinicaTab1 onPrevious={onPrevious} onNext={onNext} /> : ""}
                 {step == 1 ? <AddClinicaTab2 onPrevious={onPrevious} onNext={onNext} /> : ""}

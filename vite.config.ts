@@ -13,6 +13,7 @@ export default defineConfig({
             "@patients": `${path.resolve(__dirname, "./src/patients/")}`,
             "@users": `${path.resolve(__dirname, "./src/users/")}`,
             "@appointments": `${path.resolve(__dirname, "./src/appointments/")}`,
+            "@clinica": `${path.resolve(__dirname, "./src/clinica/")}`,
         },
     },
 

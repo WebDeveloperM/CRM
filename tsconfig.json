@@ -23,8 +23,13 @@
     /* Alias imports */
     "baseUrl": ".",
     "paths": {
-      "@core/*": ["./src/core/*"],
-      "@users/*": ["./src/users/*"],
+      "@core/*": ["src/core/*"],
+      "@dashboard/*": ["src/dashboard/*"],
+      "@doctors/*": ["src/doctors/*"],
+      "@patients/*": ["src/patients/*"],
+      "@users/*": ["src/users/*"],
+      "@appointments/*": ["src/appointments/*"],
+      "@clinica/*": ["src/clinica/*"]
     }
   },
   "include": ["src"],

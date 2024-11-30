@@ -130,7 +130,7 @@ export default function AddDoctorTab1() {
                 // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, website: e.target.value })}
                 className="mt-1"
                 name="website"
-                placeholder={"Web sahifa kiriting"}
+                placeholder={"Ishlash muddati"}
                 required={false}
               />
             </div>

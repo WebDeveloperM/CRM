@@ -32,7 +32,7 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
       <FormProvider {...methods}>
 
         <form action="" className="mb-7">
-          <div className="h-[300px] mb-[60px]">
+          <div className="h-[400px] mb-[60px]">
             <YandexMap onSelectPoint={handleSelectPoint} />
           </div>
           <br /><br /><br /><br />

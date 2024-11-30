@@ -14,26 +14,42 @@ const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
   const [map, setMap] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
 
+  // useEffect(() => {
+  //   const initializeMap = async () => {
+  //     const ymaps = (window as any).ymaps;
+
+  //     await ymaps.ready()
+
+  //     const mapInstance = new ymaps.Map(
+  //       mapRef.current,
+  //       {
+  //         center: [41.311081, 69.24056],
+  //         zoom: 10,
+  //       }
+  //     );
+
+  //     setMap(mapInstance);
+  //   };
+
+  //   initializeMap();
+  // }, []);
+
   useEffect(() => {
-    const initializeMap = async () => {
+    const initializeMap = () => {
       const ymaps = (window as any).ymaps;
 
-      await ymaps.ready()
-
-      const mapInstance = new ymaps.Map(
-        mapRef.current,
-        {
+      ymaps.ready(() => {
+        const mapInstance = new ymaps.Map(mapRef.current, {
           center: [41.311081, 69.24056],
           zoom: 10,
-        }
-      );
+        });
 
-      setMap(mapInstance);
+        setMap(mapInstance);
+      });
     };
 
     initializeMap();
   }, []);
-
   const handleMapClick = (event: any) => {
     const coords = event.get('coords');
     if (marker) {
@@ -76,7 +92,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
   return (
     <div
       ref={mapRef}
-      className='absolute top-[-470px]'
+      // className='absolute top-[-470px]'
       style={{ width: '100%', height: '400px' }}
     />
   );

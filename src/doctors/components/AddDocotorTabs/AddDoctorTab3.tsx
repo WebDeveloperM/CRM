@@ -120,7 +120,7 @@ export default function AddDoctorTab3() {
 
       <FormProvider {...methods}>
         <form action="" className="mb-7" onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className=" max-w-[30%]">
+          <div className=" sm:max-w-[30%]">
             <div className="w-full">
               <FormInput
                 label={

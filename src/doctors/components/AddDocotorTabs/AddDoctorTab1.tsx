@@ -69,9 +69,9 @@ export default function AddDoctorTab1() {
 
   }
   return (
-    <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 " >
+    <div className="overflow-x-scroll rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 " >
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
+        <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7 ">
           <div className="sm:grid grid-cols-12 gap-3 px-0.5">
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
@@ -88,7 +88,7 @@ export default function AddDoctorTab1() {
                 placeholder={"Shifokor ism va familiyasi"}
               />
             </div>
-            <div className="2xl:col-span-3 col-span-4">
+            <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -103,7 +103,7 @@ export default function AddDoctorTab1() {
                 placeholder={"Manzil kiriting"}
               />
             </div>
-            <div className="2xl:col-span-3 col-span-4">
+            <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -119,7 +119,7 @@ export default function AddDoctorTab1() {
               />
             </div>
 
-            <div className="2xl:col-span-3 col-span-4">
+            <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -135,20 +135,20 @@ export default function AddDoctorTab1() {
               />
             </div>
 
-            <div className="2xl:col-span-3 col-span-4 mt-1">
+            <div className="2xl:col-span-3 col-span-4 sm:mt-1 mt-2">
               <p className="text-gray-700 pb-1">
                 Kirish imkoniyati (08:00 - 20:00)
               </p>
 
               <Space direction="vertical" >
-                <TimePicker.RangePicker className="w-[338px]"
+                <TimePicker.RangePicker className="sm:w-[338px] w-[100%]"
                   onChange={onChange}
                   defaultValue={[dayjs('08:00', 'HH:mm'), dayjs('20:00', 'HH:mm')]}
                   placeholder={['Boshlash', 'Tugash']}
                 />
               </Space>
             </div>
-            <div className="2xl:col-span-3 col-span-4 pt-2">
+            <div className="2xl:col-span-3 col-span-4 mt-2">
               <div className="flex flex-col items-start space-y-2">
                 <label className="">Jinsi:</label>
 
@@ -180,7 +180,7 @@ export default function AddDoctorTab1() {
               </div>
             </div>
 
-            <div className="2xl:col-span-3 col-span-4">
+            <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -196,7 +196,7 @@ export default function AddDoctorTab1() {
               />
             </div>
 
-            <div className="2xl:col-span-3 col-span-4 px-0.5 mt-1">
+            <div className="2xl:col-span-3 col-span-4 px-0.5 sm:mt-1 mt-2">
               <label className="block mb-1 text-sm font-medium text-gray-900 ">Shifokor imkoniyati</label>
               <select id="countries" name="clinicType"
                 // onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setData({ ...data, clinicType: e.target.value })}

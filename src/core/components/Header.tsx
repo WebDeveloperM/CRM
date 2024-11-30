@@ -39,8 +39,8 @@ export default function Header({ open, setOpen }: Prop) {
                 <div className="flex justify-between sm:justify-between lg:justify-between  items-center mx-auto h-full px-4 min-w-1/2">
                     <div className="flex items-center gap-x-3  ">
                         <img src={logo} alt="logo" className={`w-[55px] cursor-pointer `} onClick={() => setOpen(!open)} />
-                        <h1 className={`text-gray-500 duration-200 font-semibold text-xl  origin-left tracking-widest ${open ? "sm:block hidden" : " sm:hidden block "}`}>UzLabs.uz</h1>
-                        <h1 className={`text-gray-500 duration-200  font-semibold text-xl  ${!open ? "hidden" : "sm:hidden  "} origin-left tracking-widest `}>UzLabs.uz</h1>
+                        <h1 className={`text-gray-700 duration-200 font-semibold text-xl  origin-left tracking-widest ${open ? "sm:block hidden" : " sm:hidden block "}`}>UzLabs.uz</h1>
+                        <h1 className={`text-gray-700 duration-200  font-semibold text-xl  ${!open ? "hidden" : "sm:hidden  "} origin-left tracking-widest `}>UzLabs.uz</h1>
 
 
                         <div className={`text-white text-sm font-semi tracking-wider ml-[1%] 2xl:ml-[2%] hidden lg:inline-block 

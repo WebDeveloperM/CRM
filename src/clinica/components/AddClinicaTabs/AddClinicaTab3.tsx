@@ -18,12 +18,9 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
   console.log(coordinates, "3333333333333333");
   
   useEffect(() => {
-    setData({ ...data, geolocationLongitude: coordinates?.lng as number })
+    setData({ ...data, geolocationLongitude: coordinates?.lng as number, geolocationLatitude: coordinates?.lat as number })
   }, [coordinates])
 
-  useEffect(() => {
-    setData({ ...data, geolocationLatitude: coordinates?.lat as number })
-  }, [coordinates])
 
 
   const handleSelectPoint = (coords: { lat: number; lng: number }) => {

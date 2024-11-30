@@ -1,7 +1,6 @@
 import FormInput from "@core/components/FormInput";
 import { FormProvider, useForm } from "react-hook-form";
 import { ClinicaFormData } from "src/clinica/types";
-import SelectedData from "../SelectedData";
 import { useClinica } from "../../context/ClinicaContext";
 import { FaLink } from "react-icons/fa";
 import { useState } from "react";
@@ -9,10 +8,14 @@ import instagram from "../../static/instagram.webp";
 import telegram from "../../static/telegram.png";
 import facebook from "../../static/facebook.png";
 import youtube from "../../static/youtube.png";
+import TreeSelectComponent from "../TreeSelect";
+import { useWorkerPositions } from "@clinica/hooks/addClinic";
+
 type Props = {
   onPrevious: (status: boolean) => void
   onNext: (status: boolean) => void
 }
+
 
 
 export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
@@ -20,11 +23,24 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   const { data, setData } = useClinica();
   const [openMedia, setOpenMedia] = useState(false);
 
+  const workerPositions = useWorkerPositions()
+  const error = workerPositions.error
+
+  if (!workerPositions.data || !workerPositions.data.data) {
+    return <p>Loading worker data...</p>; // Yuklanayotgan holat
+  }
+  const handleSelection = (selected: number[]) => {
+    console.log("Selected IDs:", selected);
+  };
+
+  // const handleSelection = (selected: number[]) => {
+  //   console.log("Selected IDs:", selected);
+  // };
 
   return (
-    <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 ">
+    <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 " >
       <FormProvider {...methods}>
-        <form action="" className="mb-7">
+        <div className="mb-7">
           <div className="sm:grid grid-cols-12 gap-3 px-0.5">
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
@@ -34,6 +50,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                value={data.clinicName}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, clinicName: e.target.value })}
                 className="mt-1"
                 name="clinicName"
@@ -48,6 +65,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                value={data.legalAddress}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, legalAddress: e.target.value })}
                 className="mt-1"
                 name="legalAddress"
@@ -62,6 +80,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                value={data.phoneNumber}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, phoneNumber: e.target.value })}
                 className="mt-1"
                 name="phoneNumber"
@@ -75,6 +94,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     Elektron pochta
                   </label>
                 }
+                value={data.email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, email: e.target.value })}
                 type="email"
                 className="mt-1"
@@ -93,6 +113,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, website: e.target.value })}
                 className="mt-1"
                 name="website"
+                value={data.website}
                 placeholder={"Web sahifa kiriting"}
                 required={false}
               />
@@ -105,6 +126,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                value={data.taxpayerIdNumber}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, taxpayerIdNumber: e.target.value })}
                 className="mt-1"
                 name="taxpayerIdNumber"
@@ -119,6 +141,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                value={data.stateRegistrationNumber}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, stateRegistrationNumber: e.target.value })}
                 className="mt-1"
                 name="stateRegistrationNumber"
@@ -130,6 +153,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Shifoxona turi</label>
               <select id="countries" name="clinicType"
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setData({ ...data, clinicType: e.target.value })}
+                value={data.clinicType}
                 className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  ">
                 <option selected>Shifoxona turini tanlang</option>
                 <option value="Xususiy">Xususiy</option>
@@ -146,6 +170,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                value={data.employeeCount.toString()}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, employeeCount: parseInt(e.target.value) })}
                 type="number"
                 className="mt-1"
@@ -161,6 +186,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                value={data.licenseNumber}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, licenseNumber: e.target.value })}
                 className="mt-1"
                 name="licenseNumber"
@@ -177,7 +203,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
-
+                value={data.licenseExpiryDate}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, licenseExpiryDate: e.target.value })}
                 className="mt-1"
                 name="licenseExpiryDate"
@@ -193,6 +219,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                value={data.bankAccountDetails}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, bankAccountDetails: e.target.value })}
                 className="mt-1"
                 name="bankAccountDetails"
@@ -206,7 +233,13 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 <span className="text-red-500">*</span>
               </label>
 
-              <SelectedData />
+              <TreeSelectComponent
+                data={workerPositions.data?.data}
+                language="uz"
+                placeholder="Xodimlarni tanlang"
+                onChange={handleSelection}
+              />
+
             </div>
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
@@ -307,9 +340,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               Keyingi
             </button>
           </div>
-        </form>
+        </div>
       </FormProvider>
-
     </div >
   )
 }

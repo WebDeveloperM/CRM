@@ -14,6 +14,8 @@ type Props = {
   onNext: (status: boolean) => void
 }
 
+
+
 export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
   const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
   const [file, setFile] = useState<File | null>(null);

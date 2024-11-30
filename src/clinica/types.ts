@@ -1,4 +1,5 @@
 import { BaseResponse, ModelType } from "@core/types.ts"
+import { WorkerData } from "./components/TreeSelect"
 
 export type BaseUserType = ModelType & {
     email: string
@@ -32,6 +33,30 @@ export type ClinicaFormData = {
     description: string;
 }
 
+interface DataNodeUz {
+    id: number;
+    nameUz: string;
+}
+
+interface DataNodeRu {
+    id: number;
+    nameRu: string;
+}
+
+
+export type WorkerDataTypeUz = {
+    [key: string]: DataNodeUz
+}
+export type WorkerDataTypeRu = {
+    [key: string]: DataNodeRu
+}
+
+
 export type ClinicaFormDataResponse = BaseResponse & {
     data?: []
 }
+
+export type WorkerPositionsResponse = BaseResponse & {
+    data?: [{ uz: WorkerDataTypeUz, rus: WorkerDataTypeRu }]
+}
+

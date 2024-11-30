@@ -24,7 +24,6 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   const [openMedia, setOpenMedia] = useState(false);
 
   const workerPositions = useWorkerPositions()
-  const error = workerPositions.error
 
   if (!workerPositions.data || !workerPositions.data.data) {
     return <p>Loading worker data...</p>; // Yuklanayotgan holat

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { TreeSelect } from "antd";
 import type { TreeSelectProps } from "antd";
-import { WorkerDataTypeRu, WorkerDataTypeUz } from "@clinica/types";
+import { WorkerDataByLanguage } from "@clinica/types";
 
 interface DataNode {
   id: number;
@@ -14,8 +14,8 @@ export interface WorkerData {
 
 interface TreeSelectComponentProps {
   data: {
-    uz: WorkerDataTypeUz;
-    rus: WorkerDataTypeRu;
+    uz: WorkerDataByLanguage;
+    rus: WorkerDataByLanguage;
   }
   language: "uz" | "rus"; // Tanlangan til
   placeholder?: string;   // Tanlov matni

@@ -1,5 +1,4 @@
 import { BaseResponse, ModelType } from "@core/types.ts"
-import { WorkerData } from "./components/TreeSelect"
 
 export type BaseUserType = ModelType & {
     email: string
@@ -33,30 +32,51 @@ export type ClinicaFormData = {
     description: string;
 }
 
-interface DataNodeUz {
-    id: number;
-    nameUz: string;
-}
+// interface DataNodeUz {
+//     id: number;
+//     nameUz: string;
+// }
 
-interface DataNodeRu {
-    id: number;
-    nameRu: string;
-}
+// interface DataNodeRu {
+//     id: number;
+//     nameRu: string;
+// }
 
 
-export type WorkerDataTypeUz = {
-    [key: string]: DataNodeUz
-}
-export type WorkerDataTypeRu = {
-    [key: string]: DataNodeRu
-}
+// export type WorkerDataTypeUz = {
+//     [key: string]: DataNodeUz
+// }
+// export type WorkerDataTypeRu = {
+//     [key: string]: DataNodeRu
+// }
 
 
 export type ClinicaFormDataResponse = BaseResponse & {
     data?: []
 }
 
+
+
+// Xodim ma'lumotlari uchun umumiy interfeys
+export type Worker = {
+    id: number;
+    nameUz?: string; // O'zbekcha nom (optional)
+    nameRu?: string; // Ruscha nom (optional)
+}
+
+// Tillar bo'yicha strukturani aniqlash
+export type WorkerDataByLanguage = {
+    [key: string]: Worker[]; // Kalit so'z (masalan, "Qabulxona", "Kassa") va xodimlar ro'yxati
+}
+
+// Tillar bo'yicha asosiy ma'lumot strukturasi
+export type WorkerData = {
+    uz: WorkerDataByLanguage; // O'zbekcha ma'lumotlar
+    rus: WorkerDataByLanguage; // Ruscha ma'lumotlar
+}
+
+// Response strukturasi
 export type WorkerPositionsResponse = BaseResponse & {
-    data?: [{ uz: WorkerDataTypeUz, rus: WorkerDataTypeRu }]
+    data: WorkerData; // Xodimlar ma'lumotlari
 }
 

@@ -32,11 +32,10 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
       <FormProvider {...methods}>
 
         <form  action="" className="mb-7">
-          <div className="h-[300px]">
+          <div className="h-[300px] mb-10">
             <YandexMap onSelectPoint={handleSelectPoint} />
           </div>
-          <br /><br /><br />
-          <br />
+       
           <div className="flex gap-2 justify-between">
             <button
               onClick={() => onPrevious(true)}

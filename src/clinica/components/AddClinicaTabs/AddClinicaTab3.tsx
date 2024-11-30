@@ -36,6 +36,7 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
             <YandexMap onSelectPoint={handleSelectPoint} />
           </div>
           <br /><br /><br />
+          <br />
           <div className="flex gap-2 justify-between">
             <button
               onClick={() => onPrevious(true)}

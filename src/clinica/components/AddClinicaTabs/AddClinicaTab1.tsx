@@ -150,7 +150,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
             </div>
 
             <div className="2xl:col-span-3 col-span-4 px-0.5 mt-1">
-              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Shifoxona turi</label>
+              <label className="block mb-1 text-sm font-medium text-gray-900 ">Shifoxona turi</label>
               <select id="countries" name="clinicType"
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setData({ ...data, clinicType: e.target.value })}
                 value={data.clinicType}
@@ -261,12 +261,12 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
 
 
           <div className="mt-2 px-1">
-            <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Ta'rif</label>
+            <label className="block mb-1 text-sm font-medium text-gray-900 ">Ta'rif</label>
             <textarea id="message" rows={3}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setData({ ...data, description: e.target.value })}
               value={data.description}
               name="description"
-              className=" p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-1 focus:ring-secondary focus:outline-none block " placeholder="Shifoxona to'grisida ma'lomotlar..."></textarea>
+              className=" p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-1 focus:ring-secondary focus:outline-none block " placeholder="Shifoxona to'grisida ma'lomotlar..."></textarea>
           </div>
 
           <p
@@ -280,7 +280,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
           {openMedia ?
             <div className="sm:grid grid-cols-10 gap-2">
               <div className="col-span-2 ml-0.5">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Instagram</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">Instagram</label>
                 <div className="relative mb-2">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <img src={instagram} alt="" className="w-5 h-5" />
@@ -292,7 +292,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 </div>
               </div>
               <div className="col-span-2">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telegram</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">Telegram</label>
                 <div className="relative mb-6">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <img src={telegram} alt="" className="w-5 h-5" />
@@ -304,7 +304,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 </div>
               </div>
               <div className="col-span-2">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Facebook</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">Facebook</label>
                 <div className="relative mb-6">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <img src={facebook} alt="" className="w-5 h-5" />
@@ -317,7 +317,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 </div>
               </div>
               <div className="col-span-4 mr-0.5">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Youtube</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">Youtube</label>
                 <div className="relative mb-6">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <img src={youtube} alt="" className="w-5 h-5" />

@@ -11,6 +11,7 @@ import NotFound from "@core/pages/NotFound"
 import "react-toastify/dist/ReactToastify.css"
 import ClinicaRoutes from "./clinica/Routes"
 import 'rsuite/dist/rsuite.min.css';
+import 'react-quill/dist/quill.snow.css';
 
 export default function App() {
     return (

@@ -28,7 +28,7 @@ export type ItemProps = {
 }
 
 export function TabItem({ active, title, onClick, to }: ItemProps) {
-    const classes = clsx("tab", { "tab-active !bg-neutral dark:!text-base-content": active })
+    const classes = clsx("tab", { "tab-active !bg-neutral ": active })
 
     return to ? (
         <Link to={to} className={classes}>

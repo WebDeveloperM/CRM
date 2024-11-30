@@ -23,7 +23,7 @@ export default function AddDoctorTab1() {
   // const [openMedia, setOpenMedia] = useState(false);
 
   if (!doctorRols.data || !doctorRols.data.data) {
-    return <p>Ma'lumotlar yuklanmoqda...</p>
+    return <p className="my-3">Ma'lumotlar yuklanmoqda...</p>
   }
 
   dayjs.extend(customParseFormat);
@@ -196,7 +196,7 @@ export default function AddDoctorTab1() {
             </div>
 
             <div className="2xl:col-span-3 col-span-4 px-0.5 mt-1">
-              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Shifokor imkoniyati</label>
+              <label className="block mb-1 text-sm font-medium text-gray-900 ">Shifokor imkoniyati</label>
               <select id="countries" name="clinicType"
                 // onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setData({ ...data, clinicType: e.target.value })}
                 // value={data.clinicType}

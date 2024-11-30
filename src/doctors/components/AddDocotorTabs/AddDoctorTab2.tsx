@@ -4,9 +4,8 @@ import "cropperjs/dist/cropper.css";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { VscRefresh } from "react-icons/vsc";
-
-import { ConfigProvider, Flex, Input, Typography } from 'antd';
 import { ClinicaFormData } from "src/clinica/types";
+import TextEditor from "../TextEditor";
 
 
 
@@ -19,11 +18,6 @@ export default function AddDoctorTab2() {
   async function onSubmit() {
 
   }
-  const theme = {
-    token: {
-      colorPrimary: '#238781',
-    },
-  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -34,6 +28,12 @@ export default function AddDoctorTab2() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const [content, setContent] = useState<string>('');
+
+  const handleContentChange = (value: string) => {
+    setContent(value);
   };
 
 
@@ -53,20 +53,20 @@ export default function AddDoctorTab2() {
 
 
   return (
-    <div className="overflow-x-auto bg-white  rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll  mt-6">
+    <div className="overflow-x-auto bg-white  rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll mt-3">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
           <div className="grid grid-cols-12 gap-3 px-0.5">
             <div className="2xl:col-span-3 col-span-8">
               {!image ?
                 <div className="flex items-center justify-start">
-                  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-72 h-40   border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center sm:w-72 w-[100%] text-center h-40   border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                     <div className="flex flex-col items-center justify-center">
-                      <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                      <svg className="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                       </svg>
-                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 text-center">SVG, PNG, JPG or GIF (MAX. 400x400px)</p>
+                      <p className="mb-2 text-sm text-gray-500 text-center"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                      <p className="text-xs text-gray-500 sm:block hidden text-center">SVG, PNG, JPG or GIF (MAX. 400x400px)</p>
                     </div>
                     <input id="dropzone-file" type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
                   </label>
@@ -108,45 +108,21 @@ export default function AddDoctorTab2() {
 
           <br />
 
-          <ConfigProvider theme={theme}>
-            <Flex vertical gap={16}>
-              <div>
-                <Typography.Title level={5}>Logo matni kiriting</Typography.Title>
-                <Input
-                  count={{
-                    show: true,
-                    max: 10,
-                  }}
-                  placeholder="Uzlabs.uz"
-                  className="focus:ring-1 focus:ring-secondary focus:outline-none max-w-[60%] sm:max-w-[15%] mx-0.5"
-                />
-              </div>
-            </Flex>
-          </ConfigProvider>
+
+          <p className="mb-2">Shifokor haqida malumot</p>
+          <TextEditor value={content} onChange={handleContentChange} />
+
+          {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
 
 
-          <div className="flex items-start my-6 ml-1">
-            <div className="flex items-center h-5">
-              <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " required />
-            </div>
-            <label className="ms-2 text-sm font-medium text-gray-900">Asosiy logo sifatida o'rnatish</label>
-          </div>
 
-          {/* <div className="flex gap-2 justify-between">
-            <button
-              onClick={() => onPrevious(true)}
-              type="submit"
-              className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
-            >
-              Oldingi
-            </button>
-            <button
-              onClick={() => onNext(true)}
-              className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
-            >
-              Keyingi
-            </button>
-          </div> */}
+          <button
+            type="submit"
+            className="w-24 p-1.5  my-2  sm:mt-16 mt-24 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+          >
+            Qo'shish
+          </button>
+
 
         </form>
       </FormProvider>

@@ -13,9 +13,9 @@ export default function Doctors() {
 
                 <div className="overflow-x-auto bg-white rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:m-5 m-3 ">
                     <div className="flex items-center justify-between px-3 2xl:px-5 pt-3">
-                        <h4 className="text-lg font-semibold">Doctors List</h4>
-                        <Link to="/doctors/add-doctors" className="bg-secondary text-white px-3 py-1 rounded-md" >
-                            Add Doctor
+                        <h4 className="text-lg font-semibold">Shifokorlar ro'yxati</h4>
+                        <Link to="/doctors/add-doctors" className="bg-secondary hover:bg-secondary/80 duration-200 hover:text-white hover:no-underline text-white px-3 py-1 rounded-md" >
+                            Shifokor qo'shish
                         </Link>
                     </div>
 

@@ -12,6 +12,7 @@ export default function LanguageChanger() {
     const { t, i18n } = useTranslation()
     const currentLocale = i18n.language
 
+
     async function handleChange(newLocale: string) {
         await i18n.changeLanguage(newLocale)
         localStorage.setItem("language", newLocale)
@@ -28,14 +29,14 @@ export default function LanguageChanger() {
             </div>
 
 
-            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-24 ">
+            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 bg-white rounded-lg w-24 shadow-xl">
                 {languages.map((lang, index) => (
                     <li key={index} className="mb-0.5">
                         <button
                             tabIndex={0}
                             role="button"
                             onClick={() => handleChange(lang.language)}
-                            className={clsx("flex items-center", lang.language === currentLocale && "bg-base-200")}
+                            className={clsx("flex items-center", lang.language === currentLocale && "bg-base-100")}
                         >
                             <img className="w-6 h-5" src={lang.img} alt="Uzbek flag" />
                             <span>{t(lang.name)}</span>
@@ -44,5 +45,6 @@ export default function LanguageChanger() {
                 ))}
             </ul>
         </div>
+
     )
 }

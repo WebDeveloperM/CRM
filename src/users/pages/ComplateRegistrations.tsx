@@ -8,9 +8,9 @@ import { useQueryParams } from "@core/hooks/queryString.ts"
 import { successToast } from "@core/components/Toastfy"
 import { toast } from "react-toastify"
 import { useState } from "react"
-import LanguageChanger from "@core/components/LanguageChanger"
 import { useTranslation } from "react-i18next"
 import clsx from "clsx"
+import LanguageChangerAnt from "@core/components/LanguageChangerAnt"
 
 let passwordTimeOutId: ReturnType<typeof setTimeout>
 let confirmPasswordTimeOutId: ReturnType<typeof setTimeout>
@@ -115,7 +115,7 @@ export default function ComplateRegistrations() {
             >
                 <div className="relative">
                     <div className="absolute top-0 right-5">
-                        <LanguageChanger />
+                        <LanguageChangerAnt />
                     </div>
                     <img src={logo} alt="logo" className="w-1/4 mx-auto mt-5 sm:mt-0" />
                     <div className="px-2 lg:px-3 xl:px-4">

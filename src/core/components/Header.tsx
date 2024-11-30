@@ -4,21 +4,16 @@ import { RiListCheck3 } from "react-icons/ri";
 import { MdOutlineStarOutline } from "react-icons/md";
 import { doctor3 } from "../../dashboard/utils";
 import { RiHome3Line } from "react-icons/ri";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import logo from "@core/static/logo.png";
 import { FaBars } from "react-icons/fa6";
 import { Dispatch, SetStateAction } from "react";
 import { useLocation } from "react-router-dom";
 import AvatarWithDot from "./AvatarWithDot";
-import LanguageChanger from "./LanguageChanger";
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import "../static/style.css"
 import { routerNames } from "@core/utils/routesName";
-
-// import DropdownUser from "./DropdownUser";
-// import Dropdown from "./Dropdown";
-
+import LanguageChangerAnt from "./LanguageChangerAnt";
 
 type Prop = {
     open: boolean,
@@ -62,8 +57,8 @@ export default function Header({ open, setOpen }: Prop) {
                 <div className="flex justify-between sm:justify-between lg:justify-between  items-center mx-auto h-full px-4 min-w-1/2">
                     <div className="flex items-center gap-x-3  ">
                         <img src={logo} alt="logo" className={`w-[55px] cursor-pointer `} onClick={() => setOpen(!open)} />
-                        <h1 className={`text-gray-700 duration-200 font-medium text-xl  origin-left tracking-widest ${open ? "sm:block hidden" : " sm:hidden block "}`}>UzLabs.uz</h1>
-                        <h1 className={`text-gray-700 duration-200  font-medium text-xl  ${!open ? "hidden" : "sm:hidden  "} origin-left tracking-widest `}>UzLabs.uz</h1>
+                        <h1 className={`text-gray-500 duration-200 font-semibold text-xl  origin-left tracking-widest ${open ? "sm:block hidden" : " sm:hidden block "}`}>UzLabs.uz</h1>
+                        <h1 className={`text-gray-500 duration-200  font-semibold text-xl  ${!open ? "hidden" : "sm:hidden  "} origin-left tracking-widest `}>UzLabs.uz</h1>
 
 
                         <div className={`text-white text-sm font-semi tracking-wider ml-[1%] 2xl:ml-[2%] hidden lg:inline-block 
@@ -86,27 +81,27 @@ export default function Header({ open, setOpen }: Prop) {
                     <div className='flex items-center '>
                         <div className='hidden md:inline-block'>
                             <div className='flex items-center gap-2 '>
-                                <span className='w-8 h-8  bg-secondary/10 rounded-full flex items-center justify-center'>
-                                    <LanguageChanger />
+                                <span className='w-9 h-9  bg-secondary/10 rounded-full flex items-center justify-center'>
+                                    <LanguageChangerAnt />
                                 </span>
 
-                                <span className='w-8 h-8  bg-secondary/10 rounded-full'>
-                                    <MdOutlineStarOutline className='text-secondary font-extrabold translate-x-1/2 translate-y-1/2' />
+                                <span className='w-9 h-9  bg-secondary/10 rounded-full flex justify-center items-center'>
+                                    <MdOutlineStarOutline className='text-secondary font-extrabold text-xl' />
                                 </span>
-                                <span className='w-8 h-8  bg-secondary/10 rounded-full'>
-                                    <RiListCheck3 className='text-secondary font-extrabold translate-x-1/2 translate-y-1/2' />
+                                <span className='w-9 h-9  bg-secondary/10 rounded-full flex justify-center items-center'>
+                                    <RiListCheck3 className='text-secondary font-extrabold text-xl' />
                                 </span>
-                                <span className='w-8 h-8  bg-secondary/10 rounded-full'>
-                                    <AiFillAlert className='text-secondary font-extrabold translate-x-1/2 translate-y-1/2' />
+                                <span className='w-9 h-9  bg-secondary/10 rounded-full flex justify-center items-center'>
+                                    <AiFillAlert className='text-secondary font-extrabold text-xl' />
                                 </span>
-                                <span className='w-8 h-8  bg-secondary/10 rounded-full'>
-                                    <RiMessage3Line className='text-secondary font-extrabold translate-x-1/2 translate-y-1/2' />
+                                <span className='w-9 h-9  bg-secondary/10 rounded-full flex justify-center items-center'>
+                                    <RiMessage3Line className='text-secondary font-extrabold text-xl' />
                                 </span>
+                               
                             </div>
                         </div>
 
-                        {/* <DropdownAnt children={
-                                } /> */}
+                     
                         <Space direction="vertical" className="sm:block hidden">
                             <Space wrap>
                                 <Dropdown menu={{ items }} placement="bottomRight" arrow>
@@ -138,13 +133,13 @@ export default function Header({ open, setOpen }: Prop) {
 
 
                     <div className='hidden md:inline-block'>
-                        <div className='flex items-center gap-3 border-2'>
+                        {/* <div className='flex items-center gap-3 border-2'>
                             <div className="bg-secondary/10 l p-1.5">
                                 <FaRegCalendarAlt className="text-secondary text-sm h-4 w-4" />
                             </div>
 
                             <input type="text" className="placeholder:text-[12px] placeholder:tracking-wider mr-3 placeholder:text-center placeholder:text-black" placeholder="10/01/2024 - 10/30/2024" />
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>

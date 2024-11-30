@@ -9,6 +9,7 @@ import { toast } from "react-toastify"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import clsx from "clsx"
+import MathCaptcha from "@core/components/Captcha"
 
 let passwordTimeOutId: ReturnType<typeof setTimeout>
 let confirmPasswordTimeOutId: ReturnType<typeof setTimeout>
@@ -22,6 +23,8 @@ export default function AddDoctorTab3() {
   const [errorConfPassword, setErrorConfPassword] = useState("")
   const [showConfPass, setShowConfPass] = useState(false)
   const [confirmPassword, setconfirmPassword] = useState("")
+  const [isVerified, setIsVerified] = useState(false)
+
 
   const { t } = useTranslation()
 
@@ -46,7 +49,10 @@ export default function AddDoctorTab3() {
     }
   }
 
+  const handleCaptchaVerify = (status: boolean) => {
+    setIsVerified(status);
 
+  };
   const handleShowPassword = () => {
     if (passwordTimeOutId) clearTimeout(passwordTimeOutId)
     if (showPass) return setShowPass(false)
@@ -80,6 +86,10 @@ export default function AddDoctorTab3() {
 
     if (password !== confirmPassword) {
       toast.warning(t("errorConfirmPassword"))
+      return
+    }
+    if (!isVerified) {
+      toast.warning(t("proveNotRobot"))
       return
     }
     const response = await mutateAsync(data)
@@ -205,6 +215,9 @@ export default function AddDoctorTab3() {
 
           </div>
 
+          <div className="my-5 max-w-[80%]">
+            <MathCaptcha onVerify={handleCaptchaVerify} />
+          </div>
 
 
           <button

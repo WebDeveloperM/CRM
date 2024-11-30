@@ -60,7 +60,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/dashboard") ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800`}
                         >
-                            Dashboard
+                            Asosiy
                         </span>
                     </Link>
 
@@ -74,7 +74,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/doctors") ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800`}
                         >
-                            Doctors
+                            Shifokorlar
                         </span>
                     </Link>
 
@@ -88,7 +88,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname === "/patients" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800`}
                         >
-                            Patients
+                            Bemorlar
                         </span>
                     </Link>
 
@@ -102,7 +102,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname === "/appointments" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800  ${pathname === "/appointments" ? "text-secondary" : ""}`}
                         >
-                            Appointments
+                            Ish jadvali
                         </span>
                     </Link>
 
@@ -116,7 +116,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname === "/finances" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800  ${pathname === "/finances" ? "text-secondary" : ""}`}
                         >
-                            Finances
+                            Hisobotlar
                         </span>
                     </Link>
 
@@ -132,7 +132,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname === "/settings" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800  ${pathname === "/settings" ? "text-secondary" : ""}`}
                         >
-                            Settings
+                            Sozlamalar
                         </span>
                     </Link>
 
@@ -147,7 +147,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname === "/" ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800  ${pathname === "/" ? "text-secondary" : ""}`}
                         >
-                            Signout
+                            Chiqish
                         </span>
                     </Link>
                 </ul>

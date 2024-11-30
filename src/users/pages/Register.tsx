@@ -12,8 +12,8 @@ import { SetStateAction, useState } from "react"
 import jshshr from "../static/jshshr.png"
 import pnfl from "../static/pnfl.jpeg"
 import MathCaptcha from "@core/components/Captcha"
-import LanguageChanger from "@core/components/LanguageChanger"
 import { useTranslation } from "react-i18next"
+import LanguageChangerAnt from "@core/components/LanguageChangerAnt"
 
 export default function Register() {
     const navigate = useNavigate()
@@ -41,7 +41,7 @@ export default function Register() {
 
     const handleCaptchaVerify = (status: boolean) => {
         setIsVerified(status);
-        
+
     };
     async function onSubmit(data: SignUpSuperUser) {
         if (isLoading) return
@@ -105,7 +105,7 @@ export default function Register() {
             >
                 <div className="relative">
                     <div className="absolute top-0 right-5">
-                        <LanguageChanger />
+                        <LanguageChangerAnt />
                     </div>
                     <img src={logo} alt="logo" className="w-[20%] xl:w-1/5 2xl:w-1/4 mx-auto mt-5 sm:mt-0" />
 

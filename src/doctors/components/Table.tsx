@@ -29,7 +29,6 @@ export default function Table({ search }: Props) {
     }, []);
 
 
-    //     {
     //         id: 1,
     //         patientId: 213,
     //         fio: "Yusupov Ulukbek",
@@ -220,7 +219,7 @@ export default function Table({ search }: Props) {
 
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2   font-semibold  min-w-[60px] ">
-                            Doctor Name
+                            F.I.O
                             <a href="" className="inline">
                                 <img src={tableIcon} alt="" className="lg:min-w-[0.65rem] min-w-[100px] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
                             </a>
@@ -228,7 +227,7 @@ export default function Table({ search }: Props) {
                         </th>
 
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
-                            Designation
+                            Soha
                             <a href="" className="inline">
                                 <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
 
@@ -236,7 +235,7 @@ export default function Table({ search }: Props) {
 
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
-                            Date of Birth
+                            Tug'ilgan kun
                             <a href="" className="inline">
                                 <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
 
@@ -244,11 +243,11 @@ export default function Table({ search }: Props) {
 
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
-                            Phone
+                            Telefon raqam
                         </th>
 
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
-                            Actions
+                            Harakatlar
                         </th>
 
                     </tr>
@@ -294,7 +293,7 @@ export default function Table({ search }: Props) {
                     <li>
                         <a onClick={prePage} href="#" className="flex items-center justify-center px-4 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 ">
 
-                            Previous
+                            Oldingi
                         </a>
                     </li>
                     {numbers.map((n, i) => (
@@ -306,7 +305,7 @@ export default function Table({ search }: Props) {
                     <li>
                         <a onClick={nextPage} href="#" className="flex items-center justify-center px-4 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 ">
 
-                            Next
+                            Keyingi
                         </a>
                     </li>
 

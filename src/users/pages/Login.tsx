@@ -7,10 +7,10 @@ import { Link, Navigate, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import MathCaptcha from "@core/components/Captcha"
 import { useState } from "react"
-import LanguageChanger from "@core/components/LanguageChanger"
 import clsx from "clsx"
 import { useTranslation } from "react-i18next"
 import { isAuthenticated, login } from "@users/utils/auth"
+import LanguageChangerAnt from "@core/components/LanguageChangerAnt"
 
 let passwordTimeOutId: ReturnType<typeof setTimeout>
 
@@ -77,8 +77,8 @@ export default function Login() {
                             max-w-[90%] min-w-[85%] mx-auto sm:max-w-[50%] sm:min-w-[40%] md:max-w-[35%] md:min-w-[25%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2 md:left-[70%] xl:left-[75%] xl:max-w-[25%] xl:min-w-[20%]"
             >
                 <div className="relative">
-                    <div className="absolute top-0 right-5">
-                        <LanguageChanger />
+                    <div className="absolute top-0 right-5 bg-secondary-light rounded-full ">
+                        <LanguageChangerAnt />
                     </div>
                     <img src={logo} alt="logo" className="w-1/4 mx-auto mt-5 sm:mt-0" />
                     <div className="px-2 lg:px-3 xl:px-4">

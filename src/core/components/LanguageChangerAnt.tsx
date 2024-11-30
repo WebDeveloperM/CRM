@@ -1,18 +1,11 @@
 import { useTranslation } from "react-i18next"
-import { clsx } from "clsx"
-import { LanguageIcon } from "@heroicons/react/24/outline"
-import Icon from "@core/components/Icon.tsx"
 import uzFlag from "../static/uz-flag.png"
 import ruFlag from "../static/ru-flag.png"
+import { Space, Dropdown, Button } from "antd"
+import type { MenuProps } from 'antd';
 
-const languages = [
-    { id: 1, name: "uzbek", language: "uz", img: uzFlag },
-    { id: 2, name: "russian", language: "ru", img: ruFlag },
-]
-
-export default function LanguageChanger() {
+export default function LanguageChangerAnt() {
     const { t, i18n } = useTranslation()
-    const currentLocale = i18n.language
 
     async function handleChange(newLocale: string) {
         await i18n.changeLanguage(newLocale)
@@ -22,29 +15,48 @@ export default function LanguageChanger() {
         if (elem) (elem as HTMLElement).blur()
     }
 
+
+    const items: MenuProps['items'] = [
+        {
+            key: '1',
+            label: (
+                <button
+                    tabIndex={0}
+                    role="button"
+                    className="flex items-center justify-center gap-1"
+                    onClick={() => handleChange("uz")}
+                >
+                    <img className="w-6 h-5" src={uzFlag} alt="Uzbek flag" />
+                    <span>{t("uzbek")}</span>
+                </button>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <button
+                    tabIndex={0}
+                    role="button"
+                    onClick={() => handleChange("ru")}
+                    className="flex items-center justify-center gap-1"
+                >
+                    <img className="w-6 h-5" src={ruFlag} alt="Russian flag" />
+                    <span>{t("russian")}</span>
+                </button>
+            ),
+        },
+
+    ];
+
     return (
-        <div className="dropdown dropdown-bottom dropdown-end ">
-
-            <div tabIndex={0} role="button" className="btn btn-sm px-1 rounded-full btn-ghost">
-                <Icon icon={LanguageIcon} />
-            </div>
-
-
-            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40 ">
-                {languages.map((lang, index) => (
-                    <li key={index} className="mb-0.5">
-                        <button
-                            tabIndex={0}
-                            role="button"
-                            onClick={() => handleChange(lang.language)}
-                            className={clsx("flex items-center", lang.language === currentLocale && "bg-base-200")}
-                        >
-                            <img className="w-6 h-5" src={lang.img} alt="Uzbek flag" />
-                            <span>{t(lang.name)}</span>
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <Space direction="vertical" className="sm:block hidden">
+            <Space wrap>
+                <Dropdown menu={{ items }} placement="bottomRight" arrow>
+                    <Button className="btn-ghost border-none btn-circle p-0 m-0">
+                        {i18n.language == "uz" ? <img src={uzFlag} alt="" className="w-6 h-6 rounded-full" /> : <img src={ruFlag} alt="" className="w-6 h-6 rounded-full" />}
+                    </Button>
+                </Dropdown>
+            </Space>
+        </Space>
     )
 }

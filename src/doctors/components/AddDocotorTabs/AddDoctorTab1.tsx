@@ -10,6 +10,7 @@ import { useDoctorRols } from "@doctors/hooks/addDoctors";
 import { useTranslation } from "react-i18next";
 import MathCaptcha from "@core/components/Captcha";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 
 
@@ -288,6 +289,14 @@ export default function AddDoctorTab1() {
 
           <div className="flex gap-2 justify-between">
 
+            <Link to={'/doctors'}>
+              <button
+                type="submit"
+                className="w-24 p-1.5  mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+              >
+                Bekor qilish
+              </button>
+            </Link>
             <button
               type="submit"
               className="w-24 p-1.5  mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"

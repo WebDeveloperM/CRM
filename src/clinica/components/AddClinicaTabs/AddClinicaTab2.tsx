@@ -59,14 +59,14 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
 
 
   return (
-    <div className="overflow-x-auto bg-white  rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll  mt-6">
+    <div className="overflow-x-auto bg-white  rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll">
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
+        <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-2">
           <div className="grid grid-cols-12 gap-3 px-0.5">
             <div className="2xl:col-span-3 col-span-8">
               {!image ?
                 <div className="flex items-center justify-start">
-                  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-60 h-48  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-72 h-40  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                     <div className="flex flex-col items-center justify-center">
                       <svg className="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
@@ -102,9 +102,12 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
           {file ?
             <>
               <img src={URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" />
-              <button onClick={() => {
-                setImage(null)
-              }} className="w- p-1.5  bg-slate-400 mt-2 text-sm text-white rounded-md duration-200 flex items-center gap-2">
+              <button
+                onClick={() => {
+                  setImage(null)
+                  setFile(null)
+                }}
+                className="w- p-1.5  bg-slate-400 mt-4 text-sm text-white rounded-md duration-200 flex items-center gap-2">
                 <VscRefresh />
                 Rasmni yangilash
               </button>
@@ -131,7 +134,7 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
           </ConfigProvider>
 
 
-          <div className="flex items-start my-6 ml-1">
+          <div className="flex items-start my-3 ml-1">
             <div className="flex items-center h-5">
               <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " required />
             </div>
@@ -142,13 +145,13 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
             <button
               onClick={() => onPrevious(true)}
               type="submit"
-              className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+              className="w-24 p-1.5 my-2 mt-2 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Oldingi
             </button>
             <button
               onClick={() => onNext(true)}
-              className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+              className="w-24 p-1.5 my-2 mt-2 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Keyingi
             </button>

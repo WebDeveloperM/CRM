@@ -104,7 +104,7 @@ export default function Register() {
                             "
             >
                 <div className="relative">
-                    <div className="absolute top-0 right-5">
+                <div className="absolute top-0 right-5 bg-secondary-light rounded-full ">
                         <LanguageChangerAnt />
                     </div>
                     <img src={logo} alt="logo" className="w-[20%] xl:w-1/5 2xl:w-1/4 mx-auto mt-5 sm:mt-0" />

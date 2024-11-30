@@ -23,7 +23,7 @@ export default function Doctors() {
                     <form className="m-[2px] mb-3 mr-3 mt-4 float-right flex items-center gap-2">
                         <span>Qidirish</span>
                         <label htmlFor="inputSearch" className="sr-only">Qidirish </label>
-                        <input id="inputSearch" placeholder="Ism va Familiya bo'yicha" type="text" onChange={(e) => setSearch(e.target.value)} className="block w-48 2xl:w-64 rounded-lg border px-2 py-1  text-sm focus:border-secondary/50 focus:outline-none focus:ring-1 focus:ring-secondary/50" />
+                        <input id="inputSearch" placeholder="Ism va Familiya bo'yicha" type="text" onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())} className="block w-48 2xl:w-64 rounded-lg border px-2 py-1  text-sm focus:border-secondary/50 focus:outline-none focus:ring-1 focus:ring-secondary/50" />
                     </form>
 
                     <div className="clear-both"></div>

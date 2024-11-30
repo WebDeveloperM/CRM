@@ -2,16 +2,13 @@ import patient from "@patients/static/patient.png";
 import patient1 from "@patients/static/patient5.png";
 import patient2 from "@patients/static/patient.png";
 import patient3 from "@patients/static/patient5.png";
-import tableIcon from "@doctors/static/tableIcon.svg";
+// import tableIcon from "@doctors/static/tableIcon.svg";
 
 import { useState } from "react";
 
 
 
 export default function Table() {
-
-
-
     const data = [
         {
             id: 1,
@@ -193,57 +190,51 @@ export default function Table() {
                     <tr>
                         <th scope="col" className=" px-3 py-2 font-semibold   w-[30px] ">
                             №
-                            <a href="" className="inline">
-                                <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
-
-                            </a>
+                            {/*<a href="" className="inline">
+                               <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
+                           </a> */}
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold  w-[60px] ">
                             ID
-                            <a href="" className="inline">
-                                <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
-                            </a>
+                            {/*<a href="" className="inline">
+                               <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
+                           </a> */}
 
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2   font-semibold  min-w-[200px]">
                             Patient Name
-                            <a href="" className="inline">
-                                <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
-
-                            </a>
+                            {/*<a href="" className="inline">
+                               <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
+                           </a> */}
 
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
                             Date of Birth
-                            <a href="" className="inline">
-                                <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
-
-                            </a>
+                            {/*<a href="" className="inline">
+                               <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
+                           </a> */}
 
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
                             Gender
-                            <a href="" className="inline">
-                                <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
-
-                            </a>
+                            {/*<a href="" className="inline">
+                               <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
+                           </a> */}
 
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
                             Phone
-                            <a href="" className="inline">
-                                <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
-
-                            </a>
+                            {/*<a href="" className="inline">
+                               <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
+                           </a> */}
 
                         </th>
 
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
                             Actions
-                            <a href="" className="inline">
-                                <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
-
-                            </a>
+                            {/*<a href="" className="inline">
+                               <img src={tableIcon} alt="" className="w-[0.65rem] h-[0.65rem] inline ml-1 text-neutral-500  mb-[1px]" />
+                           </a> */}
 
                         </th>
 

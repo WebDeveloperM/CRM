@@ -7,7 +7,7 @@ import { RiHome3Line } from "react-icons/ri";
 import logo from "@core/static/logo.png";
 import { FaBars } from "react-icons/fa6";
 import { Dispatch, SetStateAction } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AvatarWithDot from "./AvatarWithDot";
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
@@ -25,27 +25,9 @@ const items: MenuProps['items'] = [
     {
         key: '1',
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                1st menu item
-            </a>
+            <Link to={"/"} >Chiqish </Link>
         ),
-    },
-    {
-        key: '2',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
-        ),
-    },
-    {
-        key: '3',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                3rd menu item
-            </a>
-        ),
-    },
+    }
 ];
 
 export default function Header({ open, setOpen }: Prop) {
@@ -97,11 +79,11 @@ export default function Header({ open, setOpen }: Prop) {
                                 <span className='w-9 h-9  bg-secondary/10 rounded-full flex justify-center items-center'>
                                     <RiMessage3Line className='text-secondary font-extrabold text-xl' />
                                 </span>
-                               
+
                             </div>
                         </div>
 
-                     
+
                         <Space direction="vertical" className="sm:block hidden">
                             <Space wrap>
                                 <Dropdown menu={{ items }} placement="bottomRight" arrow>

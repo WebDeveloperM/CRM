@@ -114,7 +114,7 @@ export default function ComplateRegistrations() {
                             max-w-[90%] min-w-[85%] mx-auto sm:max-w-[50%] sm:min-w-[40%] md:max-w-[35%] md:min-w-[25%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2 md:left-[70%] xl:left-[75%] xl:max-w-[25%] xl:min-w-[20%]"
             >
                 <div className="relative">
-                    <div className="absolute top-0 right-5">
+                    <div className="absolute top-0 right-5 bg-secondary-light rounded-full ">
                         <LanguageChangerAnt />
                     </div>
                     <img src={logo} alt="logo" className="w-1/4 mx-auto mt-5 sm:mt-0" />
@@ -161,7 +161,7 @@ export default function ComplateRegistrations() {
 
                                         <span onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
                                             <svg
-                                                
+
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 16 16"
                                                 fill="currentColor"
@@ -201,7 +201,7 @@ export default function ComplateRegistrations() {
 
                                         <span onClick={handleShowConfPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
                                             <svg
-                                                
+
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 16 16"
                                                 fill="currentColor"

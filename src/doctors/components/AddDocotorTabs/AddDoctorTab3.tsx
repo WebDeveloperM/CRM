@@ -2,7 +2,7 @@ import FormInput from "@core/components/FormInput"
 import { useAddSuperUserResgiter, useCheckUserUrl } from "@users/hooks/superUser"
 import { SignUpSuperUserAddRegister } from "@users/types"
 import { FormProvider, useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useQueryParams } from "@core/hooks/queryString.ts"
 import { successToast } from "@core/components/Toastfy"
 import { toast } from "react-toastify"
@@ -116,117 +116,129 @@ export default function AddDoctorTab3() {
   }
 
   return (
-    <div className=" max-w-[30%] pt-7">
+    <div className=" pt-7">
 
       <FormProvider {...methods}>
         <form action="" className="mb-7" onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="w-full">
-            <FormInput
-              label={
-                <label htmlFor="firstName" className="text-gray-700">
-                  {t("createLogin")}
-                  <span className="text-red-500">*</span>
-                </label>
-              }
-              className="mt-1"
-              name="username"
-              placeholder={t("placeLogin")}
-              errorText={t("errorLogin")}
-            />
-          </div>
-
-
-          <div className="mt-2">
-            <span className="text-sm font-medium text-gray-900 mt-1">{t("password")}</span>
-            <span className="text-red-500">*</span>
-            <div className="flex mt-1">
-              <input
-                {...restPassword}
-                type={showPass ? "text" : "password"}
-                onChange={(e) => setPassword(e.target.value)}
-                ref={(e) => {
-                  formInputRefPassword(e)
-                }}
-                name="password"
-                value={password}
-                placeholder={t("placePassword")}
-                id="website-admin"
-                onBlur={onBlurPassword}
-                className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[1px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
+          <div className=" max-w-[30%]">
+            <div className="w-full">
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    {t("createLogin")}
+                    <span className="text-red-500">*</span>
+                  </label>
+                }
+                className="mt-1"
+                name="username"
+                placeholder={t("placeLogin")}
+                errorText={t("errorLogin")}
               />
-
-              <span onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
-                <svg
-
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70 hover:text-secondary"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
             </div>
-            {errorPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorPassword}</p>}
-
-          </div>
 
 
-          <div className="mt-2">
-            <span className="text-sm font-medium text-gray-900 mt-1">{t("repeatPassword")}</span>
-            <span className="text-red-500">*</span>
-            <div className="flex mt-1">
-              <input
-                {...restConfPassword}
-                type={showConfPass ? "text" : "password"}
-                onChange={(e) => setconfirmPassword(e.target.value)}
-                ref={(e) => {
-                  formInputRefConfPassword(e)
-                }}
-                name="confirmPassword"
-                onBlur={onBlurConfPassword}
-                value={confirmPassword}
-                placeholder={t("repeatPassword")}
-                id="website-admin"
-                className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[1px] focus:ring-secondary focus:outline-none  border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
-              />
+            <div className="mt-2">
+              <span className="text-sm font-medium text-gray-900 mt-1">{t("password")}</span>
+              <span className="text-red-500">*</span>
+              <div className="flex mt-1">
+                <input
+                  {...restPassword}
+                  type={showPass ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                  ref={(e) => {
+                    formInputRefPassword(e)
+                  }}
+                  name="password"
+                  value={password}
+                  placeholder={t("placePassword")}
+                  id="website-admin"
+                  onBlur={onBlurPassword}
+                  className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[1px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
+                />
 
-              <span onClick={handleShowConfPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
-                <svg
+                <span onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                  <svg
 
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70 hover:text-secondary"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="h-4 w-4 opacity-70 hover:text-secondary"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </div>
+              {errorPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorPassword}</p>}
+
             </div>
-            {errorConfPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorConfPassword}</p>}
+
+
+            <div className="mt-2">
+              <span className="text-sm font-medium text-gray-900 mt-1">{t("repeatPassword")}</span>
+              <span className="text-red-500">*</span>
+              <div className="flex mt-1">
+                <input
+                  {...restConfPassword}
+                  type={showConfPass ? "text" : "password"}
+                  onChange={(e) => setconfirmPassword(e.target.value)}
+                  ref={(e) => {
+                    formInputRefConfPassword(e)
+                  }}
+                  name="confirmPassword"
+                  onBlur={onBlurConfPassword}
+                  value={confirmPassword}
+                  placeholder={t("repeatPassword")}
+                  id="website-admin"
+                  className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[1px] focus:ring-secondary focus:outline-none  border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
+                />
+
+                <span onClick={handleShowConfPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                  <svg
+
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="h-4 w-4 opacity-70 hover:text-secondary"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </div>
+              {errorConfPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorConfPassword}</p>}
+
+            </div>
+
+            <div className="my-5 max-w-[80%]">
+              <MathCaptcha onVerify={handleCaptchaVerify} />
+            </div>
 
           </div>
 
-          <div className="my-5 max-w-[80%]">
-            <MathCaptcha onVerify={handleCaptchaVerify} />
+          <div className="flex gap-2 justify-end">
+
+            <Link to={'/doctors'}>
+              <button
+                type="submit"
+                className="w-24 p-1.5  mt-4 bg-white border hover:bg-secondary-light text-sm text-secondary rounded-md duration-200"
+              >
+                Bekor qilish
+              </button>
+            </Link>
+            <button
+              type="submit"
+              className="w-24 p-1.5  mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+            >
+              Qo'shish
+            </button>
           </div>
-
-
-          <button
-            type="submit"
-            className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
-          >
-            {"Qo'shish"}
-          </button>
-
 
         </form>
       </FormProvider>

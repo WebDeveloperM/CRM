@@ -287,12 +287,12 @@ export default function AddDoctorTab1() {
             <MathCaptcha onVerify={handleCaptchaVerify} />
           </div>
 
-          <div className="flex gap-2 justify-between">
+          <div className="flex gap-2 justify-end">
 
             <Link to={'/doctors'}>
               <button
                 type="submit"
-                className="w-24 p-1.5  mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+                className="w-24 p-1.5  mt-4 bg-white border hover:bg-secondary-light text-sm text-secondary rounded-md duration-200"
               >
                 Bekor qilish
               </button>

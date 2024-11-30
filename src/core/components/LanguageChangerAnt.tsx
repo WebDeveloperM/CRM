@@ -49,10 +49,10 @@ export default function LanguageChangerAnt() {
     ];
 
     return (
-        <Space direction="vertical" className="sm:block hidden">
+        <Space direction="vertical" className="">
             <Space wrap>
                 <Dropdown menu={{ items }} placement="bottomRight" arrow>
-                    <Button className="btn-ghost border-none btn-circle p-0 m-0">
+                    <Button className="btn-ghost border-none btn-circle m-0">
                         {i18n.language == "uz" ? <img src={uzFlag} alt="" className="w-6 h-6 rounded-full" /> : <img src={ruFlag} alt="" className="w-6 h-6 rounded-full" />}
                     </Button>
                 </Dropdown>

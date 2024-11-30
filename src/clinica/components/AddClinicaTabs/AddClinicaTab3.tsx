@@ -16,7 +16,7 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
 
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>();
 
-  
+
   useEffect(() => {
     setData({ ...data, geolocationLongitude: coordinates?.lng as number, geolocationLatitude: coordinates?.lat as number })
   }, [coordinates])
@@ -31,11 +31,11 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
     <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll  mt-6 ">
       <FormProvider {...methods}>
 
-        <form  action="" className="mb-7">
+        <form action="" className="mb-7">
           <div className="h-[300px] mb-[60px]">
             <YandexMap onSelectPoint={handleSelectPoint} />
           </div>
-       
+          <br /><br /><br /><br />
           <div className="flex gap-2 justify-between">
             <button
               onClick={() => onPrevious(true)}

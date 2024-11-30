@@ -28,7 +28,7 @@ export const defaultData: ClinicaFormData = {
     youtube: "",
     geolocationLatitude: 0,
     geolocationLongitude: 0,
-    description: "new",
+    description: "",
 };
 
 

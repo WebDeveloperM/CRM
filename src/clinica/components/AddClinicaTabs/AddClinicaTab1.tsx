@@ -249,6 +249,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                   </label>
                 }
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, accountingSystem: e.target.value })}
+                value={data.accountingSystem}
                 className="mt-1"
                 placeholder="Qayd qilish tizimini kiriting"
                 name="accountingSystem"
@@ -263,6 +264,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
             <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Ta'rif</label>
             <textarea id="message" rows={3}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setData({ ...data, description: e.target.value })}
+              value={data.description}
               name="description"
               className=" p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-1 focus:ring-secondary focus:outline-none block " placeholder="Shifoxona to'grisida ma'lomotlar..."></textarea>
           </div>
@@ -285,6 +287,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                   </div>
                   <input type="text" id="input-group-1"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, instagram: e.target.value })}
+                    value={data.instagram}
                     className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 2xl:w-64 sm:w-48 w-full" placeholder="Username kiriting" />
                 </div>
               </div>
@@ -296,6 +299,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                   </div>
                   <input type="text" id="input-group-1"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, telegram: e.target.value })}
+                    value={data.telegram}
                     className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block  ps-10 p-2.5 2xl:w-64 sm:w-48 w-full" placeholder="Username kiriting" />
                 </div>
               </div>
@@ -307,6 +311,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                   </div>
                   <input type="text" id="input-group-1"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, facebook: e.target.value })}
+                    value={data.facebook}
+
                     className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 2xl:w-64 sm:w-48 w-full" placeholder="Username kiriting" />
                 </div>
               </div>
@@ -318,6 +324,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                   </div>
                   <input type="text" id="input-group-1"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, youtube: e.target.value })}
+                    value={data.youtube}
                     className="bg-white input-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none block ps-10 p-2.5 w-full" placeholder="Havola kiriting" />
                 </div>
               </div>

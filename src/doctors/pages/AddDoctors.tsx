@@ -1,7 +1,6 @@
 import Layout from "@core/components/Layout";
 import { useState } from "react";
-
-import AddDoctorsTab from "../components/AddDocotorTabs/AddDoctorsTab";
+import AddDoctorsTab from "@doctors/components/AddDocotorTabs/AddDoctorsTab";
 
 export default function AddDoctors() {
     const [open, setOpen] = useState(true);
@@ -13,7 +12,6 @@ export default function AddDoctors() {
                     {/* <div className="flex items-center justify-between px-4 2xl:px-5 pt-3">
                         <h4 className="text-sm font-semibold">Add Doctors</h4>
                     </div> */}
-
                     <AddDoctorsTab />
                 </div>
             </Layout>

@@ -27,8 +27,6 @@ export default function AddClinicaTab4({ onPrevious, onNext }: Props) {
 
   };
 
-  console.log(data, "----------");
-
   async function onSubmit() {
 
     if (isLoading) return

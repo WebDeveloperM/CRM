@@ -1,4 +1,3 @@
-import { useClinica } from '@clinica/context/ClinicaContext';
 import React, { useEffect, useRef, useState } from 'react';
 
 interface Coordinates {
@@ -7,52 +6,40 @@ interface Coordinates {
 }
 
 interface YandexMapProps {
-  onSelectPoint: (coords: Coordinates) => void; // Nuqta tanlanganda ishlaydigan callback
+  onSelectPoint: (coords: Coordinates) => void;
 }
 
 const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
-  const mapRef = useRef<HTMLDivElement>(null); // Xarita uchun container
-  const [map, setMap] = useState<any>(null); // Karta obyekti
-  const [marker, setMarker] = useState<any>(null); // Markerni saqlash
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<any>(null);
+  const [marker, setMarker] = useState<any>(null);
 
-  const { data } = useClinica()
-  // Yandex xaritasini initializatsiya qilish
   useEffect(() => {
     const initializeMap = async () => {
       const ymaps = (window as any).ymaps;
 
-      await ymaps.ready(); // Yandex xaritasi tayyor bo'lsa
+      await ymaps.ready()
 
       const mapInstance = new ymaps.Map(
         mapRef.current,
         {
-          // center: [41.311081, 69.24056], // Toshkent koordinatalari (Markaz)
-          center: [
-            data.geolocationLatitude ? data.geolocationLatitude : 41.311081,
-            data.geolocationLongitude ? data.geolocationLongitude : 69.24056
-          ], // Toshkent koordinatalari (Markaz)
-          zoom: 10, // Zoom darajasi
+          center: [41.311081, 69.24056],
+          zoom: 10,
         }
       );
 
-      setMap(mapInstance); // Kartani saqlash
+      setMap(mapInstance);
     };
 
     initializeMap();
   }, []);
 
-  // Karta bosilganda nuqtani qo'yish
   const handleMapClick = (event: any) => {
-    const coords = event.get('coords'); // [latitude, longitude]
-
-    // Agar marker mavjud bo'lsa, uni o'chirish
+    const coords = event.get('coords');
     if (marker) {
       map.geoObjects.remove(marker);
     }
-    console.log(coords, "44444444");
 
-
-    // Yangi marker yaratish
     const newMarker = new (window as any).ymaps.GeoObject(
       {
         geometry: {
@@ -61,30 +48,27 @@ const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
         },
       },
       {
-        preset: 'islands#greenDotIcon', // Marker ko'rinishi
+        preset: 'islands#greenDotIcon',
       }
     );
 
-    // Kartaga yangi marker qo'yish
     map.geoObjects.add(newMarker);
-    setMarker(newMarker); // Yangi markerni saqlash
+    setMarker(newMarker);
 
-    // Koordinatalarni asosiy komponentga uzatish
     onSelectPoint({
-      lat: coords[0], // Latitude
-      lng: coords[1], // Longitude
+      lat: coords[0],
+      lng: coords[1],
     });
   };
 
-  // Karta yaratildimi va markerni qo'shish uchun eventni qo'shish
   useEffect(() => {
     if (map) {
-      map.events.add('click', handleMapClick); // Xarita bosilganda
+      map.events.add('click', handleMapClick);
     }
 
     return () => {
       if (map) {
-        map.events.remove('click', handleMapClick); // Karta bosilishi tugatilganda
+        map.events.remove('click', handleMapClick)
       }
     };
   }, [map, marker]);
@@ -93,7 +77,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
     <div
       ref={mapRef}
       className='absolute top-[-470px]'
-      style={{ width: '100%', height: '400px' }} // Kartani ko'rsatish
+      style={{ width: '100%', height: '400px' }}
     />
   );
 };

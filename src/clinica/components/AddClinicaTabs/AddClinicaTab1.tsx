@@ -26,8 +26,9 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   const workerPositions = useWorkerPositions()
 
   if (!workerPositions.data || !workerPositions.data.data) {
-    return <p>Loading worker data...</p>; // Yuklanayotgan holat
+    return <p>Ma'lumotlar yuklanmoqda...</p>; // Yuklanayotgan holat
   }
+  
   const handleSelection = (selected: number[]) => {
     console.log("Selected IDs:", selected);
   };

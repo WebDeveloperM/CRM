@@ -27,8 +27,8 @@ export type ClinicaFormData = {
     telegram: string;
     facebook: string;
     youtube: string;
-    geolocationLatitude?: number | undefined;
-    geolocationLongitude?: number | undefined;
+    geolocationLatitude: number;
+    geolocationLongitude: number;
     description: string;
 }
 

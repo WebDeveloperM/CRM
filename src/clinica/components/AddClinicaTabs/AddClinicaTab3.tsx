@@ -15,12 +15,11 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
   const { data, setData } = useClinica();
 
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>();
-  console.log(coordinates, "3333333333333333");
+
   
   useEffect(() => {
     setData({ ...data, geolocationLongitude: coordinates?.lng as number, geolocationLatitude: coordinates?.lat as number })
   }, [coordinates])
-
 
 
   const handleSelectPoint = (coords: { lat: number; lng: number }) => {
@@ -33,8 +32,6 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
       <FormProvider {...methods}>
 
         <form  action="" className="mb-7">
-
-
           <div className="relative h-[300px]">
             <YandexMap onSelectPoint={handleSelectPoint} />
           </div>

@@ -1,3 +1,4 @@
+import { useClinica } from '@clinica/context/ClinicaContext';
 import React, { useEffect, useRef, useState } from 'react';
 
 interface Coordinates {
@@ -14,6 +15,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
   const [map, setMap] = useState<any>(null); // Karta obyekti
   const [marker, setMarker] = useState<any>(null); // Markerni saqlash
 
+  const { data } = useClinica()
   // Yandex xaritasini initializatsiya qilish
   useEffect(() => {
     const initializeMap = async () => {
@@ -24,7 +26,11 @@ const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
       const mapInstance = new ymaps.Map(
         mapRef.current,
         {
-          center: [41.311081, 69.240562], // Toshkent koordinatalari (Markaz)
+          // center: [41.311081, 69.24056], // Toshkent koordinatalari (Markaz)
+          center: [
+            data.geolocationLatitude ? data.geolocationLatitude : 41.311081,
+            data.geolocationLongitude ? data.geolocationLongitude : 69.24056
+          ], // Toshkent koordinatalari (Markaz)
           zoom: 10, // Zoom darajasi
         }
       );
@@ -43,13 +49,15 @@ const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
     if (marker) {
       map.geoObjects.remove(marker);
     }
+    console.log(coords, "44444444");
+
 
     // Yangi marker yaratish
     const newMarker = new (window as any).ymaps.GeoObject(
       {
         geometry: {
           type: 'Point',
-          coordinates: coords, // Tanlangan nuqta koordinatalari
+          coordinates: coords,
         },
       },
       {

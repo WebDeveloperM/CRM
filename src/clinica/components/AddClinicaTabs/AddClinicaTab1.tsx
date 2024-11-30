@@ -28,7 +28,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
   if (!workerPositions.data || !workerPositions.data.data) {
     return <p>Ma'lumotlar yuklanmoqda...</p>; // Yuklanayotgan holat
   }
-  
+
   const handleSelection = (selected: number[]) => {
     console.log("Selected IDs:", selected);
   };
@@ -155,7 +155,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setData({ ...data, clinicType: e.target.value })}
                 value={data.clinicType}
                 className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  ">
-                <option selected>Shifoxona turini tanlang</option>
+                <option>Shifoxona turini tanlang</option>
                 <option value="Xususiy">Xususiy</option>
                 <option value="Davlat tashkiloti">Davlat tashkiloti</option>
                 <option value="Ixtisoslashtirilgan">Ixtisoslashtirilgan</option>

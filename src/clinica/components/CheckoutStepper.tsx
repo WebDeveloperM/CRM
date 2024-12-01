@@ -37,7 +37,7 @@ export default function CheckoutStepper() {
                 header={`
                     ${step == 0 ? "Umumiy ma'lumotlar" : ""}  
                     ${step == 1 ? "Profile" : ""} 
-                    ${step == 2 ? "Manzil" : ""}  
+                    ${step == 2 ? "" : ""}  
                     ${step == 3 ? "Tasdiqlash" : ""} 
                 `}>
                 {step == 0 ? <AddClinicaTab1 onPrevious={onPrevious} onNext={onNext} /> : ""}

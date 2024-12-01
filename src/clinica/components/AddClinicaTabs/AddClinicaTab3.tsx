@@ -1,9 +1,10 @@
 
 import { FormProvider, useForm } from "react-hook-form";
-import YandexMap from "../YandexMap";
-import { useEffect, useState } from "react";
 import { ClinicaFormData } from "src/clinica/types";
-import { useClinica } from "../../context/ClinicaContext";
+// import YandexMap from "../YandexMap";
+// import { useEffect, useState } from "react";
+// import { useClinica } from "../../context/ClinicaContext";
+import YandexMap2 from "../YandexMap2";
 
 type Props = {
   onPrevious: (status: boolean) => void
@@ -12,30 +13,32 @@ type Props = {
 
 export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
   const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
-  const { data, setData } = useClinica();
+  // const { data, setData } = useClinica();
 
-  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>();
-
-
-  useEffect(() => {
-    setData({ ...data, geolocationLongitude: coordinates?.lng as number, geolocationLatitude: coordinates?.lat as number })
-  }, [coordinates])
+  // const [coordinates, setCoordinates] = useState<{ lat: number; lng: number }>();
 
 
-  const handleSelectPoint = (coords: { lat: number; lng: number }) => {
-    setCoordinates(coords);
-  };
+  // useEffect(() => {
+  //   setData({ ...data, geolocationLongitude: coordinates?.lng as number, geolocationLatitude: coordinates?.lat as number })
+  // }, [coordinates])
+
+
+  // const handleSelectPoint = (coords: { lat: number; lng: number }) => {
+  //   setCoordinates(coords);
+  // };
 
 
   return (
-    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll  mt-6 ">
+    <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll  ">
       <FormProvider {...methods}>
 
         <form action="" className="mb-7">
-          <div className="h-[400px] mb-[60px]">
+          {/* <div className="relative h-[400px] mb-[60px]">
             <YandexMap onSelectPoint={handleSelectPoint} />
-          </div>
-          <br /><br /><br /><br />
+          </div> */}
+
+          <YandexMap2 />
+          <br />
           <div className="flex gap-2 justify-between">
             <button
               onClick={() => onPrevious(true)}

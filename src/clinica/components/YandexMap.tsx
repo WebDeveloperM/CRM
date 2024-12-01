@@ -92,7 +92,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ onSelectPoint }) => {
   return (
     <div
       ref={mapRef}
-      // className='absolute top-[-470px]'
+      className='absolute top-[-470px]'
       style={{ width: '100%', height: '400px' }}
     />
   );

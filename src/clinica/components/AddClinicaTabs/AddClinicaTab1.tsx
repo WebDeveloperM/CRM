@@ -204,6 +204,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+                required={false}
                 value={data.licenseExpiryDate}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, licenseExpiryDate: e.target.value })}
                 className="mt-1"

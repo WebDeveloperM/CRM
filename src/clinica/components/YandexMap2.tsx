@@ -59,7 +59,8 @@ const YandexMap2: React.FC = () => {
         <div className="h-[400px] overflow-hidden ">
             {/* Chap qism */}
             <div className="pb-4 bg-white">
-                <p className="text-lg ">{address || "Manzil tanlanmagan"}</p>
+                {/* <p className="text-lg ">{address || }</p> */}
+                <textarea className="input w-full pt-3" value={address} placeholder="Manzil tanlanmagan" onChange={e => setAddress(e.target.value)} />
             </div>
 
             {/* O'ng qism */}

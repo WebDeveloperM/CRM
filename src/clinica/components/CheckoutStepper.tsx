@@ -34,12 +34,13 @@ export default function CheckoutStepper() {
 
             <Panel
                 className='px-5'
-                header={`
-                    ${step == 0 ? "Umumiy ma'lumotlar" : ""}  
-                    ${step == 1 ? "Profile" : ""} 
-                    ${step == 2 ? "" : ""}  
-                    ${step == 3 ? "Tasdiqlash" : ""} 
-                `}>
+                header={
+                    <div className="p-0"> {/* Paddingni olib tashlash uchun `p-0` qo'shildi */}
+                        {step === 0 && "Umumiy ma'lumotlar"}
+                        {step === 1 && "Profile"}
+        
+                        {step === 3 && "Tasdiqlash"}
+                    </div>}>
                 {step == 0 ? <AddClinicaTab1 onPrevious={onPrevious} onNext={onNext} /> : ""}
                 {step == 1 ? <AddClinicaTab2 onPrevious={onPrevious} onNext={onNext} /> : ""}
                 {step == 2 ? <AddClinicaTab3 onPrevious={onPrevious} onNext={onNext} /> : ""}

@@ -57,7 +57,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 placeholder={"Shifoxona nomini kiriting"}
               />
             </div>
-            <div className="2xl:col-span-3 col-span-4">
+            {/* <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
@@ -71,7 +71,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 name="legalAddress"
                 placeholder={"Manzil kiriting"}
               />
-            </div>
+            </div> */}
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={

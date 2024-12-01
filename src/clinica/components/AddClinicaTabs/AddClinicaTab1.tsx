@@ -201,7 +201,6 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
                     Litsenziya amal qilish muddati
-                    <span className="text-red-500">*</span>
                   </label>
                 }
                 required={false}

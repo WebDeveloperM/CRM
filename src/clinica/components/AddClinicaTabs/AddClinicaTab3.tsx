@@ -11,7 +11,6 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
     <div className="overflow-x-auto bg-white rounded-md text-gray-700 z-[-1] h-full pb-5 overflow-y-scroll  ">
 
       <div className="mb-7">
-
         <YandexMap2 />
         <br />
         <div className="flex gap-2 justify-between">

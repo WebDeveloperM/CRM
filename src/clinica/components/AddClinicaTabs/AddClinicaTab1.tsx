@@ -183,9 +183,10 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
                     Litsenziya raqami
-                    <span className="text-red-500">*</span>
+                   
                   </label>
                 }
+                required={false}
                 value={data.licenseNumber}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, licenseNumber: e.target.value })}
                 className="mt-1"

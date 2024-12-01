@@ -153,7 +153,6 @@ const YandexMap2: React.FC = () => {
         <div className="flex h-[400px] overflow-hidden">
             {/* Chap qism */}
             <div className="w-1/4 p-4 bg-white">
-                <h4 className="font-bold mb-4">Manzil:</h4>
                 <p>{address || "Manzil tanlanmagan"}</p>
                 <button
                     type="button"

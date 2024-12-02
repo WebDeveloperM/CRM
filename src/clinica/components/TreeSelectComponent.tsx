@@ -45,11 +45,23 @@ const TreeSelectComponent: React.FC<TreeSelectComponentProps> = ({
     }));
   }, [data, language]);
 
+
   const [value, setValue] = useState<number[]>([]);
 
   const handleChange: TreeSelectProps<number[]>["onChange"] = (newValue) => {
+    const workerData = data[language];
+    newValue = newValue.map(item => {
+      if (typeof item == "string" && workerData) { 
+        Object.entries(workerData).forEach(([category, value]) => {
+          // @ts-ignore
+          if (category === item.toString()) item = value.map((child) => child.id) 
+        })
+      }
+      return item
+    }).flat()
+
     setValue(newValue);
-    onChange(newValue as number[]);
+    onChange(newValue);
   };
 
   return (
@@ -66,3 +78,4 @@ const TreeSelectComponent: React.FC<TreeSelectComponentProps> = ({
 };
 
 export default TreeSelectComponent
+

@@ -8,7 +8,7 @@ import instagram from "../../static/instagram.webp";
 import telegram from "../../static/telegram.png";
 import facebook from "../../static/facebook.png";
 import youtube from "../../static/youtube.png";
-import TreeSelectComponent from "../TreeSelect";
+import TreeSelectComponent from "../TreeSelectComponent";
 import { useWorkerPositions } from "@clinica/hooks/addClinic";
 
 type Props = {
@@ -19,6 +19,7 @@ type Props = {
 
 
 export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
+  const [_, setSelectedIds] = useState<number[]>([]);
   const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
   const { data, setData } = useClinica();
   const [openMedia, setOpenMedia] = useState(false);
@@ -29,13 +30,11 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
     return <p>Ma'lumotlar yuklanmoqda...</p>; // Yuklanayotgan holat
   }
 
-  const handleSelection = (selected: number[]) => {
-    console.log("Selected IDs:", selected);
+  const handleChange = (ids: number[]) => {
+    setSelectedIds(ids);
+    console.log("Selected IDs:", ids);
   };
 
-  // const handleSelection = (selected: number[]) => {
-  //   console.log("Selected IDs:", selected);
-  // };
 
   return (
     <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 " >
@@ -183,7 +182,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
                     Litsenziya raqami
-                   
+
                   </label>
                 }
                 required={false}
@@ -234,12 +233,14 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 <span className="text-red-500">*</span>
               </label>
 
+
               <TreeSelectComponent
                 data={workerPositions.data?.data}
                 language="uz"
-                placeholder="Xodimlarni tanlang"
-                onChange={handleSelection}
+                placeholder="Tanlang"
+                onChange={handleChange}
               />
+
 
             </div>
             <div className="2xl:col-span-3 col-span-4">

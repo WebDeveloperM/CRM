@@ -29,9 +29,10 @@ export function clearPermissions() {
 //     return `${token}`
 // }
 
-export function login({ token, expiration }: { token: string; expiration: string }, navigate: NavigateFunction) {
+export function login({ token, expiration, uniqueToken }: { token: string; expiration: string, uniqueToken: string }, navigate: NavigateFunction) {
     localStorage.setItem("token", token)
     localStorage.setItem("expiration", expiration)
+    localStorage.setItem("uniqueToken", uniqueToken)
     navigate("/clinica")
 }
 

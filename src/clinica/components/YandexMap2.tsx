@@ -1,3 +1,4 @@
+import { useClinica } from "@clinica/context/ClinicaContext";
 import React, { useEffect, useRef, useState } from "react";
 
 const YandexMap2: React.FC = () => {
@@ -5,6 +6,14 @@ const YandexMap2: React.FC = () => {
     const [_, setMapInstance] = useState<any>(null);
     const [__, setPlacemark] = useState<any>(null);
     const [address, setAddress] = useState<string>("");
+
+    const { data, setData } = useClinica();
+
+    console.log(data);
+    
+    useEffect(() => {
+        setData({ ...data, legalAddress: address })
+    }, [address])
 
     useEffect(() => {
         const ymaps = (window as any).ymaps;
@@ -46,6 +55,8 @@ const YandexMap2: React.FC = () => {
     // Koordinatalar asosida manzilni olish
     const fetchAddress = (coords: number[]) => {
         const ymaps = (window as any).ymaps;
+
+        setData({ ...data, geolocationLatitude: coords[0], geolocationLongitude: coords[1] })
 
         ymaps.geocode(coords).then((res: any) => {
             const firstGeoObject = res.geoObjects.get(0);

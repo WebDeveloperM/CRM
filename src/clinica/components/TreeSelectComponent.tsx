@@ -71,7 +71,7 @@ const TreeSelectComponent: React.FC<TreeSelectComponentProps> = ({
       onChange={handleChange}
       treeCheckable
       placeholder={placeholder}
-      style={{ width: "100%" }}
+      style={{ width: "100%", paddingTop: "4px" }}
       showCheckedStrategy={TreeSelect.SHOW_PARENT}
     />
   );

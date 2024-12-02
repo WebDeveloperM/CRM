@@ -32,7 +32,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
 
   const handleChange = (ids: number[]) => {
     setSelectedIds(ids);
-    console.log("Selected IDs:", ids);
+    setData({ ...data, additionalServices: ids })
+    setData({ ...data, uniqueToken: localStorage.getItem("uniqueToken") })
   };
 
 
@@ -56,21 +57,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 placeholder={"Shifoxona nomini kiriting"}
               />
             </div>
-            {/* <div className="2xl:col-span-3 col-span-4">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Manzili
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                value={data.legalAddress}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, legalAddress: e.target.value })}
-                className="mt-1"
-                name="legalAddress"
-                placeholder={"Manzil kiriting"}
-              />
-            </div> */}
+
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
@@ -161,28 +148,12 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               </select>
             </div>
 
-            <div className="2xl:col-span-3 col-span-4">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Xodimlar soni
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                value={data.employeeCount.toString()}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, employeeCount: parseInt(e.target.value) })}
-                type="number"
-                className="mt-1"
-                name="employeeCount"
-                placeholder={"Xodimlar sonini kiriting"}
-              />
-            </div>
+
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
                     Litsenziya raqami
-
                   </label>
                 }
                 required={false}
@@ -191,7 +162,6 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 className="mt-1"
                 name="licenseNumber"
                 placeholder={"Litsenziya raqamini kiriting"}
-
               />
             </div>
 
@@ -227,22 +197,6 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               />
             </div>
 
-            <div className="2xl:col-span-3 col-span-4 mt-1">
-              <label className="text-gray-700 font-medium mt-2">
-                Xizmat turlari
-                <span className="text-red-500">*</span>
-              </label>
-
-
-              <TreeSelectComponent
-                data={workerPositions.data?.data}
-                language="uz"
-                placeholder="Tanlang"
-                onChange={handleChange}
-              />
-
-
-            </div>
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
@@ -258,6 +212,25 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 required={false}
               />
             </div>
+
+            <div className="2xl:col-span-3 col-span-4 mt-1">
+              <label className="text-gray-700 font-medium mt-2">
+                Xizmat turlari
+                <span className="text-red-500">*</span>
+              </label>
+
+
+              <TreeSelectComponent
+                data={workerPositions.data?.data}
+                language="uz"
+                placeholder="Tanlang"
+                onChange={handleChange}
+
+              />
+
+
+            </div>
+
 
           </div>
 

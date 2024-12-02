@@ -9,6 +9,7 @@ export type BaseUserType = ModelType & {
 
 
 export type ClinicaFormData = {
+    uniqueToken: string | null
     clinicName: string;
     legalAddress: string;
     phoneNumber: string;
@@ -17,7 +18,6 @@ export type ClinicaFormData = {
     taxpayerIdNumber: string;
     stateRegistrationNumber: string;
     clinicType: string;
-    employeeCount: number;
     licenseNumber: string;
     licenseExpiryDate: string;
     bankAccountDetails: string;
@@ -31,24 +31,6 @@ export type ClinicaFormData = {
     geolocationLongitude: number;
     description: string;
 }
-
-// interface DataNodeUz {
-//     id: number;
-//     nameUz: string;
-// }
-
-// interface DataNodeRu {
-//     id: number;
-//     nameRu: string;
-// }
-
-
-// export type WorkerDataTypeUz = {
-//     [key: string]: DataNodeUz
-// }
-// export type WorkerDataTypeRu = {
-//     [key: string]: DataNodeRu
-// }
 
 
 export type ClinicaFormDataResponse = BaseResponse & {

@@ -41,7 +41,7 @@ export type AccountLogin = {
 }
 
 export type AccountLoginResponse = BaseResponse & {
-    data: { token: string; expiration: string }[]
+    data: { token: string; expiration: string, uniqueToken: string }[]
 }
 
 // export type AccountLoginResponseAuth = {

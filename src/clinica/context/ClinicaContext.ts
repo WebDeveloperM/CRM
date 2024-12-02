@@ -8,6 +8,7 @@ export interface ClinicaContextType {
 }
 
 export const defaultData: ClinicaFormData = {
+    uniqueToken: "",
     clinicName: "",
     legalAddress: "",
     phoneNumber: "",
@@ -16,7 +17,6 @@ export const defaultData: ClinicaFormData = {
     taxpayerIdNumber: "",
     stateRegistrationNumber: "",
     clinicType: "",
-    employeeCount: 0,
     licenseNumber: "",
     licenseExpiryDate: "",
     bankAccountDetails: "",

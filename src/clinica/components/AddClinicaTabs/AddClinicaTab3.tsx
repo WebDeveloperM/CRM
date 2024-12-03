@@ -43,6 +43,10 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
       toast.warning("Sizning shifoxonangiz mavjud")
       return
     }
+    if (!response.success && response.message == "This admin already has a clinic registered.") {
+      toast.warning("Sizning shifoxonangiz mavjud")
+      return
+    }
     if (!response.success && response.message == "Invalid UniqueToken. Admin not found.") {
       toast.error("Tizimga kirishda nosozlik aniqlandi.")
       navigate("/")

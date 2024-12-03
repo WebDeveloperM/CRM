@@ -4,7 +4,6 @@ import AddClinicaTab1 from './AddClinicaTabs/AddClinicaTab1';
 import AddClinicaTab2 from './AddClinicaTabs/AddClinicaTab2';
 
 import AddClinicaTab3 from './AddClinicaTabs/AddClinicaTab3';
-import AddClinicaTab4 from './AddClinicaTabs/AddClinicaTab4';
 
 export default function CheckoutStepper() {
     const [step, setStep] = React.useState(0);

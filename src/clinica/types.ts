@@ -34,9 +34,8 @@ export type ClinicaFormData = {
 
 
 export type ClinicaFormDataResponse = BaseResponse & {
-    data?: []
+    data: [{ clinicId: string, clinicName: string, logoFilePath: string }]
 }
-
 
 
 // Xodim ma'lumotlari uchun umumiy interfeys
@@ -62,3 +61,13 @@ export type WorkerPositionsResponse = BaseResponse & {
     data: WorkerData; // Xodimlar ma'lumotlari
 }
 
+
+
+export type UploadClinicLogo = {
+    logo: File | null
+}
+
+
+export type UploadClinicLogoResponse = BaseResponse & {
+    data: [{ clinicId: string, clinicShortName: string, byDefaultLogo: boolean, logoFilePath: string }]
+}

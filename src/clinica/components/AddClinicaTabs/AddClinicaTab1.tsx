@@ -3,13 +3,17 @@ import { FormProvider, useForm } from "react-hook-form";
 import { ClinicaFormData } from "src/clinica/types";
 import { useClinica } from "../../context/ClinicaContext";
 import { FaLink } from "react-icons/fa";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import instagram from "../../static/instagram.webp";
 import telegram from "../../static/telegram.png";
 import facebook from "../../static/facebook.png";
 import youtube from "../../static/youtube.png";
 import TreeSelectComponent from "../TreeSelectComponent";
 import { useWorkerPositions } from "@clinica/hooks/addClinic";
+import MathCaptcha from "@core/components/Captcha";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { useMask } from "@react-input/mask";
 
 type Props = {
   onPrevious: (status: boolean) => void
@@ -19,28 +23,91 @@ type Props = {
 
 
 export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
-  const [_, setSelectedIds] = useState<number[]>([]);
-  const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [сlinicaType, setClinicaType] = useState("");
   const { data, setData } = useClinica();
   const [openMedia, setOpenMedia] = useState(false);
-
+  const [check, setCheck] = useState<SetStateAction<boolean>>(false)
+  const [isVerified, setIsVerified] = useState(false)
+  const { t, i18n } = useTranslation()
   const workerPositions = useWorkerPositions()
+
+  const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
+  const inputRef = useMask({ mask: "(__) ___-__-__", replacement: { _: /\d/ } })
+  const { ref: formInputRef } = methods.register("phoneNumber")
+
+  const inputRefINN = useMask({ mask: "_________", replacement: { _: /\d/ } })
+  const { ref: formInputRefINN } = methods.register("taxpayerIdNumber")
+
+  const inputRefSTIR = useMask({ mask: "_________", replacement: { _: /\d/ } })
+  const { ref: formInputRefSTIR } = methods.register("stateRegistrationNumber")
+
+  const inputRefLits = useMask({ mask: "__________________________________", replacement: { _: /\d/ } })
+
+  const { ref: formInputRefLits } = methods.register("licenseNumber")
+
+
+
+  const handleChange = (ids: number[]) => {
+    setSelectedIds(ids);
+  };
+  const handleCaptchaVerify = (status: boolean) => {
+    setIsVerified(status);
+  };
+
+  async function onSubmit(data: ClinicaFormData) {
+
+    data.additionalServices = selectedIds
+    data.uniqueToken = localStorage.getItem("uniqueToken")
+    data.clinicType = сlinicaType
+
+
+    if (!localStorage.getItem("uniqueToken")) {
+
+    }
+    const phoneNumber = "+998" + data.phoneNumber.replace(/\D/g, "")
+    setData({ ...data, phoneNumber: phoneNumber, uniqueToken: localStorage.getItem("uniqueToken") })
+
+
+    if (data.taxpayerIdNumber.length != 9) {
+      toast.warning(t("innError"))
+      return
+    }
+
+    if (data.stateRegistrationNumber.length != 9) {
+      toast.warning(t("stirError"))
+      return
+    }
+
+    if (сlinicaType == "") {
+      toast.warning(t("clinicTypeError"))
+      return
+    }
+
+    if (data.additionalServices.length == 0) {
+      toast.warning(t("additionalServicesError"))
+      return
+    }
+
+    if (!check) {
+      toast.warning(t("agreeTerms"))
+      return
+    }
+    if (!isVerified) {
+      toast.warning(t("proveNotRobot"))
+      return
+    }
+    onNext(true)
+  }
+
 
   if (!workerPositions.data || !workerPositions.data.data) {
     return <p>Ma'lumotlar yuklanmoqda...</p>; // Yuklanayotgan holat
   }
-
-  const handleChange = (ids: number[]) => {
-    setSelectedIds(ids);
-    setData({ ...data, additionalServices: ids })
-    setData({ ...data, uniqueToken: localStorage.getItem("uniqueToken") })
-  };
-
-
   return (
     <div className="overflow-x-auto rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 " >
       <FormProvider {...methods}>
-        <div className="mb-7">
+        <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-7">
           <div className="sm:grid grid-cols-12 gap-3 px-0.5">
             <div className="2xl:col-span-3 col-span-4">
               <FormInput
@@ -71,6 +138,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 className="mt-1"
                 name="phoneNumber"
                 placeholder={"Telefon raqam kiriting"}
+                inputRef={inputRef}
+                formInputRef={formInputRef}
               />
             </div>
             <div className="2xl:col-span-3 col-span-4">
@@ -117,6 +186,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 className="mt-1"
                 name="taxpayerIdNumber"
                 placeholder={"INN raqam kiriting"}
+                inputRef={inputRefINN}
+                formInputRef={formInputRefINN}
               />
             </div>
             <div className="2xl:col-span-3 col-span-4">
@@ -127,18 +198,25 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
+
                 value={data.stateRegistrationNumber}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, stateRegistrationNumber: e.target.value })}
                 className="mt-1"
                 name="stateRegistrationNumber"
                 placeholder={"STIR raqami"}
+                inputRef={inputRefSTIR}
+                formInputRef={formInputRefSTIR}
               />
             </div>
 
             <div className="2xl:col-span-3 col-span-4 px-0.5 mt-1">
               <label className="block mb-1 text-sm font-medium text-gray-900 ">Shifoxona turi</label>
               <select id="countries" name="clinicType"
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setData({ ...data, clinicType: e.target.value })}
+                onChange={(e) => {
+                  setData({ ...data, clinicType: e.target.value })
+                  setClinicaType(e.target.value)
+                }
+                }
                 value={data.clinicType}
                 className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  ">
                 <option>Shifoxona turini tanlang</option>
@@ -162,6 +240,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 className="mt-1"
                 name="licenseNumber"
                 placeholder={"Litsenziya raqamini kiriting"}
+                inputRef={inputRefLits}
+                formInputRef={formInputRefLits}
               />
             </div>
 
@@ -194,6 +274,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                 className="mt-1"
                 name="bankAccountDetails"
                 placeholder={"Bank xisob raqamini kiriting"}
+                type="number"
               />
             </div>
 
@@ -305,6 +386,45 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               </div>
             </div>
             : null}
+          <div className="flex items-center my-5">
+            <input
+              id="link-radio"
+              type="radio"
+              onChange={(e) => setCheck(e.target.checked)}
+              className="w-3 h-3 text-secondary bg-gray-100 border-gray-300 "
+            />
+            <label className="ms-2 text-sm  text-gray-900 ">
+              {i18n.language == 'ru' ?
+                <>
+                  Я согласен на использование и обработку моих персональных данных в соответствии
+                  <a
+                    target="_blank"
+                    href="https://lex.uz/docs/-4396419"
+                    className="text-secondary underline ml-1"
+                    rel="noreferrer"
+                  >
+                    с требованиями законодательства.
+                  </a> </>
+                :
+                <>
+                  <a
+                    target="_blank"
+                    href="https://lex.uz/docs/-4396419"
+                    className="text-secondary underline mr-1"
+                    rel="noreferrer"
+                  >
+                    Qonun talablari
+                  </a>
+                  doirasida shaxsga doir maʼlumotlarimdan foydalanishga va ishlov berishga rozilik
+                  bildiraman.
+                </>
+              }
+            </label>
+          </div>
+
+          <div className="my-5 2xl:max-w-[20%] sm:max-w-[30%] ">
+            <MathCaptcha onVerify={handleCaptchaVerify} />
+          </div>
 
 
           <div className="flex gap-2 justify-between">
@@ -316,13 +436,13 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               Oldingi
             </button>
             <button
-              onClick={() => onNext(true)}
+              type="submit"
               className="w-24 p-1.5  mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Keyingi
             </button>
           </div>
-        </div>
+        </form>
       </FormProvider>
     </div >
   )

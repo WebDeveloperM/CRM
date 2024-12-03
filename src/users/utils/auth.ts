@@ -44,7 +44,10 @@ export function logout(navigate: NavigateFunction) {
 export function isAuthenticated() {
     const now = new Date()
     const expiration = localStorage.getItem("expiration")
+    const uniqueToken = localStorage.getItem("uniqueToken")
+ 
     if (!expiration) return false
+    if (!uniqueToken) return false
 
     const targetDate = new Date(expiration as string)
     return localStorage.getItem("token") && now < targetDate

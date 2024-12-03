@@ -76,7 +76,6 @@ export default function Register() {
             return
         }
 
-
         const response = await mutateAsync(data)
 
         if (response.success) {

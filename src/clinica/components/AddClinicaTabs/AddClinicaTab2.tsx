@@ -1,12 +1,12 @@
 import { FormProvider, useForm } from "react-hook-form";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { useRef, useState } from "react";
+import { SetStateAction, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { VscRefresh } from "react-icons/vsc";
 
 import { ConfigProvider, Flex, Input, Typography } from 'antd';
-import { ClinicaFormData } from "src/clinica/types";
+import {  UploadClinicLogo } from "src/clinica/types";
 
 
 type Props = {
@@ -17,13 +17,17 @@ type Props = {
 
 
 export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
-  const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
+  const methods = useForm<UploadClinicLogo>({ mode: "onBlur" })
   const [file, setFile] = useState<File | null>(null);
   const [image, setImage] = useState<string | null>(null);
+  const [_, setCheckbox] = useState<SetStateAction<boolean>>(false)
   const cropperRef = useRef<HTMLImageElement>(null);
+  // const { mutateAsync, isLoading, error } = useUploadClinicLogo()
 
-  async function onSubmit() {
-
+  
+  async function onSubmit(data: UploadClinicLogo) {
+      data.logo = file
+      // const response = await mutateAsync()
   }
   const theme = {
     token: {
@@ -136,7 +140,7 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
 
           <div className="flex items-start my-3 ml-1">
             <div className="flex items-center h-5">
-              <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " required />
+              <input id="remember" type="checkbox" onChange={(e) => setCheckbox(e.target.checked)} value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " required />
             </div>
             <label className="ms-2 text-sm font-medium text-gray-900">Asosiy logo sifatida o'rnatish</label>
           </div>

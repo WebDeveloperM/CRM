@@ -42,7 +42,7 @@ export default function CheckoutStepper() {
                     </div>}>
                 {step == 0 ? <AddClinicaTab1 onPrevious={onPrevious} onNext={onNext} /> : ""}
                 {step == 1 ? <AddClinicaTab3 onPrevious={onPrevious} onNext={onNext} /> : ""}
-                {step == 2 ? <AddClinicaTab2 onPrevious={onPrevious} onNext={onNext} /> : ""}
+                {step == 2 ? <AddClinicaTab2 onPrevious={onPrevious} /> : ""}
                 {/* {step == 3 ? <AddClinicaTab4 onPrevious={onPrevious} onNext={onNext} /> : ""} */}
             </Panel>
         </div>

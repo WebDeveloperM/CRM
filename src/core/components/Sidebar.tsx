@@ -9,7 +9,7 @@ import { GoPackageDependents } from "react-icons/go"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { logout } from "@users/utils/auth"
-
+import { FaRegHospital } from "react-icons/fa6";
 type Prop = {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
@@ -63,7 +63,19 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             Asosiy
                         </span>
                     </Link>
-
+                    <Link
+                        to="/clinica/my-clinica"
+                        className={`flex items-center pl-[18px] mt-0.5  group text-secondary text-sm gap-x-4 cursor-pointer px-2 py-1.5 hover:bg-secondary/10 rounded-r-full ${pathname.startsWith("/clinica") ? "bg-secondary-light" : ""}`}
+                    >
+                        <FaRegHospital
+                            className={`text-gray-900 overflow-clip cursor-pointer w-[35px] h-[35px] p-2 rounded-lg ${pathname.startsWith("/clinica") ? "bg-secondary text-white group-hover:bg-secondary group-hover:text-white" : "bg-secondary-light text-gray-900 group-hover:bg-white group-hover:text-secondary "}`}
+                        />
+                        <span
+                            className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/clinica") ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800`}
+                        >
+                            Shifoxona
+                        </span>
+                    </Link>
                     <Link
                         to="/doctors"
                         className={`flex items-center pl-[18px] mt-0.5  group text-secondary text-sm gap-x-4 cursor-pointer px-2 py-1.5 hover:bg-secondary/10 rounded-r-full ${pathname.startsWith("/doctors") ? "bg-secondary-light" : ""}`}
@@ -77,6 +89,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                             Shifokorlar
                         </span>
                     </Link>
+
 
                     <Link
                         to="/patients"

@@ -30,6 +30,8 @@ export function clearPermissions() {
 // }
 
 export function login({ token, expiration, uniqueToken }: { token: string; expiration: string, uniqueToken: string }, navigate: NavigateFunction) {
+    console.log(uniqueToken, "111111111111")
+    
     localStorage.setItem("token", token)
     localStorage.setItem("expiration", expiration)
     localStorage.setItem("uniqueToken", uniqueToken)

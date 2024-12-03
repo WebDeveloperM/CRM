@@ -50,24 +50,20 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
 
   const handleChange = (ids: number[]) => {
     setSelectedIds(ids);
+    setData({ ...data, additionalServices: ids })
+
   };
   const handleCaptchaVerify = (status: boolean) => {
     setIsVerified(status);
+
   };
 
   async function onSubmit(data: ClinicaFormData) {
 
     data.additionalServices = selectedIds
-    data.uniqueToken = localStorage.getItem("uniqueToken")
     data.clinicType = сlinicaType
-
-
-    if (!localStorage.getItem("uniqueToken")) {
-
-    }
     const phoneNumber = "+998" + data.phoneNumber.replace(/\D/g, "")
-    setData({ ...data, phoneNumber: phoneNumber, uniqueToken: localStorage.getItem("uniqueToken") })
-
+    setData({ ...data, phoneNumber: phoneNumber, additionalServices: selectedIds, clinicType: сlinicaType })
 
     if (data.taxpayerIdNumber.length != 9) {
       toast.warning(t("innError"))
@@ -133,7 +129,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
-                value={data.phoneNumber}
+                defaultValue={data.phoneNumber}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, phoneNumber: e.target.value })}
                 className="mt-1"
                 name="phoneNumber"
@@ -181,7 +177,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                     <span className="text-red-500">*</span>
                   </label>
                 }
-                value={data.taxpayerIdNumber}
+                value={data.taxpayerIdNumber.replace(/\D/g, "")}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, taxpayerIdNumber: e.target.value })}
                 className="mt-1"
                 name="taxpayerIdNumber"
@@ -278,21 +274,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
               />
             </div>
 
-            <div className="2xl:col-span-3 col-span-4">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Qayd qilish tizimi
-                  </label>
-                }
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, accountingSystem: e.target.value })}
-                value={data.accountingSystem}
-                className="mt-1"
-                placeholder="Qayd qilish tizimini kiriting"
-                name="accountingSystem"
-                required={false}
-              />
-            </div>
+
 
             <div className="2xl:col-span-3 col-span-4 mt-1">
               <label className="text-gray-700 font-medium mt-2">
@@ -437,6 +419,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
             </button>
             <button
               type="submit"
+
               className="w-24 p-1.5  mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Keyingi

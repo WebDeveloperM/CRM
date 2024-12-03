@@ -69,5 +69,16 @@ export type UploadClinicLogo = {
 
 
 export type UploadClinicLogoResponse = BaseResponse & {
-    data: [{ clinicId: string, clinicShortName: string, byDefaultLogo: boolean, logoFilePath: string }]
+    data: [{ clinicId: number, clinicShortName: string, byDefaultLogo: boolean, logoFilePath: string }]
 }
+
+
+export type UploadClinicaPhotoParams = {
+    clinicId: number
+    clinicShortName: string
+    byDefaultLogo: boolean
+}
+
+
+
+

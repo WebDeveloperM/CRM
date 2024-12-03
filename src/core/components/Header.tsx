@@ -7,13 +7,14 @@ import { RiHome3Line } from "react-icons/ri";
 import logo from "@core/static/logo.png";
 import { FaBars } from "react-icons/fa6";
 import { Dispatch, SetStateAction } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AvatarWithDot from "./AvatarWithDot";
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import "../static/style.css"
 import { routerNames } from "@core/utils/routesName";
 import LanguageChangerAnt from "./LanguageChangerAnt";
+import { logout } from "@users/utils/auth";
 
 type Prop = {
     open: boolean,
@@ -21,17 +22,19 @@ type Prop = {
     link: string
 }
 
-const items: MenuProps['items'] = [
-    {
-        key: '1',
-        label: (
-            <Link to={"/"} >Chiqish </Link>
-        ),
-    }
-];
 
 export default function Header({ open, setOpen }: Prop) {
     const pathname = useLocation();
+    const navigate = useNavigate()
+
+    const items: MenuProps['items'] = [
+        {
+            key: '1',
+            label: (
+                <button onClick={() => logout(navigate)} >Chiqish </button>
+            ),
+        }
+    ];
 
     return (
         <div className="fixed top-0 left-0 right-0 z-10">

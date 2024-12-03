@@ -9,10 +9,8 @@ const YandexMap2: React.FC = () => {
 
     const { data, setData } = useClinica();
 
-    console.log(data);
-    
     useEffect(() => {
-        setData({ ...data, legalAddress: address })
+        setData({ ...data, legalAddress: address, uniqueToken: localStorage.getItem("uniqueToken") })
     }, [address])
 
     useEffect(() => {

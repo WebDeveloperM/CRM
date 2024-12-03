@@ -3,13 +3,13 @@ import { useAccountLogin } from "@users/hooks/superUser"
 import { AccountLogin } from "@users/types"
 import FormInput from "@core/components/FormInput"
 import { FormProvider, useForm } from "react-hook-form"
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import MathCaptcha from "@core/components/Captcha"
 import { useState } from "react"
 import clsx from "clsx"
 import { useTranslation } from "react-i18next"
-import { isAuthenticated, login } from "@users/utils/auth"
+import { login } from "@users/utils/auth"
 import LanguageChangerAnt from "@core/components/LanguageChangerAnt"
 
 let passwordTimeOutId: ReturnType<typeof setTimeout>
@@ -66,9 +66,9 @@ export default function Login() {
         }
     }
 
-    if (isAuthenticated()) {
-        return <Navigate to="/clinica/" />
-    }
+    // if (isAuthenticated()) {
+    //     return <Navigate to="/clinica/" />
+    // }
 
     return (
         <div className="bg-[url('/src/users/static/login-bg.svg')] h-screen w-full bg-cover sm:bg-bottom relative">

@@ -1,34 +1,72 @@
+import React from 'react';
 import { FormProvider, useForm } from "react-hook-form";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { SetStateAction, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { VscRefresh } from "react-icons/vsc";
-
 import { ConfigProvider, Flex, Input, Typography } from 'antd';
-import {  UploadClinicLogo } from "src/clinica/types";
-
+import { UploadClinicaPhotoParams, UploadClinicLogo } from "src/clinica/types";
+import { useUploadClinicLogo } from "@clinica/hooks/addClinic";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   onPrevious: (status: boolean) => void
-  onNext: (status: boolean) => void
 }
 
 
-
-export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
+export default function AddClinicaTab2({ onPrevious }: Props) {
   const methods = useForm<UploadClinicLogo>({ mode: "onBlur" })
-  const [file, setFile] = useState<File | null>(null);
   const [image, setImage] = useState<string | null>(null);
-  const [_, setCheckbox] = useState<SetStateAction<boolean>>(false)
-  const cropperRef = useRef<HTMLImageElement>(null);
-  // const { mutateAsync, isLoading, error } = useUploadClinicLogo()
+  const [file, setFile] = useState<File | null>(null);
+  const [checkbox, setCheckbox] = useState(false);
+  const [logoShortName, setLogoShortName] = useState<string>("");
+  // const [confirm, setConfirm] = useState(false);
+  // const [modal, contextHolder] = Modal.useModal();
+  const navigate = useNavigate()
 
-  
-  async function onSubmit(data: UploadClinicLogo) {
-      data.logo = file
-      // const response = await mutateAsync()
+
+
+  const cropperRef = useRef<HTMLImageElement>(null);
+
+
+  const { mutateAsync } = useUploadClinicLogo();
+
+  async function onSubmit() {
+
+    if (!file && !image) {
+      toast.error("Rasm tanlanmagan");
+      return;
+    }
+    const data: UploadClinicLogo & UploadClinicaPhotoParams = {
+      logo: file,
+      clinicId: parseInt(localStorage.getItem("clinicId") as string),
+      clinicShortName: logoShortName,
+      byDefaultLogo: !checkbox,
+    };
+
+    const result = confirm("Ma'lumotlarni tasdiqlaysizmi?")
+
+    if (!result) {
+      toast.warning("Ma'lumotlar tasdiqlanmagan")
+      return
+    }
+
+    const response = await mutateAsync(data);
+
+    if (!response.success && response.message == "No logo file provided.") {
+      toast.error("Rasm yuklashda xatolik bor");
+      return
+    }
+    if (response.success && response.message == "Clinic logo and short name updated successfully.") {
+      toast.success("Profile muvaffaqqiyatli saqlandi");
+      navigate("/clinica/my-clinica")
+      return
+    }
+
   }
+
+
   const theme = {
     token: {
       colorPrimary: '#238781',
@@ -54,8 +92,6 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
         if (blob) {
           const croppedFile = new File([blob], "cropped-image.png", { type: "image/png" });
           setFile(croppedFile);
-          console.log(croppedFile, "Cropped File");
-          toast.success("Logotip muvaffaqiyatli qo'shildi");
         }
       }, 'image/png');
     }
@@ -75,7 +111,7 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
                       <svg className="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                       </svg>
-                      <p className="mb-2 text-sm text-gray-500 "><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                      <p className="mb-2 text-sm text-gray-500 "><span className="font-semibold">Profile rasmini yuklash</span></p>
                       <p className="text-xs text-gray-500  text-center">SVG, PNG, JPG or GIF (MAX. 400x400px)</p>
                     </div>
                     <input id="dropzone-file" type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
@@ -130,6 +166,8 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
                     show: true,
                     max: 10,
                   }}
+                  maxLength={10}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogoShortName(e.target.value)}
                   placeholder="Uzlabs.uz"
                   className="focus:ring-1 focus:ring-secondary focus:outline-none max-w-[60%] sm:max-w-[15%] mx-0.5"
                 />
@@ -140,7 +178,7 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
 
           <div className="flex items-start my-3 ml-1">
             <div className="flex items-center h-5">
-              <input id="remember" type="checkbox" onChange={(e) => setCheckbox(e.target.checked)} value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " required />
+              <input type="checkbox" onChange={(e) => setCheckbox(e.target.checked)} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " />
             </div>
             <label className="ms-2 text-sm font-medium text-gray-900">Asosiy logo sifatida o'rnatish</label>
           </div>
@@ -153,11 +191,33 @@ export default function AddClinicaTab2({ onPrevious, onNext }: Props) {
             >
               Oldingi
             </button>
+
+            {/* <ReachableContext.Provider value="Light">
+              <Space>
+                <Button
+                  className="w-24 p-1.5 my-2 mt-2 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
+                  onClick={async () => {
+                    if (!file) {
+                      toast.error("Rasm tanlanmagan");
+                      return;
+                    }
+
+                    const confirmed = await modal.confirm(config);
+                    setConfirm(confirmed)
+                  }}
+                >
+                  Tasdiqlash
+                </Button>
+              </Space>
+
+              {contextHolder}
+              <UnreachableContext.Provider value="Bamboo" />
+            </ReachableContext.Provider> */}
             <button
-              onClick={() => onNext(true)}
+              type="submit"
               className="w-24 p-1.5 my-2 mt-2 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
-              Keyingi
+              Tasdiqlash
             </button>
           </div>
 

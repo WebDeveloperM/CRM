@@ -4,14 +4,18 @@ import { useState } from "react"
 import { BiSolidEdit } from "react-icons/bi"
 import { FaRegTrashAlt } from "react-icons/fa"
 import { LuEye } from "react-icons/lu"
+import { LuEyeOff } from "react-icons/lu";
 import { Navigate, useNavigate } from "react-router-dom"
 import { FaTrashAlt } from "react-icons/fa"
 import { useDeleteClinicData } from "@my-clinica/hooks/deleteClinic"
 import { toast } from "react-toastify"
 import Tooltip from "@core/components/Tooltip"
+import { domain } from "@core/utils/baseAxios"
+import ShowClinicData from "./ShowClinicData"
 
 export default function MyClinicaTable() {
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [showData, setShowData] = useState(false)
 
     const navigate = useNavigate()
 
@@ -35,7 +39,7 @@ export default function MyClinicaTable() {
 
     return (
         <div className=" ">
-            <table className="table-md  min-w-full text-left  whitespace-nowrap rounded-md  scrollbar h-2/3 overflow-y-scroll ">
+            <table className="table-md   min-w-full text-left  whitespace-nowrap rounded-md  scrollbar h-2/3 overflow-y-scroll ">
                 <thead className="tracking-wider sticky top-0  bg-secondary  rounded-md text-white  ">
                     <tr>
                         <th scope="col" className=" px-3 py-2 font-semibold   w-[30px] ">
@@ -80,12 +84,15 @@ export default function MyClinicaTable() {
                 </thead>
 
                 <tbody className="">
-                    <tr className="border-b   border-l hover:bg-neutral-100 ">
+                    <tr className="border-b   border-l ">
                         <th scope="row" className="2xl:px-5 px-3 py-1.5  ">
                             1
                         </th>
-                        <td className="2xl:px-5 px-3 py-1.5 min-w-[250px]">{clincData.data?.data.clinicName}</td>
-                        <td className="2xl:px-5 px-3 py-1.5  flex items-center gap-2 whitespace-normal break-words">
+                        <td className="2xl:px-5 px-3 py-1.5 min-w-[200px] max-w-[250px] flex items-center gap-2 whitespace-normal break-words">
+                            <img src={`${domain}/${clincData.data?.data.logoFilePath}`} alt="logo" className={`w-10 cursor-pointer`} />
+                            {clincData.data?.data.clinicName}
+                        </td>
+                        <td className="2xl:px-5 px-3 py-1.5 min-w-[240px] gap-2 whitespace-normal break-words">
                             {clincData.data?.data.legalAddress}
                         </td>
                         <td className="2xl:px-5 px-3 py-1.5 ">{clincData.data?.data.phoneNumber}</td>
@@ -103,7 +110,11 @@ export default function MyClinicaTable() {
                                     <BiSolidEdit className="text-blue-500 cursor-pointer" />
                                 </Tooltip>
                                 <Tooltip tip={"ko'rish"}>
-                                    <LuEye className="text-green-500 cursor-pointer" />
+                                    {showData ?
+                                        <LuEyeOff onClick={() => setShowData(!showData)} className="text-green-500 cursor-pointer" />
+                                        :
+                                        <LuEye onClick={() => setShowData(!showData)} className="text-green-500 cursor-pointer" />
+                                    }
                                 </Tooltip>
                             </div>
                         </td>
@@ -139,6 +150,10 @@ export default function MyClinicaTable() {
                     </div>
                 </div>
             )}
+
+            {showData && <ShowClinicData />}
+
+
         </div>
     )
 }

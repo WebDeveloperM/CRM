@@ -21,10 +21,9 @@ export default function MyClinicaTable() {
     const navigate = useNavigate()
 
     const clinicId = localStorage.getItem("clinicId")
-    const clincData = useGetClinicData(clinicId as string)
+    const clincData = useGetClinicData(clinicId ? clinicId as string : "0")
     const { mutateAsync } = useDeleteClinicData(clinicId as string)
 
-    console.log(clincData, "2222222222");
 
     const handleDelete = async () => {
         const response = await mutateAsync()
@@ -95,7 +94,7 @@ export default function MyClinicaTable() {
                             <img src={!clincData.data?.data.byDefaultLogo ? `${domain}/${clincData.data?.data.logoFilePath}` : logo} alt="logo" className={`w-10 cursor-pointer`} />
                             {clincData.data?.data.clinicName}
                         </td>
-                        <td className="2xl:px-5 px-3 py-1.5 min-w-[240px] gap-2 whitespace-normal break-words">
+                        <td className="2xl:px-5 px-3 py-1.5 min-w-[200px] gap-2 whitespace-normal break-words">
                             {clincData.data?.data.legalAddress}
                         </td>
                         <td className="2xl:px-5 px-3 py-1.5 ">{clincData.data?.data.phoneNumber}</td>

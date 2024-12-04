@@ -21,7 +21,7 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
   const [image, setImage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [checkbox, setCheckbox] = useState(false);
-  const [logoShortName, setLogoShortName] = useState<string>("");
+  const [logoShortName, setLogoShortName] = useState<string>("Uzlabs.uz");
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
 
@@ -167,6 +167,7 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
                     max: 10,
                   }}
                   maxLength={10}
+                  required={false}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogoShortName(e.target.value)}
                   placeholder="Uzlabs.uz"
                   className="focus:ring-1 focus:ring-secondary focus:outline-none max-w-[60%] sm:max-w-[15%] mx-0.5"

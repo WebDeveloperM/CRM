@@ -12,6 +12,7 @@ import { toast } from "react-toastify"
 import Tooltip from "@core/components/Tooltip"
 import { domain } from "@core/utils/baseAxios"
 import ShowClinicData from "./ShowClinicData"
+import logo from "@core/static/logo.png";
 
 export default function MyClinicaTable() {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -22,6 +23,8 @@ export default function MyClinicaTable() {
     const clinicId = localStorage.getItem("clinicId")
     const clincData = useGetClinicData(clinicId as string)
     const { mutateAsync } = useDeleteClinicData(clinicId as string)
+
+    console.log(clincData, "2222222222");
 
     const handleDelete = async () => {
         const response = await mutateAsync()
@@ -89,7 +92,7 @@ export default function MyClinicaTable() {
                             1
                         </th>
                         <td className="2xl:px-5 px-3 py-1.5 min-w-[200px] max-w-[250px] flex items-center gap-2 whitespace-normal break-words">
-                            <img src={`${domain}/${clincData.data?.data.logoFilePath}`} alt="logo" className={`w-10 cursor-pointer`} />
+                            <img src={!clincData.data?.data.byDefaultLogo ? `${domain}/${clincData.data?.data.logoFilePath}` : logo} alt="logo" className={`w-10 cursor-pointer`} />
                             {clincData.data?.data.clinicName}
                         </td>
                         <td className="2xl:px-5 px-3 py-1.5 min-w-[240px] gap-2 whitespace-normal break-words">

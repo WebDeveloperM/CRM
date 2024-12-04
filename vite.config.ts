@@ -14,6 +14,7 @@ export default defineConfig({
             "@users": `${path.resolve(__dirname, "./src/users/")}`,
             "@appointments": `${path.resolve(__dirname, "./src/appointments/")}`,
             "@clinica": `${path.resolve(__dirname, "./src/clinica/")}`,
+            "@my-clinica": `${path.resolve(__dirname, "./src/myClinica/")}`,
         },
     },
 

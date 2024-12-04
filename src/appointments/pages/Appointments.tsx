@@ -5,10 +5,15 @@ import { MdOutlineGridOn } from "react-icons/md"
 import { LuCalendarDays } from "react-icons/lu"
 import PatientItem from "../components/PatientItem"
 import { data } from "../utils/data"
+import { isCheckClinic } from "@users/utils/auth"
+import { Navigate } from "react-router-dom"
 
 export default function Appointments() {
     const [open, setOpen] = useState(true)
 
+    if (!isCheckClinic()) {
+        return <Navigate to='/clinica' />
+    }
     return (
         <>
             <Layout open={open} setOpen={setOpen}>

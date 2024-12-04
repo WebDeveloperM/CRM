@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css"
 import ClinicaRoutes from "./clinica/Routes"
 import 'rsuite/dist/rsuite.min.css';
 import 'react-quill/dist/quill.snow.css';
+import MyClinicaRoutes from "./myClinica/Routes"
 
 export default function App() {
     return (
@@ -25,6 +26,7 @@ export default function App() {
                         <Route path="/doctors/*" element={<DoctorsRoutes />} />
                         <Route path="/appointments/*" element={<AppointmentsRoutes />} />
                         <Route path="/clinica/*" element={<ClinicaRoutes />} />
+                        <Route path="/my-clinica/*" element={<MyClinicaRoutes />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </BrowserRouter>

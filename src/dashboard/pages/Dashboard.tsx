@@ -1,7 +1,7 @@
 import Layout from "@core/components/Layout"
 import { useState } from "react"
 import Main from "../components/Main"
-import { isAuthenticated } from "@users/utils/auth.ts"
+import { isAuthenticated, isCheckClinic } from "@users/utils/auth.ts"
 import { Navigate } from "react-router-dom"
 
 export default function Dashboard() {
@@ -9,6 +9,11 @@ export default function Dashboard() {
 
     if (!isAuthenticated()) {
         return <Navigate to="/" />
+    }
+
+
+    if (!isCheckClinic()) {
+        return <Navigate to='/clinica' />
     }
 
     return (

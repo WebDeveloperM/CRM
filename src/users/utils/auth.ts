@@ -29,13 +29,13 @@ export function clearPermissions() {
 //     return `${token}`
 // }
 
-export function login({ token, expiration, uniqueToken }: { token: string; expiration: string, uniqueToken: string }, navigate: NavigateFunction) {
-    console.log(uniqueToken, "111111111111")
-    
+export function login({ clinicId, token, expiration, uniqueToken }: { token: string; expiration: string, uniqueToken: string, clinicId: number }, navigate: NavigateFunction) {
     localStorage.setItem("token", token)
     localStorage.setItem("expiration", expiration)
     localStorage.setItem("uniqueToken", uniqueToken)
-    navigate("/clinica")
+    localStorage.setItem("clinicId", clinicId.toString())
+    clinicId == 0 ? navigate("/clinica") : navigate("/dashboard")
+        
 }
 
 export function logout(navigate: NavigateFunction) {
@@ -47,7 +47,7 @@ export function isAuthenticated() {
     const now = new Date()
     const expiration = localStorage.getItem("expiration")
     const uniqueToken = localStorage.getItem("uniqueToken")
- 
+
     if (!expiration) return false
     if (!uniqueToken) return false
 
@@ -55,4 +55,7 @@ export function isAuthenticated() {
     return localStorage.getItem("token") && now < targetDate
 }
 
-
+export function isCheckClinic() {
+    const clinicId = localStorage.getItem("clinicId")
+    return clinicId && parseInt(clinicId) != 0
+}

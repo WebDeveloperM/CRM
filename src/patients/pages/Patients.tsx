@@ -1,11 +1,15 @@
 import Layout from "@core/components/Layout";
 import { useState } from "react";
 import Table from "../components/Table";
+import { isCheckClinic } from "@users/utils/auth";
+import { Navigate } from "react-router-dom";
 
 export default function Patients() {
     const [open, setOpen] = useState(true);
     // const [filter, setFilter] = useState(false);
-
+    if (!isCheckClinic()) {
+        return <Navigate to='/clinica' />
+    }
 
     return (
         <>

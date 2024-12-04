@@ -29,7 +29,8 @@
       "@patients/*": ["src/patients/*"],
       "@users/*": ["src/users/*"],
       "@appointments/*": ["src/appointments/*"],
-      "@clinica/*": ["src/clinica/*"]
+      "@clinica/*": ["src/clinica/*"],
+      "@my-clinica/*": ["src/myClinica/*"]
     }
   },
   "include": ["src"],

@@ -45,7 +45,7 @@ export default function Header({ open, setOpen }: Prop) {
             <div className="w-full h-[57px] bg-white border-b border-gray-200 ">
                 <div className="flex justify-between sm:justify-between lg:justify-between  items-center mx-auto h-full px-4 min-w-1/2">
                     <div className="flex items-center gap-x-3  ">
-                        <img src={!isLoading ? `${domain}/${getClinicData.data?.data.logoFilePath}` : logo} alt="logo" className={`w-[55px] cursor-pointer `} onClick={() => setOpen(!open)} />
+                        <img src={!isLoading && !getClinicData.data?.data.byDefaultLogo ? `${domain}/${getClinicData.data?.data.logoFilePath}` : logo} alt="logo" className={`w-[55px] cursor-pointer `} onClick={() => setOpen(!open)} />
                         <h1 className={`text-gray-700 duration-200 font-semibold text-xl  origin-left tracking-widest ${open ? "sm:block hidden" : " sm:hidden block "}`}>{!isLoading ? getClinicData.data?.data.clinicShortName : "Uzlabs.uz"}</h1>
                         <h1 className={`text-gray-700 duration-200  font-semibold text-xl  ${!open ? "hidden" : "sm:hidden  "} origin-left tracking-widest `}>{!isLoading ? getClinicData.data?.data.clinicShortName : "Uzlabs.uz"}</h1>
 

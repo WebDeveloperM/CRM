@@ -7,8 +7,15 @@ import { DELETE_CLINIC } from "@my-clinica/urls"
 //     return useMutate<ClinicResponse>(["delete-clinic"], () => request({ url: DELETE_CLINIC.replace("{clinicId}", clinicId) }))
 // }
 
+// export const useDeleteClinicData = (clinicId: string) => {
+//     return useMutate<DeleteClinicResponse, void>(() =>
+//         request({ method: "post", url: DELETE_CLINIC.replace("{clinicId}", clinicId) })
+//     )
+// }
+
+
 export const useDeleteClinicData = (clinicId: string) => {
     return useMutate<DeleteClinicResponse, void>(() =>
-        request({ method: "delete", url: DELETE_CLINIC.replace("{clinicId}", clinicId) })
+        request({ url: DELETE_CLINIC.replace("{clinicId}", clinicId), method: "POST", })
     )
 }

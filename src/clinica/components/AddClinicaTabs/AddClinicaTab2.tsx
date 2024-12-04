@@ -9,6 +9,7 @@ import { ConfigProvider, Flex, Input, Typography } from 'antd';
 import { UploadClinicaPhotoParams, UploadClinicLogo } from "src/clinica/types";
 import { useUploadClinicLogo } from "@clinica/hooks/addClinic";
 import { useNavigate } from "react-router-dom";
+import { IoWarningOutline } from 'react-icons/io5';
 
 type Props = {
   onPrevious: (status: boolean) => void
@@ -21,8 +22,9 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [checkbox, setCheckbox] = useState(false);
   const [logoShortName, setLogoShortName] = useState<string>("");
-  // const [confirm, setConfirm] = useState(false);
-  // const [modal, contextHolder] = Modal.useModal();
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [confirmModal, setConfirmModal] = useState(false)
+
   const navigate = useNavigate()
 
 
@@ -45,13 +47,11 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
       byDefaultLogo: !checkbox,
     };
 
-    const result = confirm("Ma'lumotlarni tasdiqlaysizmi?")
-
-    if (!result) {
+    if (!confirmModal) {
       toast.warning("Ma'lumotlar tasdiqlanmagan")
       return
     }
-
+   
     const response = await mutateAsync(data);
 
     if (!response.success && response.message == "No logo file provided.") {
@@ -60,7 +60,7 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
     }
     if (response.success && response.message == "Clinic logo and short name updated successfully.") {
       toast.success("Profile muvaffaqqiyatli saqlandi");
-      navigate("/clinica/my-clinica")
+      navigate("/dashboard")
       return
     }
 
@@ -128,11 +128,10 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
                   guides={false}
                   ref={cropperRef}
                 />
-
               )}
 
               {image && !file ?
-                <button onClick={getCropData} className="w-24 p-1.5 my-2 mt-4 bg-primary hover:bg-primary/80 text-sm text-white rounded-md duration-200">Yuklash</button>
+                <button type='button' onClick={getCropData} className="w-24 p-1.5 my-2 mt-4 bg-primary hover:bg-primary/80 text-sm text-white rounded-md duration-200">Yuklash</button>
                 :
                 null}
             </div>
@@ -147,6 +146,7 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
                   setImage(null)
                   setFile(null)
                 }}
+                type='button'
                 className="w- p-1.5  bg-slate-400 mt-4 text-sm text-white rounded-md duration-200 flex items-center gap-2">
                 <VscRefresh />
                 Rasmni yangilash
@@ -192,34 +192,45 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
               Oldingi
             </button>
 
-            {/* <ReachableContext.Provider value="Light">
-              <Space>
-                <Button
-                  className="w-24 p-1.5 my-2 mt-2 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
-                  onClick={async () => {
-                    if (!file) {
-                      toast.error("Rasm tanlanmagan");
-                      return;
-                    }
 
-                    const confirmed = await modal.confirm(config);
-                    setConfirm(confirmed)
-                  }}
-                >
-                  Tasdiqlash
-                </Button>
-              </Space>
-
-              {contextHolder}
-              <UnreachableContext.Provider value="Bamboo" />
-            </ReachableContext.Provider> */}
             <button
-              type="submit"
+              type="button"
+              onClick={() => setIsModalOpen(true)}
               className="w-24 p-1.5 my-2 mt-2 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Tasdiqlash
             </button>
           </div>
+
+          {isModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+                <div className="flex justify-center text-4xl mb-4 text-gray-500">
+                  <IoWarningOutline />
+                </div>
+                <h2 className="text-lg font-semibold text-gray-800 text-center">
+                  Kiritilgan ma'lumotlarni tasdiqlaysizmi?
+                </h2>
+                <div className="mt-6 flex justify-end space-x-2">
+                  {/* Cancel tugma */}
+                  <button
+                    className="px-4 py-2 text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Bekor qilish
+                  </button>
+                  {/* Confirm/Delete tugma */}
+                  <button
+                    type='submit'
+                    className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
+                    onClick={() => setConfirmModal(true)}
+                  >
+                    Tasdiqlayman
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
         </form>
       </FormProvider>

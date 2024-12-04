@@ -5,6 +5,7 @@ import { ClinicaFormData, ClinicaFormDataResponse, UploadClinicaPhotoParams, Upl
 import axios from "axios"
 import { useMutation } from "react-query"
 
+const authToken = import.meta.env.VITE_AUTHORIZATION_TOKEN
 
 export const useClinicRegister = () => {
     return useMutate<ClinicaFormDataResponse, ClinicaFormData>((data) =>
@@ -18,12 +19,6 @@ export const useWorkerPositions = () => {
 }
 
 
-// export const useUploadClinicLogo = (params?: UploadClinicaPhotoParams) => {
-//     return useMutate<UploadClinicLogoResponse, UploadClinicLogo>((data) =>
-//         request({ url: UPLOAD_CLINIC_LOGO, method: "POST", data, params , headers})
-//     )
-// }
-
 
 const uploadClinicLogo = async (data: UploadClinicLogo & UploadClinicaPhotoParams) => {
     const formData = new FormData();
@@ -35,8 +30,9 @@ const uploadClinicLogo = async (data: UploadClinicLogo & UploadClinicaPhotoParam
         byDefaultLogo: data.byDefaultLogo
     }
 
-    const response = await axios.post<UploadClinicLogoResponse>(`${domain}/api${UPLOAD_CLINIC_LOGO}` , formData, {
+    const response = await axios.post<UploadClinicLogoResponse>(`${domain}/api${UPLOAD_CLINIC_LOGO}`, formData, {
         headers: {
+            "Authorization": authToken,
             "Content-Type": "multipart/form-data",
         },
         params

@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { FormProvider, useForm } from "react-hook-form";
 import { ClinicaFormData } from "@clinica/types";
 import { useNavigate } from "react-router-dom";
+import { IoWarningOutline } from "react-icons/io5";
+import { useState } from "react";
 // import { useState } from 'react';
 // import { TiWarningOutline } from "react-icons/ti";
 
@@ -16,9 +18,11 @@ type Props = {
 export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
   const { data } = useClinica();
   const { mutateAsync, isLoading } = useClinicRegister()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [confirmModal, setConfirmModal] = useState(false)
   const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
   const navigate = useNavigate()
- 
+
 
   async function onSubmit() {
     if (isLoading) return
@@ -27,14 +31,13 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
       return
     }
 
-    const result = confirm("Ma'lumotlarni tasdiqlaysizmi?")
-
-    if (!result) {
+    if (!confirmModal) {
       toast.warning("Ma'lumotlar tasdiqlanmagan")
       return
     }
 
     const response = await mutateAsync(data)
+
     if (!response.success && response.message == "A clinic with the same name already exists.") {
       toast.warning("Bunday shifoxona nomi mavjud")
       return
@@ -75,43 +78,46 @@ export default function AddClinicaTab3({ onPrevious, onNext }: Props) {
               Oldingi
             </button>
             <button
-              type="submit"
+              type="button"
+              onClick={() => setIsModalOpen(true)}
               className="w-24 p-1.5 my-2 mt-4 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
             >
               Tasdiqlash
             </button>
           </div>
-        </form>
-      </FormProvider>
-      {/* <dialog id="my_modal_2" className={`modal  ${showModal ? "modal-open" : ""} `}>
-        <div className="modal-box bg-white">
-          <div>
-            <div className="relative text-center bg-white rounded-lg ">
-              <button onClick={() => setShowModal(false)} type="button" className="text-gray-400 absolute top-2 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="deleteModal">
-                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-              <div className="flex justify-center mb-3">
-                <TiWarningOutline className="text-5xl " />
-              </div>
-              <p className="mb-4 text-gray-500 text-xl">Kiritilgan ma'lumotlarni tasdiqlaysizmi?</p>
-              <div className="flex justify-center items-center space-x-4">
-                <button
-                  data-modal-toggle="deleteModal" type="button" className="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100  hover:text-gray-900 focus:z-10">
-                  Bekor qilish
-                </button>
-                <button
-                  onClick={() => setConfirm(true)}
-                  type="button" className="py-2 px-3 text-sm font-medium text-center text-white bg-secondary rounded-lg hover:bg-secondary/80 duration-200">
-                  Tasdiqlayman
-                </button>
+
+          {isModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+                <div className="flex justify-center text-4xl mb-4 text-gray-500">
+                  <IoWarningOutline />
+                </div>
+                <h2 className="text-lg font-semibold text-gray-800 text-center">
+                  Kiritilgan ma'lumotlarni tasdiqlaysizmi?
+                </h2>
+                <div className="mt-6 flex justify-end space-x-2">
+                  {/* Cancel tugma */}
+                  <button
+                    className="px-4 py-2 text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Bekor qilish
+                  </button>
+                  {/* Confirm/Delete tugma */}
+                  <button
+
+                    className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
+                    onClick={() => setConfirmModal(true)}
+                  >
+                    Tasdiqlayman
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+        </form>
+      </FormProvider>
 
-
-        </div>
-      </dialog> */}
     </div>
   )
 }

@@ -9,11 +9,10 @@ import { FaTrashAlt } from "react-icons/fa"
 import { useDeleteClinicData } from "@my-clinica/hooks/deleteClinic"
 import { toast } from "react-toastify"
 import Tooltip from "@core/components/Tooltip"
-import { useTranslation } from "react-i18next"
 
 export default function MyClinicaTable() {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { t } = useTranslation()
+
     const navigate = useNavigate()
 
     const clinicId = localStorage.getItem("clinicId")
@@ -24,6 +23,7 @@ export default function MyClinicaTable() {
         const response = await mutateAsync()
         if (response.success && response.message == "Clinic deleted successfully.") {
             toast.success("Shifoxona ma'lumotlari o'chirildi")
+            localStorage.removeItem("clinicId")
         }
         setIsModalOpen(false)
         navigate("/clinica")
@@ -85,7 +85,7 @@ export default function MyClinicaTable() {
                             1
                         </th>
                         <td className="2xl:px-5 px-3 py-1.5 min-w-[250px]">{clincData.data?.data.clinicName}</td>
-                        <td className="2xl:px-5 px-3 py-1.5  flex items-center gap-2">
+                        <td className="2xl:px-5 px-3 py-1.5  flex items-center gap-2 whitespace-normal break-words">
                             {clincData.data?.data.legalAddress}
                         </td>
                         <td className="2xl:px-5 px-3 py-1.5 ">{clincData.data?.data.phoneNumber}</td>

@@ -36,10 +36,6 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
 
   async function onSubmit() {
 
-    if (!file && !image) {
-      toast.error("Rasm tanlanmagan");
-      return;
-    }
     const data: UploadClinicLogo & UploadClinicaPhotoParams = {
       logo: file,
       clinicId: parseInt(localStorage.getItem("clinicId") as string),

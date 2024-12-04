@@ -37,7 +37,7 @@ export default function CheckoutStepper() {
                         {" "}
                         {/* Paddingni olib tashlash uchun `p-0` qo'shildi */}
                         {step === 0 && "Umumiy ma'lumotlar"}
-                        {step === 1 && "Profile"}
+                        {step === 1 && ""}
                         {step === 3 && "Tasdiqlash"}
                     </div>
                 }

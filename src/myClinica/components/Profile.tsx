@@ -9,13 +9,22 @@ import { ConfigProvider, Flex, Input, Typography } from 'antd';
 import { UploadClinicaPhotoParams, UploadClinicLogo } from "src/clinica/types";
 import { useUploadClinicLogo } from "@clinica/hooks/addClinic";
 import { useNavigate } from "react-router-dom";
+import { useGetClinicData } from '@my-clinica/hooks/getClinic';
+import { domain } from '@core/utils/baseAxios';
 
 export default function Profile() {
   const methods = useForm<UploadClinicLogo>({ mode: "onBlur" })
+  const clinicId = localStorage.getItem("clinicId")
+  const clinicData = useGetClinicData(clinicId ? clinicId as string : "0")
   const [image, setImage] = useState<string | null>(null);
+  console.log(clinicData);
+
+  const [imageData, setImageData] = useState<string>(!clinicData.data?.data.byDefaultLogo ? `${domain}/${clinicData.data?.data.logoFilePath}` : "");
   const [file, setFile] = useState<File | null>(null);
   const [checkbox, setCheckbox] = useState(false);
   const [logoShortName, setLogoShortName] = useState<string>("Uzlabs.uz");
+
+  console.log(imageData, "22222222222");
 
   const navigate = useNavigate()
 
@@ -87,7 +96,7 @@ export default function Profile() {
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="mb-2">
           <div className="grid grid-cols-12 gap-3 px-0.5">
             <div className="2xl:col-span-4 col-span-12">
-              {!image ?
+              {!image && imageData == "" ?
                 <div className="flex items-center justify-start">
                   <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center sm:w-72 w-full sm:h-40 h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                     <div className="flex flex-col items-center justify-center">
@@ -121,13 +130,15 @@ export default function Profile() {
           </div>
 
 
-          {file ?
+          {file || imageData ?
             <>
-              <img src={URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" />
+              {/* <img src={URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" /> */}
+              <img src={imageData} alt="" className="w-40 rounded-xl" />
               <button
                 onClick={() => {
                   setImage(null)
                   setFile(null)
+                  setImageData("")
                 }}
                 type='button'
                 className="w- p-1.5  bg-slate-400 mt-4 text-sm text-white rounded-md duration-200 flex items-center gap-2">
@@ -151,6 +162,7 @@ export default function Profile() {
                   }}
                   maxLength={10}
                   required={false}
+                  defaultValue={clinicData.data?.data.clinicShortName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogoShortName(e.target.value)}
                   placeholder="Uzlabs.uz"
                   className="focus:ring-1 focus:ring-secondary focus:outline-none max-w-[60%] sm:max-w-[15%] mx-0.5"
@@ -162,7 +174,7 @@ export default function Profile() {
 
           <div className="flex items-start my-3 ml-1">
             <div className="flex items-center h-5">
-              <input type="checkbox" onChange={(e) => setCheckbox(e.target.checked)} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " />
+              <input type="checkbox" defaultChecked={!clinicData.data?.data.byDefaultLogo} onChange={(e) => setCheckbox(e.target.checked)} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " />
             </div>
             <label className="ms-2 text-sm font-medium text-gray-900">Asosiy logo sifatida o'rnatish</label>
           </div>

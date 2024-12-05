@@ -5,19 +5,46 @@ import { useWorkerPositions } from "@clinica/hooks/addClinic"
 import { useGetClinicData } from "@my-clinica/hooks/getClinic"
 import { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
-import { ClinicResponse } from "@my-clinica/types"
 import instagram from "@my-clinica/static/instagram.webp"
 import telegram from "@my-clinica/static/telegram.png"
 import facebook from "@my-clinica/static/facebook.png"
 import youtube from "@my-clinica/static/youtube.png"
+import { useMask } from "@react-input/mask"
+import { ClinicaFormData } from "@clinica/types"
 import TreeSelectComponent from "./TreeSelectComponent"
+import { MdOutlineEditLocation } from "react-icons/md";
+import YandexMap2 from "./YandexMap2"
+import { FaUserEdit } from "react-icons/fa";
+import Profile from "./Profile"
+import { IoWarningOutline } from "react-icons/io5"
 
-export default function ShowClinicData() {
-    const clinicData = useGetClinicData(localStorage.getItem("clinicId") as string)
+export default function MyClinicaEditTable() {
+    const clinicId = localStorage.getItem("clinicId")
+    const clinicData = useGetClinicData(clinicId ? clinicId as string : "0")
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [___, setConfirmModal] = useState(false)
     const [_, setSelectedIds] = useState<number[]>([])
-    const methods = useForm<ClinicResponse>({ mode: "onBlur" })
-  
+    // const methods = useForm<ClinicResponse>({ mode: "onBlur" })
+
+    const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
+    const inputRef = useMask({ mask: "+998(__) ___-__-__", replacement: { _: /\d/ } })
+
+    const { ref: formInputRef } = methods.register("phoneNumber")
+
+    // const inputRefINN = useMask({ mask: "_________", replacement: { _: /\d/ } })
+    // const { ref: formInputRefINN } = methods.register("taxpayerIdNumber")
+
+    // const inputRefSTIR = useMask({ mask: "_________", replacement: { _: /\d/ } })
+    // const { ref: formInputRefSTIR } = methods.register("stateRegistrationNumber")
+
+    // const inputRefLits = useMask({ mask: "__________________________________", replacement: { _: /\d/ } })
+
+    // const { ref: formInputRefLits } = methods.register("licenseNumber")
+
+
     const [openMedia, setOpenMedia] = useState(false)
+    const [openYandex, setOpenYandex] = useState(false)
+    const [openProfile, setOpenProfile] = useState(false)
 
     const workerPositions = useWorkerPositions()
 
@@ -34,9 +61,6 @@ export default function ShowClinicData() {
 
     return (
         <div className="overflow-x-auto rounded-md mt-2 text-gray-700  h-full pb-5 overflow-y-scroll 2xl:mt-6 ">
-            <hr />
-            <h4 className="text-lg my-5 font-semibold">Shifoxona ma'lumotlari</h4>
-
 
             <FormProvider {...methods}>
                 <form action="">
@@ -53,7 +77,7 @@ export default function ShowClinicData() {
                                 className="mt-1"
                                 name="clinicName"
                                 placeholder={"Shifoxona nomini kiriting"}
-                                disabled
+
                             />
                         </div>
 
@@ -65,11 +89,13 @@ export default function ShowClinicData() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={clinicData.data?.data.phoneNumber}
-                                disabled
+                                defaultValue={"+" + clinicData.data?.data.phoneNumber}
+
                                 className="mt-1"
                                 name="phoneNumber"
                                 placeholder={"Telefon raqam kiriting"}
+                                inputRef={inputRef}
+                                formInputRef={formInputRef}
 
                             />
                         </div>
@@ -81,7 +107,7 @@ export default function ShowClinicData() {
                                         Elektron pochta
                                     </label>
                                 }
-                                disabled
+
 
                                 defaultValue={clinicData.data?.data.email}
                                 type="email"
@@ -98,7 +124,7 @@ export default function ShowClinicData() {
                                         Website nomi
                                     </label>
                                 }
-                                disabled
+
 
                                 className="mt-1"
                                 name="website"
@@ -115,7 +141,7 @@ export default function ShowClinicData() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                disabled
+
 
                                 defaultValue={clinicData.data?.data.taxpayerIdNumber}
                                 className="mt-1"
@@ -131,7 +157,7 @@ export default function ShowClinicData() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                disabled
+
 
                                 defaultValue={clinicData.data?.data.stateRegistrationNumber}
                                 className="mt-1"
@@ -146,7 +172,7 @@ export default function ShowClinicData() {
                             <select
                                 id="countries"
                                 name="clinicType"
-                                disabled
+
 
                                 defaultValue={clinicData.data?.data.clinicType}
                                 className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  "
@@ -165,7 +191,7 @@ export default function ShowClinicData() {
                                         Litsenziya raqami
                                     </label>
                                 }
-                                disabled
+
 
                                 required={false}
                                 defaultValue={clinicData.data?.data.licenseNumber as string}
@@ -183,7 +209,7 @@ export default function ShowClinicData() {
                                         Litsenziya amal qilish muddati
                                     </label>
                                 }
-                                disabled
+
 
                                 required={false}
                                 defaultValue={clinicData.data?.data.licenseExpiryDate as string}
@@ -203,7 +229,7 @@ export default function ShowClinicData() {
                                 }
                                 defaultValue={clinicData.data?.data.bankAccountDetails}
                                 className="mt-1"
-                                disabled
+
 
                                 name="bankAccountDetails"
                                 placeholder={"Bank xisob raqamini kiriting"}
@@ -227,10 +253,10 @@ export default function ShowClinicData() {
                         </div>
                     </div>
 
-                    <div className="mt-2 px-1">
+                    {/* <div className="mt-2 px-1">
                         <label className="block mb-1 text-sm font-medium text-gray-900 ">Manzil</label>
                         <textarea
-                            disabled
+
                             id="message"
                             rows={2}
                             defaultValue={clinicData.data?.data.legalAddress as string}
@@ -238,11 +264,11 @@ export default function ShowClinicData() {
                             className=" p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-1 focus:ring-secondary focus:outline-none block "
                             placeholder="Shifoxona to'grisida ma'lomotlar..."
                         ></textarea>
-                    </div>
+                    </div> */}
                     <div className="mt-2 px-1">
                         <label className="block mb-1 text-sm font-medium text-gray-900 ">Ta'rif</label>
                         <textarea
-                            disabled
+
                             id="message"
                             rows={3}
                             defaultValue={clinicData.data?.data.description as string}
@@ -269,7 +295,7 @@ export default function ShowClinicData() {
                                         <img src={instagram} alt="" className="w-5 h-5" />
                                     </div>
                                     <input
-                                        disabled
+
                                         type="text"
                                         id="input-group-1"
                                         defaultValue={clinicData.data?.data.instagram as string}
@@ -285,7 +311,7 @@ export default function ShowClinicData() {
                                         <img src={telegram} alt="" className="w-5 h-5" />
                                     </div>
                                     <input
-                                        disabled
+
                                         type="text"
                                         id="input-group-1"
                                         defaultValue={clinicData.data?.data.telegram as string}
@@ -301,7 +327,7 @@ export default function ShowClinicData() {
                                         <img src={facebook} alt="" className="w-5 h-5" />
                                     </div>
                                     <input
-                                        disabled
+
                                         type="text"
                                         id="input-group-1"
                                         defaultValue={clinicData.data?.data.facebook as string}
@@ -317,7 +343,7 @@ export default function ShowClinicData() {
                                         <img src={youtube} alt="" className="w-5 h-5" />
                                     </div>
                                     <input
-                                        disabled
+
                                         type="text"
                                         id="input-group-1"
                                         defaultValue={clinicData.data?.data.youtube as string}
@@ -329,6 +355,71 @@ export default function ShowClinicData() {
                         </div>
                     ) : null}
 
+
+
+                    <p
+                        onClick={() => setOpenYandex(!openYandex)}
+                        className="p-1.5 pl-3 my-4 cursor-pointer w-full sm:w-52 flex items-center gap-2 bg-primary hover:bg-primary/80 text-sm text-white rounded-md duration-200"
+                    >
+                        <MdOutlineEditLocation />
+                        Manzilni o'zgartirish
+                    </p>
+
+
+                    {openYandex ? (
+                        <YandexMap2 />
+                    ) : null}
+
+
+                    <p
+                        onClick={() => setOpenProfile(!openProfile)}
+                        className="p-1.5 pl-3 my-4 cursor-pointer w-full sm:w-52 flex items-center gap-2 bg-primary hover:bg-primary/80 text-sm text-white rounded-md duration-200"
+                    >
+                        <FaUserEdit />
+                        Profile o'zgaritirish
+                    </p>
+          
+
+                    {openProfile ? (
+                        <Profile />
+                    ) : null}
+                    <button
+                        type="button"
+                        onClick={() => setIsModalOpen(true)}
+                        className="w-32 p-1.5 py-2 bg-secondary float-right hover:bg-secondary/80 text-white rounded-md duration-200"
+                    >
+                        Tasdiqlash
+                    </button>
+
+                    {isModalOpen && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+                                <div className="flex justify-center text-4xl mb-4 text-gray-500">
+                                    <IoWarningOutline />
+                                </div>
+                                <h2 className="text-lg font-semibold text-gray-800 text-center">
+                                    Kiritilgan ma'lumotlarni tasdiqlaysizmi?
+                                </h2>
+                                <div className="mt-6 flex justify-end space-x-2">
+                                    {/* Cancel tugma */}
+                                    <button
+                                        className="px-4 py-2 text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
+                                        onClick={() => setIsModalOpen(false)}
+                                    >
+                                        Bekor qilish
+                                    </button>
+                                    {/* Confirm/Delete tugma */}
+                                    <button
+
+                                        className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
+                                        onClick={() => setConfirmModal(true)}
+                                    >
+                                        Tasdiqlayman
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </form>
             </FormProvider>
 

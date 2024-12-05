@@ -5,7 +5,7 @@ import { BiSolidEdit } from "react-icons/bi"
 import { FaRegTrashAlt } from "react-icons/fa"
 import { LuEye } from "react-icons/lu"
 import { LuEyeOff } from "react-icons/lu";
-import { Navigate, useNavigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { FaTrashAlt } from "react-icons/fa"
 import { useDeleteClinicData } from "@my-clinica/hooks/deleteClinic"
 import { toast } from "react-toastify"
@@ -108,14 +108,20 @@ export default function MyClinicaTable() {
                                         className="text-red-500 cursor-pointer"
                                     />
                                 </Tooltip>
-                                <Tooltip tip={"tahrirlash"}>
-                                    <BiSolidEdit className="text-blue-500 cursor-pointer" />
-                                </Tooltip>
+                                <Link to={"/my-clinica/edit-clinica"}>
+                                    <Tooltip tip={"tahrirlash"}>
+                                        <BiSolidEdit className="text-blue-500 cursor-pointer" />
+                                    </Tooltip>
+                                </Link>
                                 <Tooltip tip={"ko'rish"}>
                                     {showData ?
-                                        <LuEyeOff onClick={() => setShowData(!showData)} className="text-green-500 cursor-pointer" />
+                                        <LuEyeOff
+                                            onClick={() => { setShowData(!showData) }}
+                                            className="text-green-500 cursor-pointer" />
                                         :
-                                        <LuEye onClick={() => setShowData(!showData)} className="text-green-500 cursor-pointer" />
+                                        <LuEye
+                                            onClick={() => setShowData(!showData)}
+                                            className="text-green-500 cursor-pointer" />
                                     }
                                 </Tooltip>
                             </div>

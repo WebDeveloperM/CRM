@@ -9,7 +9,7 @@ export default function MyClinicaRoutes() {
 
         <Routes>
             <Route path="/*" element={<MyClinica />} />
-            <Route path="/my-clinica/:clinicId/" element={<MyClinicaEdit />} />
+            <Route path="/edit-clinica" element={<MyClinicaEdit />} />
         </Routes>
 
 

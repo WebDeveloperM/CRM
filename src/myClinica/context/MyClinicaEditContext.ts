@@ -1,5 +1,5 @@
 import { ClinicaFormData } from "@clinica/types";
-import React, { createContext, useContext } from "react";
+import React, { createContext } from "react";
 
 
 export interface ClinicaContextType {
@@ -32,12 +32,12 @@ export const defaultData: ClinicaFormData = {
 };
 
 
-export const ClinicaContext = createContext<ClinicaContextType | undefined>(undefined);
+export const MyClinicaEditContext = createContext<ClinicaContextType | undefined>(undefined);
 
-export const useClinica = () => {
-    const context = useContext(ClinicaContext);
-    if (!context) {
-        throw new Error("useClinica must be used within a ClinicaProvider");
-    }
-    return context;
-};
+// export const useClinica = () => {
+//     const context = useContext(ClinicaContext);
+//     if (!context) {
+//         throw new Error("useClinica must be used within a ClinicaProvider");
+//     }
+//     return context;
+// };

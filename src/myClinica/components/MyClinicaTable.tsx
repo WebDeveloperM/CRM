@@ -1,6 +1,6 @@
 import { useGetClinicData } from "@my-clinica/hooks/getClinic"
 import { isCheckClinic } from "@users/utils/auth"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { BiSolidEdit } from "react-icons/bi"
 import { FaRegTrashAlt } from "react-icons/fa"
 import { LuEye } from "react-icons/lu"
@@ -21,10 +21,7 @@ export default function MyClinicaTable() {
     const navigate = useNavigate()
 
     const clinicId = localStorage.getItem("clinicId")
-    let clincData = useGetClinicData(clinicId ? clinicId as string : "0")
-    useEffect(() => {
-        clincData = useGetClinicData(clinicId ? clinicId as string : "0")
-    }, [clinicId])
+    const clincData = useGetClinicData(clinicId ? clinicId as string : "0")
     const { mutateAsync } = useDeleteClinicData(clinicId as string)
 
 

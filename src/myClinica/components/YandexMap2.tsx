@@ -1,3 +1,4 @@
+import { useClinicaUpdate } from "@my-clinica/context/MyClinicaEditContext";
 import { useGetClinicData } from "@my-clinica/hooks/getClinic";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -10,11 +11,12 @@ const YandexMap2: React.FC = () => {
     const [__, setPlacemark] = useState<any>(null);
     const [address, setAddress] = useState<string>(clinicData.data?.data.legalAddress as string);
 
-    // const { data, setData } = useClinica();
-
-    // useEffect(() => {
-    //     setData({ ...data, legalAddress: address, uniqueToken: localStorage.getItem("uniqueToken") })
-    // }, [address])
+    const { data, setData } = useClinicaUpdate()
+    console.log(data, "2222222222222222222");
+    
+    useEffect(() => {
+        setData({ ...data, legalAddress: address })
+    }, [address])
 
     useEffect(() => {
         const ymaps = (window as any).ymaps;
@@ -57,7 +59,7 @@ const YandexMap2: React.FC = () => {
     const fetchAddress = (coords: number[]) => {
         const ymaps = (window as any).ymaps;
 
-        // setData({ ...data, geolocationLatitude: coords[0], geolocationLongitude: coords[1] })
+        setData({ ...data, geolocationLatitude: coords[0], geolocationLongitude: coords[1] })
 
         ymaps.geocode(coords).then((res: any) => {
             const firstGeoObject = res.geoObjects.get(0);

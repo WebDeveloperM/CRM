@@ -7,14 +7,20 @@ import { LuEye } from "react-icons/lu"
 import { LuEyeOff } from "react-icons/lu";
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import { FaTrashAlt } from "react-icons/fa"
-import { useDeleteClinicData } from "@my-clinica/hooks/deleteClinic"
 import { toast } from "react-toastify"
 import Tooltip from "@core/components/Tooltip"
 import { domain } from "@core/utils/baseAxios"
 import ShowClinicData from "./ShowClinicData"
 import logo from "@core/static/logo.png";
+import { useClinicaUpdate } from "@my-clinica/context/MyClinicaEditContext"
+import { useDeleteClinicData } from "@my-clinica/hooks/deleteClinic"
+import { useClinica } from "@clinica/context/ClinicaContext"
 
 export default function MyClinicaTable() {
+    if (!isCheckClinic()) {
+        return <Navigate to="/clinica" />
+    }
+
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showData, setShowData] = useState(false)
 
@@ -35,9 +41,6 @@ export default function MyClinicaTable() {
         navigate("/clinica")
     }
 
-    if (!isCheckClinic()) {
-        return <Navigate to="/clinica" />
-    }
 
     return (
         <div className=" ">

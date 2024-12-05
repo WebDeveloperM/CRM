@@ -21,14 +21,17 @@ interface TreeSelectComponentProps {
     placeholder?: string // Tanlov matni
     onChange: (selected: number[]) => void // Tanlangan IDs
     defaultValue?: number[]
+    isDisabled?: boolean
 }
 
 const TreeSelectComponent: React.FC<TreeSelectComponentProps> = ({
     data = { uz: {}, rus: {} }, // Default qiymat
     language,
+    isDisabled,
     placeholder,
     onChange,
     defaultValue = [],
+
 }) => {
     const [value, setValue] = useState<number[]>([])
 
@@ -89,6 +92,7 @@ const TreeSelectComponent: React.FC<TreeSelectComponentProps> = ({
             placeholder={placeholder}
             style={{ width: "100%", paddingTop: "4px" }}
             showCheckedStrategy={TreeSelect.SHOW_PARENT}
+            disabled={isDisabled}
         />
     )
 }

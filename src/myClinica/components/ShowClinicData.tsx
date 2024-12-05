@@ -16,7 +16,7 @@ export default function ShowClinicData() {
     const clinicData = useGetClinicData(localStorage.getItem("clinicId") as string)
     const [_, setSelectedIds] = useState<number[]>([])
     const methods = useForm<ClinicResponse>({ mode: "onBlur" })
-  
+
     const [openMedia, setOpenMedia] = useState(false)
 
     const workerPositions = useWorkerPositions()
@@ -25,11 +25,8 @@ export default function ShowClinicData() {
         setSelectedIds(ids)
     }
 
-
-
-
     if (!workerPositions.data || !workerPositions.data.data) {
-        return <p className="my-5">Ma'lumotlar yuklanmoqda...</p> // Yuklanayotgan holat
+        return <p className="my-5">Ma'lumotlar yuklanmoqda...</p>
     }
 
     return (
@@ -223,6 +220,8 @@ export default function ShowClinicData() {
                                 placeholder="Tanlang"
                                 onChange={handleChange}
                                 defaultValue={clinicData.data?.data.additionalServices}
+                                isDisabled={true}
+
                             />
                         </div>
                     </div>

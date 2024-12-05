@@ -6,15 +6,15 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Skeleton } from 'antd';
 import MyClinicaTable from "@my-clinica/components/MyClinicaTable";
-import { defaultData, MyClinicaEditContext } from "@my-clinica/context/MyClinicaEditContext";
-import { ClinicaFormData } from "@clinica/types";
+import { ClinicaUpdateContext, defaultData } from "@my-clinica/context/MyClinicaEditContext";
+import { ClinicaUpdateData } from "@my-clinica/types";
 
 export default function MyClinica() {
     const [open, setOpen] = useState(true);
     const clinicId = localStorage.getItem("clinicId")
     const clincData = useGetClinicData(clinicId ? clinicId as string : "0")
     const isLoading = clincData.isLoading
-    const [data, setData] = useState<ClinicaFormData>(defaultData)
+    const [data, setData] = useState<ClinicaUpdateData>(defaultData)
     if (!isCheckClinic()) { 
         return <Navigate to='/clinica' />
     }
@@ -26,12 +26,12 @@ export default function MyClinica() {
                         <h4 className="text-lg font-semibold">Mening shifoxonam</h4>
                     </div>
 
-                    <MyClinicaEditContext.Provider value={{ data, setData }}>
+                    <ClinicaUpdateContext.Provider value={{ data, setData }}>
                         <div className="clear-both"></div>
                         {
                             isLoading ? <Skeleton /> : <MyClinicaTable />
                         }
-                    </MyClinicaEditContext.Provider>
+                    </ClinicaUpdateContext.Provider>
 
 
 

@@ -4,10 +4,10 @@ import { ClinicaFormData } from "src/clinica/types"
 import { useClinica } from "../../context/ClinicaContext"
 import { FaLink } from "react-icons/fa"
 import { SetStateAction, useState } from "react"
-import instagram from "../../static/instagram.webp"
-import telegram from "../../static/telegram.png"
-import facebook from "../../static/facebook.png"
-import youtube from "../../static/youtube.png"
+import { FaTelegram } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+import { FaInstagramSquare } from "react-icons/fa";
 import TreeSelectComponent from "../TreeSelectComponent"
 import { useWorkerPositions } from "@clinica/hooks/addClinic"
 import MathCaptcha from "@core/components/Captcha"
@@ -332,7 +332,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                                 <label className="block mb-2 text-sm font-medium text-gray-900 ">Instagram</label>
                                 <div className="relative mb-2">
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <img src={instagram} alt="" className="w-5 h-5" />
+                                        <FaInstagramSquare className="w-5 h-5 text-secondary" />
                                     </div>
                                     <input
                                         type="text"
@@ -350,7 +350,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                                 <label className="block mb-2 text-sm font-medium text-gray-900 ">Telegram</label>
                                 <div className="relative mb-6">
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <img src={telegram} alt="" className="w-5 h-5" />
+                                        <FaTelegram className="w-5 h-5 text-secondary" />
                                     </div>
                                     <input
                                         type="text"
@@ -368,7 +368,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                                 <label className="block mb-2 text-sm font-medium text-gray-900 ">Facebook</label>
                                 <div className="relative mb-6">
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <img src={facebook} alt="" className="w-5 h-5" />
+                                        <FaFacebook className="w-5 h-5 text-secondary" />
                                     </div>
                                     <input
                                         type="text"
@@ -386,7 +386,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
                                 <label className="block mb-2 text-sm font-medium text-gray-900 ">Youtube</label>
                                 <div className="relative mb-6">
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <img src={youtube} alt="" className="w-5 h-5" />
+                                        <FaYoutube className="w-5 h-5 text-secondary" />
                                     </div>
                                     <input
                                         type="text"

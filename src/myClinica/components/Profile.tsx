@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormProvider, useForm } from "react-hook-form";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
@@ -12,26 +12,27 @@ import { useNavigate } from "react-router-dom";
 import { useGetClinicData } from '@my-clinica/hooks/getClinic';
 import { domain } from '@core/utils/baseAxios';
 
-export default function Profile() {
+
+export default function Profile({ onProfileSubmit }: { onProfileSubmit: (submit: () => Promise<void> | void) => void }) {
   const methods = useForm<UploadClinicLogo>({ mode: "onBlur" })
+
+  useEffect(() => {
+    if (onProfileSubmit) {
+      onProfileSubmit(methods.handleSubmit(onSubmit));
+    }
+  }, [onProfileSubmit]);
+
   const clinicId = localStorage.getItem("clinicId")
   const clinicData = useGetClinicData(clinicId ? clinicId as string : "0")
   const [image, setImage] = useState<string | null>(null);
-  console.log(clinicData);
 
   const [imageData, setImageData] = useState<string>(!clinicData.data?.data.byDefaultLogo ? `${domain}/${clinicData.data?.data.logoFilePath}` : "");
   const [file, setFile] = useState<File | null>(null);
   const [checkbox, setCheckbox] = useState(false);
   const [logoShortName, setLogoShortName] = useState<string>("Uzlabs.uz");
 
-  console.log(imageData, "22222222222");
-
   const navigate = useNavigate()
-
-
-
   const cropperRef = useRef<HTMLImageElement>(null);
-
 
   const { mutateAsync } = useUploadClinicLogo();
 
@@ -46,13 +47,12 @@ export default function Profile() {
 
     const response = await mutateAsync(data);
 
+
     if (!response.success && response.message == "No logo file provided.") {
       toast.error("Rasm yuklashda xatolik bor");
       return
     }
     if (response.success && response.message == "Clinic logo and short name updated successfully.") {
-      toast.success("Profile muvaffaqqiyatli saqlandi");
-      navigate("/my-clinica")
       return
     }
 
@@ -132,8 +132,8 @@ export default function Profile() {
 
           {file || imageData ?
             <>
-              {/* <img src={URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" /> */}
-              <img src={imageData} alt="" className="w-40 rounded-xl" />
+
+              <img src={imageData == "" ? URL.createObjectURL(file as File) : imageData} alt="" className="w-40 rounded-xl" />
               <button
                 onClick={() => {
                   setImage(null)

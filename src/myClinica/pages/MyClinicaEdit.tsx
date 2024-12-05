@@ -6,13 +6,15 @@ import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Skeleton } from 'antd';
 import MyClinicaEditTable from "@my-clinica/components/MyClinicaEditTable";
+import { ClinicaUpdateContext, defaultData } from "@my-clinica/context/MyClinicaEditContext";
+import { ClinicaUpdateData } from "@my-clinica/types";
 
 export default function MyClinicaEdit() {
     const [open, setOpen] = useState(true);
     const clinicId = localStorage.getItem("clinicId")
     const clincData = useGetClinicData(clinicId as string)
     const isLoading = clincData.isLoading
-
+    const [data, setData] = useState<ClinicaUpdateData>(defaultData)
     if (!isCheckClinic()) {
         return <Navigate to='/clinica' />
     }
@@ -30,11 +32,13 @@ export default function MyClinicaEdit() {
                         </Link>
                     </div>
                     <hr />
+                    <ClinicaUpdateContext.Provider value={{ data, setData }}>
+                        <div className="clear-both"></div>
+                        {
+                            isLoading ? <Skeleton /> : <MyClinicaEditTable />
+                        }
+                    </ClinicaUpdateContext.Provider>
 
-                    <div className="clear-both"></div>
-                    {
-                        isLoading ? <Skeleton /> : <MyClinicaEditTable />
-                    }
 
                 </div>
             </div>

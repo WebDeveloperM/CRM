@@ -1,14 +1,13 @@
-import { ClinicaFormData } from "@clinica/types";
-import React, { createContext } from "react";
+import { ClinicaUpdateData } from "@my-clinica/types";
+import React, { createContext, useContext } from "react";
 
 
-export interface ClinicaContextType {
-    data: ClinicaFormData;
-    setData: React.Dispatch<React.SetStateAction<ClinicaFormData>>;
+export interface ClinicaUpdateContextType {
+    data: ClinicaUpdateData;
+    setData: React.Dispatch<React.SetStateAction<ClinicaUpdateData>>;
 }
 
-export const defaultData: ClinicaFormData = {
-    uniqueToken: "",
+export const defaultData: ClinicaUpdateData = {
     clinicName: "",
     legalAddress: "",
     phoneNumber: "",
@@ -21,7 +20,6 @@ export const defaultData: ClinicaFormData = {
     licenseExpiryDate: "",
     bankAccountDetails: "",
     additionalServices: [],
-    accountingSystem: "",
     instagram: "",
     telegram: "",
     facebook: "",
@@ -32,12 +30,12 @@ export const defaultData: ClinicaFormData = {
 };
 
 
-export const MyClinicaEditContext = createContext<ClinicaContextType | undefined>(undefined);
+export const ClinicaUpdateContext = createContext<ClinicaUpdateContextType | undefined>(undefined);
 
-// export const useClinica = () => {
-//     const context = useContext(ClinicaContext);
-//     if (!context) {
-//         throw new Error("useClinica must be used within a ClinicaProvider");
-//     }
-//     return context;
-// };
+export const useClinicaUpdate = () => {
+    const context = useContext(ClinicaUpdateContext);
+    if (!context) {
+        throw new Error("useClinica must be used within a ClinicaProvider");
+    }
+    return context;
+};

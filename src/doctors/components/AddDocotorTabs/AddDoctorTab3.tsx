@@ -1,10 +1,8 @@
 import FormInput from "@core/components/FormInput"
-import { useAddSuperUserResgiter, useCheckUserUrl } from "@users/hooks/superUser"
 import { SignUpSuperUserAddRegister } from "@users/types"
 import { FormProvider, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { useQueryParams } from "@core/hooks/queryString.ts"
-import { successToast } from "@core/components/Toastfy"
 import { toast } from "react-toastify"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -14,15 +12,39 @@ import MathCaptcha from "@core/components/Captcha"
 let passwordTimeOutId: ReturnType<typeof setTimeout>
 let confirmPasswordTimeOutId: ReturnType<typeof setTimeout>
 
-export default function AddDoctorTab3() {
+
+const generatePassword = (): string => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789';
+  let password = '';
+  for (let i = 0; i < 8; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    password += characters[randomIndex];
+  }
+  return password;
+};
+
+
+export default function AddDoktorTab3() {
   const navigate = useNavigate()
+  // const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleGeneratePassword = () => {
+    const newPassword = generatePassword();
+    setPassword(newPassword);
+    setConfirmPassword(newPassword);
+  };
+
+
+
   const params = useQueryParams()
   const [showPass, setShowPass] = useState(false)
-  const [password, setPassword] = useState("")
+
   const [errorPassword, setErrorPassword] = useState("")
   const [errorConfPassword, setErrorConfPassword] = useState("")
   const [showConfPass, setShowConfPass] = useState(false)
-  const [confirmPassword, setconfirmPassword] = useState("")
+
   const [isVerified, setIsVerified] = useState(false)
 
 
@@ -51,8 +73,8 @@ export default function AddDoctorTab3() {
 
   const handleCaptchaVerify = (status: boolean) => {
     setIsVerified(status);
-
   };
+
   const handleShowPassword = () => {
     if (passwordTimeOutId) clearTimeout(passwordTimeOutId)
     if (showPass) return setShowPass(false)
@@ -68,10 +90,7 @@ export default function AddDoctorTab3() {
     setShowConfPass(true)
     confirmPasswordTimeOutId = setTimeout(() => setShowConfPass(false), 5000)
   }
-  const { isLoading: checkLoading } = useCheckUserUrl(params.uniqueUrl as string)
 
-  const { mutateAsync, isLoading: registerLoading, isError } = useAddSuperUserResgiter()
-  const isLoading = registerLoading || checkLoading
 
   const methods = useForm<SignUpSuperUserAddRegister>({ mode: "onBlur" })
   const { ref: formInputRefPassword, ...restPassword } = methods.register("password")
@@ -80,7 +99,6 @@ export default function AddDoctorTab3() {
   async function onSubmit(data: SignUpSuperUserAddRegister) {
 
 
-    if (isLoading) return
 
     data = { token: params.uniqueToken as string, ...data, password, confirmPassword }
 
@@ -92,25 +110,25 @@ export default function AddDoctorTab3() {
       toast.warning(t("proveNotRobot"))
       return
     }
-    const response = await mutateAsync(data)
+    // const response = await mutateAsync(data)
 
-    if (!response.success && response.message == "Username already exists. Please choose a different username.") {
-      toast.warning(t("haveLoginError"))
-      return
-    }
+    // if (!response.success && response.message == "Username already exists. Please choose a different username.") {
+    //   toast.warning(t("haveLoginError"))
+    //   return
+    // }
 
-    if (!response.success && response.message == "Passwords must be at least 6 characters.") {
-      toast.warning(t("charactersPassword"))
-      return
-    }
-    if (!response.success && response.message == "Password must contain both letters and digits.") {
-      toast.warning(t("charactersDigitsPassword"))
-      return
-    }
+    // if (!response.success && response.message == "Passwords must be at least 6 characters.") {
+    //   toast.warning(t("charactersPassword"))
+    //   return
+    // }
+    // if (!response.success && response.message == "Password must contain both letters and digits.") {
+    //   toast.warning(t("charactersDigitsPassword"))
+    //   return
+    // }
 
-    if (!isError && response.success) {
-      successToast(t("registerSuccecfuly"))
-    }
+    // if (!isError && response.success) {
+    //   successToast(t("registerSuccecfuly"))
+    // }
 
     navigate("/")
   }
@@ -184,7 +202,7 @@ export default function AddDoctorTab3() {
                 <input
                   {...restConfPassword}
                   type={showConfPass ? "text" : "password"}
-                  onChange={(e) => setconfirmPassword(e.target.value)}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   ref={(e) => {
                     formInputRefConfPassword(e)
                   }}
@@ -215,6 +233,15 @@ export default function AddDoctorTab3() {
               {errorConfPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorConfPassword}</p>}
 
             </div>
+
+
+            <button
+              type="button"
+              onClick={handleGeneratePassword}
+              className=" px-4 py-1.5 mt-3 bg-primary text-white font-medium rounded-md hover:bg-primary/80 focus:outline-none"
+            >
+              Parol yartish
+            </button>
 
             <div className="my-5 max-w-[80%]">
               <MathCaptcha onVerify={handleCaptchaVerify} />

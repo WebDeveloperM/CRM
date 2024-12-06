@@ -46,7 +46,7 @@ export default function AddDoctorTab2() {
           const croppedFile = new File([blob], "cropped-image.png", { type: "image/png" });
           setFile(croppedFile);
           console.log(croppedFile, "Cropped File");
-          toast.success("Logotip muvaffaqiyatli qo'shildi");
+          toast.success("Ma'lumot saqlandi");
         }
       }, 'image/png');
     }
@@ -66,7 +66,7 @@ export default function AddDoctorTab2() {
                       <svg className="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                       </svg>
-                      <p className="mb-2 text-sm text-gray-500 text-center"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                      <p className="mb-2 text-sm text-gray-500 text-center"><span className="font-semibold">Profile rasmini yuklash</span></p>
                       <p className="text-xs text-gray-500 sm:block hidden text-center">SVG, PNG, JPG or GIF (MAX. 400x400px)</p>
                     </div>
                     <input id="dropzone-file" type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
@@ -111,7 +111,7 @@ export default function AddDoctorTab2() {
           <br />
 
 
-          <p className="mb-2">Shifokor haqida malumot</p>
+          <p className="mb-2">Hodim haqida malumot</p>
           <TextEditor value={content} onChange={handleContentChange} />
 
           {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}

@@ -86,7 +86,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                         <span
                             className={`origin-left text-base group-hover:text-secondary  ${pathname.startsWith("/doctors") ? "text-secondary" : ""} duration-200 ${!open ? "hidden" : ""} text-gray-800`}
                         >
-                            Shifokorlar
+                            Hodimlar
                         </span>
                     </Link>
 

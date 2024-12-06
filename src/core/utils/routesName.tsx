@@ -1,8 +1,8 @@
 
 export const routerNames = [
     { key: "/dashboard", value: "/ Asosiy" },
-    { key: "/doctors", value: "/ Shifokorlar" },
-    { key: "/doctors/add-doctors", value: "/ Shifokor qo'shish" },
+    { key: "/doctors", value: "/ Hodimlar" },
+    { key: "/doctors/add-doctors", value: "/ Hodim qo'shish" },
     { key: "/patients", value: "/ Bemorlar" },
     { key: "/appointments", value: "/ Ish jadvali" },
     { key: "/clinica", value: "/ Shifoxonani ro'yxatdan o'tkazish" },

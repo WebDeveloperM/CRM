@@ -85,7 +85,7 @@ export default function AddDoctorTab1() {
                 // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, clinicName: e.target.value })}
                 className="mt-1"
                 name="clinicName"
-                placeholder={"Shifokor ism va familiyasi"}
+                placeholder={"Ism va familiyasi"}
               />
             </div>
             <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">
@@ -197,12 +197,12 @@ export default function AddDoctorTab1() {
             </div>
 
             <div className="2xl:col-span-3 col-span-4 px-0.5 sm:mt-1 mt-2">
-              <label className="block mb-1 text-sm font-medium text-gray-900 ">Shifokor imkoniyati</label>
+              <label className="block mb-1 text-sm font-medium text-gray-900 ">Hodim roli</label>
               <select id="countries" name="clinicType"
                 // onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setData({ ...data, clinicType: e.target.value })}
                 // value={data.clinicType}
                 className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  ">
-                <option>Shifokor imkoniyatlarini tanlang</option>
+                <option>Hodim rolini tanlang</option>
                 {doctorRols && doctorRols.data.data?.map((value, key) => (
                   <option key={key} value={value.nameUz}>{value.nameUz}</option>
                 ))}
@@ -283,7 +283,7 @@ export default function AddDoctorTab1() {
             </label>
           </div>
 
-          <div className="my-5 2xl:max-w-[20%] sm:max-w-[25%] max-w-[80%]">
+          <div className="my-5 2xl:max-w-[25%] sm:max-w-[25%] max-w-[80%]">
             <MathCaptcha onVerify={handleCaptchaVerify} />
           </div>
 

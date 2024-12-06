@@ -2,13 +2,19 @@ import Layout from "@core/components/Layout";
 import { useState } from "react";
 import AddDoctorsTab from "@doctors/components/AddDocotorTabs/AddDoctorsTab";
 import { Navigate } from "react-router-dom";
-import { isCheckClinic } from "@users/utils/auth";
+import { isAuthenticated, isCheckClinic } from "@users/utils/auth";
 
 export default function AddDoctors() {
     const [open, setOpen] = useState(true);
+    
+    if (!isAuthenticated()) {
+        return <Navigate to="/" />
+    }
     if (!isCheckClinic()) {
         return <Navigate to='/clinica' />
     }
+
+
     return (
         <>
             <Layout open={open} setOpen={setOpen}>

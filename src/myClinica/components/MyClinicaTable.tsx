@@ -2,7 +2,7 @@ import { useGetClinicData } from "@my-clinica/hooks/getClinic"
 import { isCheckClinic } from "@users/utils/auth"
 import { useState } from "react"
 import { BiSolidEdit } from "react-icons/bi"
-import { FaRegTrashAlt } from "react-icons/fa"
+import { FaRegTrashAlt, FaTimes } from "react-icons/fa"
 import { LuEye } from "react-icons/lu"
 import { LuEyeOff } from "react-icons/lu";
 import { Link, Navigate, useNavigate } from "react-router-dom"
@@ -12,9 +12,8 @@ import Tooltip from "@core/components/Tooltip"
 import { domain } from "@core/utils/baseAxios"
 import ShowClinicData from "./ShowClinicData"
 import logo from "@core/static/logo.png";
-import { useClinicaUpdate } from "@my-clinica/context/MyClinicaEditContext"
 import { useDeleteClinicData } from "@my-clinica/hooks/deleteClinic"
-import { useClinica } from "@clinica/context/ClinicaContext"
+
 
 export default function MyClinicaTable() {
     if (!isCheckClinic()) {
@@ -134,23 +133,40 @@ export default function MyClinicaTable() {
             </table>
 
             {isModalOpen && (
+               
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-                        <div className="flex justify-center text-4xl mb-4 text-gray-500">
+                    <div className="bg-white  shadow-lg  max-w-md w-full pb-6">
+                        {/* Modal header */}
+                        <div className="flex justify-between bg-secondary-light  px-5 py-4 items-center border-b ">
+                            <h2 className="text-xl font-semibold text-gray-800">
+                                O'chirishni tasdiqlang
+                            </h2>
+                            <button
+                                className="text-gray-500 hover:text-gray-700"
+                                onClick={() => setIsModalOpen(false)}
+                            >
+                                <FaTimes />
+                            </button>
+                        </div>
+
+                        {/* Modal content */}
+                        <div className="flex justify-center text-4xl my-4 text-gray-500">
                             <FaTrashAlt />
                         </div>
                         <h2 className="text-lg font-semibold text-gray-800 text-center">
                             Shifoxona ma'lumotlarini o'chirishga rozimisiz?
                         </h2>
-                        <div className="mt-6 flex justify-end space-x-2">
-                            {/* Cancel tugma */}
+
+                        {/* Modal footer */}
+                        <div className="mt-6 flex justify-end space-x-2 px-4">
+                            {/* Cancel button */}
                             <button
                                 className="px-4 py-2 text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
                                 onClick={() => setIsModalOpen(false)}
                             >
                                 Bekor qilish
                             </button>
-                            {/* Confirm/Delete tugma */}
+                            {/* Confirm/Delete button */}
                             <button
                                 className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
                                 onClick={handleDelete}

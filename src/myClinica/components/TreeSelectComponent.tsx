@@ -53,17 +53,18 @@ const TreeSelectComponent: React.FC<TreeSelectComponentProps> = ({
     }, [data, language])
 
     useEffect(() => {
-        const workerData = data[language]
-        if (!workerData) return
+        if (!defaultValue.length) return; 
+
+        const workerData = data[language];
+        if (!workerData) return;
 
         const selectedValues = Object.values(workerData)
             .flat()
-            .filter((item) => defaultValue.includes(item.id)) // Backenddan kelgan qiymatlarni filterlash
-            .map((item) => item.id)
+            .filter((item) => defaultValue.includes(item.id)) 
+            .map((item) => item.id);
 
-        setValue(selectedValues) // Tanlangan qiymatlarni belgilash
-    }, [defaultValue, data, language])
-
+        setValue(selectedValues); 
+    }, [defaultValue, data, language]);
 
     const handleChange: TreeSelectProps<number[]>["onChange"] = (newValue) => {
         const workerData = data[language]

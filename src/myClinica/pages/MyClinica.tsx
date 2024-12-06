@@ -1,20 +1,24 @@
 
 import Layout from "@core/components/Layout";
 import { useGetClinicData } from "@my-clinica/hooks/getClinic";
-import { isCheckClinic } from "@users/utils/auth";
+import { isAuthenticated, isCheckClinic } from "@users/utils/auth";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Skeleton } from 'antd';
 import MyClinicaTable from "@my-clinica/components/MyClinicaTable";
-import { ClinicaUpdateContext, defaultData } from "@my-clinica/context/MyClinicaEditContext";
+
 import { ClinicaUpdateData } from "@my-clinica/types";
+import { ClinicaUpdateContext, defaultData } from "@my-clinica/context/ClinicaUpdateContext";
 
 export default function MyClinica() {
     const [open, setOpen] = useState(true);
     const clinicId = localStorage.getItem("clinicId")
     const clincData = useGetClinicData(clinicId ? clinicId as string : "0")
     const isLoading = clincData.isLoading
-    const [data, setData] = useState<ClinicaUpdateData>(defaultData)
+    const [newData, setData] = useState<ClinicaUpdateData>(defaultData)
+    if (!isAuthenticated()) {
+        return <Navigate to="/" />
+    }
     if (!isCheckClinic()) { 
         return <Navigate to='/clinica' />
     }
@@ -26,7 +30,7 @@ export default function MyClinica() {
                         <h4 className="text-lg font-semibold">Mening shifoxonam</h4>
                     </div>
 
-                    <ClinicaUpdateContext.Provider value={{ data, setData }}>
+                    <ClinicaUpdateContext.Provider value={{ newData, setData }}>
                         <div className="clear-both"></div>
                         {
                             isLoading ? <Skeleton /> : <MyClinicaTable />

@@ -8,7 +8,6 @@ import { VscRefresh } from "react-icons/vsc";
 import { ConfigProvider, Flex, Input, Typography } from 'antd';
 import { UploadClinicaPhotoParams, UploadClinicLogo } from "src/clinica/types";
 import { useUploadClinicLogo } from "@clinica/hooks/addClinic";
-import { useNavigate } from "react-router-dom";
 import { useGetClinicData } from '@my-clinica/hooks/getClinic';
 import { domain } from '@core/utils/baseAxios';
 
@@ -29,9 +28,9 @@ export default function Profile({ onProfileSubmit }: { onProfileSubmit: (submit:
   const [imageData, setImageData] = useState<string>(!clinicData.data?.data.byDefaultLogo ? `${domain}/${clinicData.data?.data.logoFilePath}` : "");
   const [file, setFile] = useState<File | null>(null);
   const [checkbox, setCheckbox] = useState(false);
-  const [logoShortName, setLogoShortName] = useState<string>("Uzlabs.uz");
+  const [logoShortName, setLogoShortName] = useState<string>(clinicData.data?.data.clinicShortName as string);
 
-  const navigate = useNavigate()
+
   const cropperRef = useRef<HTMLImageElement>(null);
 
   const { mutateAsync } = useUploadClinicLogo();

@@ -2,12 +2,15 @@ import Layout from "@core/components/Layout";
 import { useState } from "react";
 import Table from "../components/Table";
 import { Link, Navigate } from "react-router-dom";
-import { isCheckClinic } from "@users/utils/auth";
+import { isAuthenticated, isCheckClinic } from "@users/utils/auth";
 
 export default function Doctors() {
     const [open, setOpen] = useState(true);
     const [search, setSearch] = useState<string>("")
     
+    if (!isAuthenticated()) {
+        return <Navigate to="/" />
+    }
     if (!isCheckClinic()) {
         return <Navigate to='/clinica' />
     }

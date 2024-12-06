@@ -79,3 +79,8 @@ export type DeleteClinicData = {
 export type DeleteClinicResponse = BaseResponse & {
     data: DeleteClinicData;
 };
+
+
+export type ClinicaUploadParams = {
+    clinicId: number
+}

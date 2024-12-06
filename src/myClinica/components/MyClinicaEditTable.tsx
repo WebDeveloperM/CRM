@@ -1,27 +1,29 @@
 
 import FormInput from "@core/components/FormInput"
-import { FaLink } from "react-icons/fa"
+import { FaLink, FaTimes } from "react-icons/fa"
 import { useWorkerPositions } from "@clinica/hooks/addClinic"
 import { useGetClinicData } from "@my-clinica/hooks/getClinic"
 import { SetStateAction, useRef, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { useMask } from "@react-input/mask"
-import { ClinicaFormData } from "@clinica/types"
 import TreeSelectComponent from "./TreeSelectComponent"
 import { MdOutlineEditLocation } from "react-icons/md";
 import YandexMap2 from "./YandexMap2"
 import { FaUserEdit } from "react-icons/fa";
 import Profile from "./Profile"
 import { IoWarningOutline } from "react-icons/io5"
-import { useClinicaUpdate } from "@my-clinica/context/MyClinicaEditContext"
+import { useClinicaUpdate } from "@my-clinica/context/ClinicaUpdateContext"
 import { FaTelegram } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
 import { toast } from "react-toastify"
-import { useUpdateClinica } from "@my-clinica/hooks/editClinica"
 import MathCaptcha from "@core/components/Captcha"
 import { useTranslation } from "react-i18next"
+import { ClinicaUpdateData } from "@my-clinica/types"
+import { useUpdateClinica } from "@my-clinica/hooks/editClinica"
+import { useNavigate } from "react-router-dom"
+
 
 export default function MyClinicaEditTable() {
     const clinicId = localStorage.getItem("clinicId")
@@ -29,15 +31,16 @@ export default function MyClinicaEditTable() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { mutateAsync } = useUpdateClinica(clinicId ? clinicId as string : "0")
     const [confirmModal, setConfirmModal] = useState(false)
-    const [_, setSelectedIds] = useState<number[]>([])
+    const [selectedId, setSelectedIds] = useState<number[]>(clinicData.data?.data.additionalServices as [])
     const [check, setCheck] = useState<SetStateAction<boolean>>(false)
-    const [сlinicaType, setClinicaType] = useState("")
+    const navigate = useNavigate()
     const [isVerified, setIsVerified] = useState(false)
     const { t, i18n } = useTranslation()
-    const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
-    const inputRef = useMask({ mask: "+998(__) ___-__-__", replacement: { _: /\d/ } })
-    const { data, setData } = useClinicaUpdate()
 
+    const { newData, setData } = useClinicaUpdate()
+    const methods = useForm<ClinicaUpdateData>({ mode: "onBlur" })
+
+    const inputRef = useMask({ mask: "+998(__) ___-__-__", replacement: { _: /\d/ } })
     const { ref: formInputRef } = methods.register("phoneNumber")
 
     const inputRefINN = useMask({ mask: "_________", replacement: { _: /\d/ } })
@@ -54,28 +57,39 @@ export default function MyClinicaEditTable() {
     const [openYandex, setOpenYandex] = useState(false)
     const [openProfile, setOpenProfile] = useState(false)
 
+
     const workerPositions = useWorkerPositions()
 
     const handleChange = (ids: number[]) => {
         setSelectedIds(ids)
-        setData({ ...data, additionalServices: ids })
+        setData({ ...newData, additionalServices: ids })
     }
 
     const handleCaptchaVerify = (status: boolean) => {
         setIsVerified(status)
     }
 
-
     const profileSubmitRef = useRef<() => Promise<void> | void>();
 
 
-    async function onSubmit() {
+    async function onSubmit(data: ClinicaUpdateData) {
+        data.additionalServices = selectedId
+        data.legalAddress = newData.legalAddress ? newData.legalAddress : clinicData.data?.data.legalAddress as string
+        data.clinicType = newData.clinicType ? newData.clinicType : clinicData.data?.data.clinicType as string
+        data.instagram = newData.instagram ? newData.instagram : clinicData.data?.data.instagram as string
+        data.telegram = newData.telegram ? newData.telegram : clinicData.data?.data.telegram as string
+        data.facebook = newData.facebook ? newData.facebook : clinicData.data?.data.facebook as string
+        data.youtube = newData.youtube ? newData.youtube : clinicData.data?.data.youtube as string
+        data.geolocationLatitude = newData.geolocationLatitude ? newData.geolocationLatitude : clinicData.data?.data.geolocationLatitude as number
+        data.geolocationLongitude = newData.geolocationLongitude ? newData.geolocationLongitude : clinicData.data?.data.geolocationLongitude as number
+        data.description = newData.description ? newData.description : clinicData.data?.data.description as string
+
         if (!confirmModal) {
             toast.warning("Ma'lumotlar tasdiqlanmagan")
             return
         }
+       
 
-        // Profile'ning onSubmit funksiyasini chaqirish
         if (profileSubmitRef.current) {
             await profileSubmitRef.current();
         }
@@ -89,10 +103,6 @@ export default function MyClinicaEditTable() {
             return
         }
 
-        if (сlinicaType == "") {
-            toast.warning(t("clinicTypeError"))
-            return
-        }
 
         if (data.additionalServices.length == 0) {
             toast.warning(t("additionalServicesError"))
@@ -108,11 +118,12 @@ export default function MyClinicaEditTable() {
             return
         }
         // MyClinicaEditTable'ning onSubmit funksiyasini bajarish
-        const response = await mutateAsync(data);
-        console.log(response, "000000000");
-        
-        if (response.success) {
+
+        const response = await mutateAsync(data)
+
+        if (response.success && response.message == "Clinic updated successfully.") {
             toast.success("Ma'lumotlar muvaffaqiyatli saqlandi");
+            navigate("/my-clinica")
         } else {
             toast.error("Ma'lumotlarni saqlashda xatolik yuz berdi");
         }
@@ -136,9 +147,7 @@ export default function MyClinicaEditTable() {
                                     </label>
                                 }
                                 value={clinicData.data?.data.clinicName}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, clinicName: e.target.value })
-                                }
+                                onChange={(e) => setData({ ...newData, clinicName: e.target.value })}
                                 className="mt-1"
                                 name="clinicName"
                                 placeholder={"Shifoxona nomini kiriting"}
@@ -154,9 +163,9 @@ export default function MyClinicaEditTable() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={"+" + clinicData.data?.data.phoneNumber}
+                                defaultValue={clinicData.data?.data.phoneNumber}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, phoneNumber: e.target.value })
+                                    setData({ ...newData, phoneNumber: e.target.value })
                                 }
                                 className="mt-1"
                                 name="phoneNumber"
@@ -175,9 +184,9 @@ export default function MyClinicaEditTable() {
                                     </label>
                                 }
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, email: e.target.value })
+                                    setData({ ...newData, email: e.target.value })
                                 }
-                                defaultValue={clinicData.data?.data.email}
+                                value={clinicData.data?.data.email}
                                 type="email"
                                 className="mt-1"
                                 name="email"
@@ -194,11 +203,11 @@ export default function MyClinicaEditTable() {
                                 }
 
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, website: e.target.value })
+                                    setData({ ...newData, website: e.target.value })
                                 }
                                 className="mt-1"
                                 name="website"
-                                defaultValue={clinicData.data?.data.website}
+                                value={clinicData.data?.data.website}
                                 placeholder={"Web sahifa kiriting"}
                                 required={false}
                             />
@@ -212,9 +221,10 @@ export default function MyClinicaEditTable() {
                                     </label>
                                 }
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, taxpayerIdNumber: e.target.value })
+                                    setData({ ...newData, taxpayerIdNumber: e.target.value })
                                 }
                                 defaultValue={clinicData.data?.data.taxpayerIdNumber}
+                                value={clinicData.data?.data.taxpayerIdNumber}
                                 className="mt-1"
                                 name="taxpayerIdNumber"
                                 placeholder={"INN raqam kiriting"}
@@ -231,7 +241,7 @@ export default function MyClinicaEditTable() {
                                     </label>
                                 }
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, stateRegistrationNumber: e.target.value })
+                                    setData({ ...newData, stateRegistrationNumber: e.target.value })
                                 }
                                 defaultValue={clinicData.data?.data.stateRegistrationNumber}
                                 className="mt-1"
@@ -248,10 +258,9 @@ export default function MyClinicaEditTable() {
                                 id="countries"
                                 name="clinicType"
                                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                                    setData({ ...data, clinicType: e.target.value })
-                                    setClinicaType(e.target.value)
+                                    setData({ ...newData, clinicType: e.target.value })
                                 }}
-                                defaultValue={clinicData.data?.data.clinicType}
+                                value={clinicData.data?.data.clinicType}
                                 className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  "
                             >
                                 <option>Shifoxona turini tanlang</option>
@@ -270,7 +279,7 @@ export default function MyClinicaEditTable() {
                                 }
 
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, licenseNumber: e.target.value })
+                                    setData({ ...newData, licenseNumber: e.target.value })
                                 }
                                 required={false}
                                 defaultValue={clinicData.data?.data.licenseNumber as string}
@@ -291,7 +300,7 @@ export default function MyClinicaEditTable() {
                                     </label>
                                 }
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, licenseExpiryDate: e.target.value })
+                                    setData({ ...newData, licenseExpiryDate: e.target.value })
                                 }
 
                                 required={false}
@@ -313,7 +322,7 @@ export default function MyClinicaEditTable() {
                                 defaultValue={clinicData.data?.data.bankAccountDetails}
                                 className="mt-1"
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    setData({ ...data, bankAccountDetails: e.target.value })
+                                    setData({ ...newData, bankAccountDetails: e.target.value })
                                 }
                                 name="bankAccountDetails"
                                 placeholder={"Bank xisob raqamini kiriting"}
@@ -342,7 +351,7 @@ export default function MyClinicaEditTable() {
                         <label className="block mb-1 text-sm font-medium text-gray-900 ">Ta'rif</label>
                         <textarea
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                                setData({ ...data, description: e.target.value })
+                                setData({ ...newData, description: e.target.value })
                             }
                             id="description"
                             rows={3}
@@ -372,7 +381,7 @@ export default function MyClinicaEditTable() {
                                     </div>
                                     <input
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                            setData({ ...data, instagram: e.target.value })
+                                            setData({ ...newData, instagram: e.target.value })
                                         }
                                         type="text"
                                         id="input-group-1"
@@ -392,7 +401,7 @@ export default function MyClinicaEditTable() {
                                     </div>
                                     <input
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                            setData({ ...data, telegram: e.target.value })
+                                            setData({ ...newData, telegram: e.target.value })
                                         }
                                         type="text"
                                         id="input-group-1"
@@ -411,7 +420,7 @@ export default function MyClinicaEditTable() {
                                     </div>
                                     <input
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                            setData({ ...data, facebook: e.target.value })
+                                            setData({ ...newData, facebook: e.target.value })
                                         }
                                         type="text"
                                         id="input-group-1"
@@ -430,7 +439,7 @@ export default function MyClinicaEditTable() {
                                     </div>
                                     <input
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                            setData({ ...data, youtube: e.target.value })
+                                            setData({ ...newData, youtube: e.target.value })
                                         }
                                         type="text"
                                         id="input-group-1"
@@ -522,29 +531,45 @@ export default function MyClinicaEditTable() {
                     </button>
 
                     {isModalOpen && (
+
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-                                <div className="flex justify-center text-4xl mb-4 text-gray-500">
+                            <div className="bg-white  shadow-lg  max-w-md w-full pb-6">
+                                {/* Modal header */}
+                                <div className="flex justify-between bg-secondary-light  px-5 py-4 items-center border-b ">
+                                    <h2 className="text-xl font-semibold text-gray-800">
+                                        Tahrirlashni tasdiqlang
+                                    </h2>
+                                    <button
+                                        className="text-gray-500 hover:text-gray-700"
+                                        onClick={() => setIsModalOpen(false)}
+                                    >
+                                        <FaTimes />
+                                    </button>
+                                </div>
+
+                                {/* Modal content */}
+                                <div className="flex justify-center text-4xl my-4 text-gray-500">
                                     <IoWarningOutline />
                                 </div>
                                 <h2 className="text-lg font-semibold text-gray-800 text-center">
                                     Kiritilgan ma'lumotlarni tasdiqlaysizmi?
                                 </h2>
-                                <div className="mt-6 flex justify-end space-x-2">
-                                    {/* Cancel tugma */}
+
+                                {/* Modal footer */}
+                                <div className="mt-6 flex justify-end space-x-2 px-4">
+                                    {/* Cancel button */}
                                     <button
                                         className="px-4 py-2 text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
                                         onClick={() => setIsModalOpen(false)}
                                     >
                                         Bekor qilish
                                     </button>
-                                    {/* Confirm/Delete tugma */}
+                                    {/* Confirm/Delete button */}
                                     <button
-
                                         className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
                                         onClick={() => {
                                             setConfirmModal(true);
-                                            methods.handleSubmit(onSubmit)();
+                                            // methods.handleSubmit(onSubmit)();
                                         }}
                                     >
                                         Tasdiqlayman

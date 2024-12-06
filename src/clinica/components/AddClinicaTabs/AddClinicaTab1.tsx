@@ -30,7 +30,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
     const { t, i18n } = useTranslation()
     const workerPositions = useWorkerPositions()
     const methods = useForm<ClinicaFormData>({ mode: "onBlur", defaultValues: data })
-    const inputRef = useMask({ mask: "+998(__) ___-__-__", replacement: { _: /\d/ } })
+    const inputRef = useMask({ mask: "(__) ___-__-__", replacement: { _: /\d/ } })
 
     const { ref: formInputRef } = methods.register("phoneNumber")
 
@@ -55,7 +55,7 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
     async function onSubmit(data: ClinicaFormData) {
         data.additionalServices = selectedIds
         data.clinicType = сlinicaType
-        const phoneNumber = data.phoneNumber.replace(/\D/g, "")
+        const phoneNumber = "+998" + data.phoneNumber.replace(/\D/g, "")
         setData({ ...data, phoneNumber: phoneNumber, additionalServices: selectedIds, clinicType: сlinicaType })
 
         if (data.taxpayerIdNumber.length != 9) {

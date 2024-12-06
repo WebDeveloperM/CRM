@@ -3,7 +3,7 @@ import React, { createContext, useContext } from "react";
 
 
 export interface ClinicaUpdateContextType {
-    data: ClinicaUpdateData;
+    newData: ClinicaUpdateData;
     setData: React.Dispatch<React.SetStateAction<ClinicaUpdateData>>;
 }
 
@@ -39,3 +39,5 @@ export const useClinicaUpdate = () => {
     }
     return context;
 };
+
+

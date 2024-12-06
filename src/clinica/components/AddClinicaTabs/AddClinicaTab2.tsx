@@ -10,6 +10,7 @@ import { UploadClinicaPhotoParams, UploadClinicLogo } from "src/clinica/types";
 import { useUploadClinicLogo } from "@clinica/hooks/addClinic";
 import { useNavigate } from "react-router-dom";
 import { IoWarningOutline } from 'react-icons/io5';
+import { FaTimes } from 'react-icons/fa';
 
 type Props = {
   onPrevious: (status: boolean) => void
@@ -47,7 +48,7 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
       toast.warning("Ma'lumotlar tasdiqlanmagan")
       return
     }
-   
+
     const response = await mutateAsync(data);
 
     if (!response.success && response.message == "No logo file provided.") {
@@ -200,33 +201,53 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
           </div>
 
           {isModalOpen && (
+
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-                <div className="flex justify-center text-4xl mb-4 text-gray-500">
+              <div className="bg-white  shadow-lg  max-w-md w-full pb-6">
+                {/* Modal header */}
+                <div className="flex justify-between bg-secondary-light  px-5 py-4 items-center border-b ">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    Ma'lumotlarni tasdiqlash
+                  </h2>
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+
+                {/* Modal content */}
+                <div className="flex justify-center text-4xl my-4 text-gray-500">
                   <IoWarningOutline />
                 </div>
                 <h2 className="text-lg font-semibold text-gray-800 text-center">
                   Kiritilgan ma'lumotlarni tasdiqlaysizmi?
                 </h2>
-                <div className="mt-6 flex justify-end space-x-2">
-                  {/* Cancel tugma */}
+
+                {/* Modal footer */}
+                <div className="mt-6 flex justify-end space-x-2 px-4">
+                  {/* Cancel button */}
                   <button
                     className="px-4 py-2 text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
                     onClick={() => setIsModalOpen(false)}
                   >
                     Bekor qilish
                   </button>
-                  {/* Confirm/Delete tugma */}
+                  {/* Confirm/Delete button */}
                   <button
-                    type='submit'
                     className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
-                    onClick={() => setConfirmModal(true)}
+                    onClick={() => {
+                      setConfirmModal(true);
+                      // methods.handleSubmit(onSubmit)();
+                    }}
                   >
                     Tasdiqlayman
                   </button>
                 </div>
               </div>
             </div>
+
           )}
 
         </form>

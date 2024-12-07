@@ -281,7 +281,7 @@ export default function DoctorAddTab2() {
 
           </div>
 
-          <div className="grid grid-cols-12 gap-4 px-0.5 mt-3">
+          <div className="sm:grid grid-cols-12 gap-4 px-0.5 mt-3">
 
             <div className="col-span-8">
               <p className="mb-2">Hodim haqida malumot</p>
@@ -289,7 +289,7 @@ export default function DoctorAddTab2() {
 
               {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
             </div>
-            <div className="col-span-4 pt-2 ml-0.5">
+            <div className="col-span-4 pt-2 ml-0.5 mt-12 sm:mt-0">
               {!image ?
                 <div className="flex items-center justify-start">
                   <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center  w-full sm:h-40 h-32 text-center   border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">

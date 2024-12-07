@@ -24,7 +24,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ value = '', onChange }) => {
             theme="snow"
             value={text}
             onChange={handleChange}
-            className='h-20'
+            className='h-[98px] w-full'
             modules={{
                 toolbar: [
                     [{ header: [1, 2, 3, 4, 5, false] }],

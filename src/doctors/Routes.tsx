@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom"
-import Doctors from "./pages/Doctors"
-import AddDoctors from "./pages/AddDoctors"
+
+import AddDoctors from "./pages/Doctors"
 import "./static/style.css"
+import Doctors from "./pages/Doctors"
 
 export default function DoctorsRoutes() {
    

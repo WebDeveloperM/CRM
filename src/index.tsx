@@ -15,6 +15,7 @@ import 'react-quill/dist/quill.snow.css';
 import MyClinicaRoutes from "./myClinica/Routes"
 
 export default function App() {
+
     return (
         <StrictMode>
             <BaseContextProvider>

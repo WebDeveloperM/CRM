@@ -24,6 +24,7 @@ export default function Login() {
 
     const [showPass, setShowPass] = useState(false)
     const [password, setPassword] = useState("")
+    const [loginOrPassWordError, setLoginOrPassWordError] = useState(false)
     const [errorPassword, setErrorPassword] = useState("")
 
     const handleShowPassword = () => {
@@ -63,7 +64,8 @@ export default function Login() {
         }
 
         if (!response.success && response.message == "Invalid username or password.") {
-            return toast.error(t("errorLoginPassword"))
+            setLoginOrPassWordError(true)
+            return
         }
     }
 
@@ -101,6 +103,8 @@ export default function Login() {
                                         placeholder={t("placeLogin")}
                                         errorText={t("errorLogin")}
                                     />
+                                    <p>  {loginOrPassWordError && <p className={clsx("text-red-500 block mb-1 text-sm")}>{t("errorLoginPassword")}</p>}</p>
+
                                 </div>
 
                                 <div className="mt-1">
@@ -137,6 +141,7 @@ export default function Login() {
                                     {errorPassword && (
                                         <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorPassword}</p>
                                     )}
+                                    <p>  {loginOrPassWordError && <p className={clsx("text-red-500 block mb-1 text-sm")}>{t("errorLoginPassword")}</p>}</p>
                                 </div>
 
                                 <div className="flex justify-end text-sm text-gray-500 underline mt-2 hover:text-secondary duration-200 cursor-pointer">

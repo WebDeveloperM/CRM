@@ -7,7 +7,7 @@ import { ClinicaContext, defaultData } from "@clinica/context/ClinicaContext"
 export default function AddClinice() {
     const [open, setOpen] = useState(true)
     const [data, setData] = useState<ClinicaFormData>(defaultData)
-
+ 
     return (
         <>
             <Layout open={open} setOpen={setOpen}>

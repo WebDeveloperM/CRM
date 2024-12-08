@@ -2,9 +2,6 @@
 import { useState } from "react";
 import DoctorAddTab2 from "@doctors/components/AddDocotorTabs/DoctorAddTab2";
 import DoctorsListTab1 from "./DoctorsListTab1";
-// import AddDoktorTab33 from "./AddDoktorTab33";
-// import AddDoctorTab4 from "@doctors/components/AddDocotorTabs/AddDoctorTab4";
-
 
 export default function DoctorsTab() {
 
@@ -28,27 +25,6 @@ export default function DoctorsTab() {
             <div role="tabpanel" className="tab-content py-4 ">
                 <DoctorAddTab2 />
             </div>
-
-            {/* <input
-                type="radio"
-                name="my_tabs_1"
-                role="tab"
-                className="tab text-secondary mx-5 "
-                aria-label="Profile"
-            />
-            <div role="tabpanel" className="tab-content  py-4">
-                <DoctorAddTab2 />
-            </div> */}
-
-            {/* <input type="radio" name="my_tabs_1" role="tab" className=" tab text-secondary mx-5" aria-label="Account" />
-            <div role="tabpanel" className="tab-content px-4 ">
-                <AddDoktorTab3 />
-            </div> */}
-            {/* <input type="radio" name="my_tabs_1" role="tab" className="tab  text-secondary mx-5" aria-label="Account" />
-            <div role="tabpanel" className="tab-content px-2 ">
-                <AddDoctorTab4 />
-
-            </div> */}
         </div>
     )
 }

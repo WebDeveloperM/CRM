@@ -11,6 +11,8 @@ type Props = {
 
 export default function DoctorsListTab1({ search }: Props) {
     const [recordsPerPage, setRecordsPerPage] = useState(10);
+
+
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth >= 1536) {

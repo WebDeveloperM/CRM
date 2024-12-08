@@ -1,12 +1,10 @@
 import FormInput from "@core/components/FormInput";
 import { FormProvider, useForm } from "react-hook-form";
-import { ClinicaFormData } from "src/clinica/types";
 import { SetStateAction, useRef, useState } from "react";
 import { Space, TimePicker } from 'antd';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import type { TimeRangePickerProps } from 'antd/es/time-picker';
-import { useDoctorRols } from "@doctors/hooks/addDoctors";
 import { useTranslation } from "react-i18next";
 import MathCaptcha from "@core/components/Captcha";
 import { Link } from "react-router-dom";
@@ -16,22 +14,39 @@ import { VscRefresh } from "react-icons/vsc";
 import { toast } from "react-toastify";
 import TextEditor from "../TextEditor";
 import { useMask } from "@react-input/mask";
+import { useWorkerPositions } from "@clinica/hooks/addClinic";
+import { getRelevantIds } from "@doctors/utils/selectedIDS";
+import TreeSelectSingleCategory from "../TreeSelectSingleCategory";
+import { useDoctors } from "@doctors/context/addDoctorContext";
+import { DoctorFormData } from "@doctors/types";
+import clsx from "clsx";
+import { generatePassword } from "@doctors/utils/functions";
 
 // import TextEditor from "../TextEditor";
-
-const possibleRoles: string[] = ["Shifokor", "Laboratoriya", "Kassa"]
-
+let passwordTimeOutId: ReturnType<typeof setTimeout>
+let confirmPasswordTimeOutId: ReturnType<typeof setTimeout>
 
 export default function DoctorAddTab2() {
   const [check, setCheck] = useState<SetStateAction<boolean>>(false)
-  const [role, setRole] = useState("")
+  const clinicId = localStorage.getItem("clinicId")
   const [isVerified, setIsVerified] = useState(false)
   const { t, i18n } = useTranslation()
-  const methods = useForm<ClinicaFormData>({ mode: "onBlur" })
-  const doctorRols = useDoctorRols()
+  const methods = useForm<DoctorFormData>({ mode: "onBlur" })
+  const { data, setData } = useDoctors()
   const [file, setFile] = useState<File | null>(null);
   const [image, setImage] = useState<string | null>(null);
   const cropperRef = useRef<HTMLImageElement>(null);
+  const workerPositions = useWorkerPositions()
+  const [selectedIds, setSelectedIds] = useState<number>()
+  const [_, setSalary] = useState<number>()
+  const [allowTime, setAllowTime] = useState<string[]>(["08:00:00", "20:00:00"])
+  const [showPass, setShowPass] = useState(false)
+  const [password, setPassword] = useState("")
+  const [errorPassword, setErrorPassword] = useState("")
+  const [errorConfPassword, setErrorConfPassword] = useState("")
+  const [showConfPass, setShowConfPass] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState("")
+
 
   const inputRoleWord = useMask({
     mask: "жж | _______",
@@ -41,47 +56,64 @@ export default function DoctorAddTab2() {
   //@ts-ignore
   const { ref: formRoleWord } = methods.register("roleWord")
 
+  const inputTimeOutRef = useMask({ mask: "___", replacement: { _: /\d/ }, })
+  const { ref: formTimeOutRef } = methods.register("timeOutMinutes")
 
+  // const inputSalary = useMask({ mask: "__ ___ ___ ___", replacement: { _: /\d/ }, })
+  // const { ref: formSalary } = methods.register("salary")
+
+  const possibleRoles = getRelevantIds("uz")
 
   dayjs.extend(customParseFormat);
 
-  const onChange: TimeRangePickerProps['onChange'] = (dates, dateStrings) => {
-    console.log('Dates:', dates);
-    console.log('Date Strings:', dateStrings);
+  const timePickerChange: TimeRangePickerProps['onChange'] = (dates, dateStrings) => {
+    console.log(dates);
+    setAllowTime(dateStrings)
   };
 
   const handleCaptchaVerify = (status: boolean) => {
     setIsVerified(status);
-
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
-  };
-  const handleChekc = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
   };
 
 
-  async function onSubmit() {
+  const handleShowPassword = () => {
+    if (passwordTimeOutId) clearTimeout(passwordTimeOutId)
+    if (showPass) return setShowPass(false)
 
-    // if (isLoading) return
-    // if (error) {
-    //   toast.error(error.message)
-    //   return
-    // }
-
-    if (!check) {
-      toast.warning(t("agreeTerms"))
-      return
-    }
-    if (!isVerified) {
-      toast.warning(t("proveNotRobot"))
-      return
-    }
-
+    setShowPass(true)
+    passwordTimeOutId = setTimeout(() => setShowPass(false), 5000)
   }
 
+  const onBlurPassword = () => {
+    if (password == "") {
+      setErrorPassword(t("errorPassword"))
+      return
+    } else {
+      setErrorPassword("")
+    }
+  }
+
+  const onBlurConfPassword = () => {
+    if (confirmPassword == "") {
+      setErrorConfPassword(t("repeatConfPassword"))
+      return
+    } else {
+      setErrorConfPassword("")
+    }
+  }
+
+  const handleShowConfPassword = () => {
+    if (confirmPasswordTimeOutId) clearTimeout(confirmPasswordTimeOutId)
+    if (showConfPass) return setShowConfPass(false)
+
+    setShowConfPass(true)
+    confirmPasswordTimeOutId = setTimeout(() => setShowConfPass(false), 5000)
+  }
+  const handleChekc = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.value == "yes" ?
+      setData({ ...data, canSeeReports: true }) :
+      setData({ ...data, canSeeReports: false })
+  };
 
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,6 +122,7 @@ export default function DoctorAddTab2() {
       const reader = new FileReader();
       reader.onload = () => {
         setImage(reader.result as string);
+        setData({ ...data, base64Photo: reader.result as string })
       };
       reader.readAsDataURL(file);
     }
@@ -99,6 +132,8 @@ export default function DoctorAddTab2() {
 
   const handleContentChange = (value: string) => {
     setContent(value);
+    setData({ ...data, description: value })
+
   };
 
 
@@ -109,15 +144,59 @@ export default function DoctorAddTab2() {
         if (blob) {
           const croppedFile = new File([blob], "cropped-image.png", { type: "image/png" });
           setFile(croppedFile);
-          console.log(croppedFile, "Cropped File");
           toast.success("Ma'lumot saqlandi");
         }
       }, 'image/png');
     }
   };
 
-  if (!doctorRols.data || !doctorRols.data.data) {
-    return <p className="my-3">Ma'lumotlar yuklanmoqda...</p>
+
+  const handleChangeTreeSelect = (ids: number) => {
+    setSelectedIds(ids)
+    setData({ ...data, position: ids })
+  }
+
+
+  const handleGeneratePassword = () => {
+    const newPassword = generatePassword();
+    setPassword(newPassword);
+    setConfirmPassword(newPassword);
+  };
+  async function onSubmit(data: DoctorFormData) {
+    data.allowedWorkingHours = allowTime
+    data.clinicId = clinicId ? parseInt(clinicId) : 0
+
+    // if (isLoading) return
+    // if (error) {
+    //   toast.error(error.message)
+    //   return
+    // }
+
+
+    if (password !== confirmPassword) {
+      toast.warning("Parollar mos kelmadi")
+      return
+    }
+
+    data.password = password
+    data.passwordConfirm = confirmPassword
+
+    if (!check) {
+      toast.warning(t("agreeTerms"))
+      return
+    }
+    if (!isVerified) {
+      toast.warning(t("proveNotRobot"))
+      return
+    }
+    console.log(data, "444444444444");
+
+  }
+
+
+
+  if (!workerPositions.data || !workerPositions.data.data) {
+    return <p className="px-5">Ma'lumotlar yuklanmoqda...</p> // Yuklanayotgan holat
   }
 
   return (
@@ -129,32 +208,47 @@ export default function DoctorAddTab2() {
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
-                    F.I.O
+                    Familiya
+                    <span className="text-red-500">*</span>
+                  </label>
+                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, lastName: e.target.value })}
+                className="mt-1"
+                name="lastName"
+                placeholder={"Familiya kiriting"}
+              />
+            </div>
+            <div className="2xl:col-span-3 col-span-4">
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    Ism
                     <span className="text-red-500">*</span>
                   </label>
                 }
                 // value={data.clinicName}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, clinicName: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, firstName: e.target.value })}
                 className="mt-1"
-                name="clinicName"
-                placeholder={"Ism va familiyasi"}
+                name="firstName"
+                placeholder={"Ism kiriting"}
               />
             </div>
-            <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">
+            <div className="2xl:col-span-3 col-span-4">
               <FormInput
                 label={
                   <label htmlFor="firstName" className="text-gray-700">
-                    Manzili
+                    Otasining ismi
                     <span className="text-red-500">*</span>
                   </label>
                 }
-                // value={data.legalAddress}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, legalAddress: e.target.value })}
+                // value={data.clinicName}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, fatherName: e.target.value })}
                 className="mt-1"
-                name="legalAddress"
-                placeholder={"Manzil kiriting"}
+                name="fatherName"
+                placeholder={"Otasining ismini kiriting"}
               />
             </div>
+
             <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">
               <FormInput
                 label={
@@ -164,7 +258,7 @@ export default function DoctorAddTab2() {
                   </label>
                 }
                 // value={data.phoneNumber}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, phoneNumber: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, phoneNumber: e.target.value })}
                 className="mt-1"
                 name="phoneNumber"
                 placeholder={"Telefon raqam kiriting"}
@@ -179,11 +273,13 @@ export default function DoctorAddTab2() {
                   </label>
                 }
                 // value={data.website}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, website: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, timeOutMinutes: parseInt(e.target.value) })}
                 className="mt-1"
-                name="website"
+                name="timeOutMinutes"
                 placeholder={"Ishlash muddati"}
-                required={false}
+                inputRef={inputTimeOutRef}
+                formInputRef={formTimeOutRef}
+
               />
             </div>
 
@@ -194,40 +290,114 @@ export default function DoctorAddTab2() {
 
               <Space direction="vertical" >
                 <TimePicker.RangePicker className="sm:w-[338px] w-[100%]"
-                  onChange={onChange}
+                  onChange={timePickerChange}
                   defaultValue={[dayjs('08:00', 'HH:mm'), dayjs('20:00', 'HH:mm')]}
                   placeholder={['Boshlash', 'Tugash']}
+
                 />
               </Space>
             </div>
-            <div className="2xl:col-span-3 col-span-4 mt-2">
-              <div className="flex flex-col items-start space-y-2 ml-2">
-                <label className="">Jinsi:</label>
 
-                <div className="flex items-center space-x-4">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      value="erkak"
-                      name="gender"
-
-                      onChange={handleChange}
-                      className="w-3 h-3 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="">Erkak</span>
+            <div className="2xl:col-span-3 col-span-4">
+              <FormInput
+                label={
+                  <label htmlFor="firstName" className="text-gray-700">
+                    Login
+                    <span className="text-red-500">*</span>
                   </label>
+                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, userName: e.target.value })}
+                className="mt-1"
+                name="userName"
+                placeholder={"Login kiriting"}
+              />
+            </div>
 
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      value="ayol"
-                      name="gender"
-                      onChange={handleChange}
-                      className="w-3 h-3 text-pink-600 focus:ring-pink-500"
-                    />
-                    <span className="">Ayol</span>
-                  </label>
+            <div className="2xl:col-span-3 col-span-4">
+              <div className="mt-1">
+                <span className="text-sm font-medium text-gray-900 mt-1">{t("password")}</span>
+                <span className="text-red-500">*</span>
+                <div className="flex mt-1">
+                  <input
+                    type={showPass ? "text" : "password"}
+                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    value={password}
+                    onBlur={onBlurPassword}
+                    placeholder={t("placePassword")}
+                    id="website-admin"
+                    className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[5px]"
+                  />
+
+                  <span onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                    <svg
+
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      className="h-4 w-4 opacity-70 hover:text-secondary"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </span>
                 </div>
+                {errorPassword && (
+                  <p className="text-red-500 block mb-1 text-sm">{errorPassword}</p>
+                )}
+              </div>
+            </div>
+            <div className="2xl:col-span-3 col-span-4">
+              <div className="mt-1">
+                <span className="text-sm font-medium text-gray-900 mt-1">{t("repeatPassword")}</span>
+                <span className="text-red-500">*</span>
+
+                <div className="grid grid-cols-12 gap-2">
+                  <div className="flex mt-1 col-span-7">
+                    <input
+
+                      type={showConfPass ? "text" : "password"}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      name="confirmPassword"
+                      onBlur={onBlurConfPassword}
+                      value={confirmPassword}
+
+                      placeholder={t("repeatPassword")}
+                      id="website-admin"
+                      className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none  border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
+                    />
+
+                    <span onClick={handleShowConfPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                      <svg
+
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        className="h-4 w-4 opacity-70 hover:text-secondary"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+
+                  <div className="col-span-5">
+                    <button
+                      type="button"
+                      onClick={handleGeneratePassword}
+                      className="w-full px-4 py-1.5 mt-1 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none"
+                    >
+                      Parol yaratish
+                    </button>
+                  </div>
+                </div>
+                {errorConfPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorConfPassword}</p>}
 
               </div>
             </div>
@@ -240,46 +410,108 @@ export default function DoctorAddTab2() {
                     <span className="text-red-500">*</span>
                   </label>
                 }
-                // value={data.stateRegistrationNumber}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, stateRegistrationNumber: e.target.value })}
-                className="mt-1"
-                name="stateRegistrationNumber"
-                placeholder={"Oylik ish haqqi"}
-              />
-            </div>
-
-            <div className="2xl:col-span-3 col-span-4 px-0.5 sm:mt-1 mt-2">
-              <label className="block mb-1 text-sm font-medium text-gray-900 ">Hodim roli</label>
-              <select id="countries" name="clinicType"
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setRole(e.target.value)}
-                value={role}
-                className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  ">
-                <option>Hodim rolini tanlang</option>
-                {doctorRols && doctorRols.data.data?.map((value, key) => (
-                  <option key={key} value={value.nameUz}>{value.nameUz}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className={`2xl:col-span-3 col-span-4 sm:mt-0 mt-2 ${possibleRoles.includes(role) ? "block" : "hidden"}`}>
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    {`${role}da navbat uchun harf kiriting`}
-                    <span className="text-red-500">*</span>
-                  </label>
+                // defaultValue={salary?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setData({ ...data, salary: parseInt(e.target.value) })
+                  setSalary(parseInt(e.target.value))
                 }
-                // value={data.stateRegistrationNumber}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, stateRegistrationNumber: e.target.value })}
+                }
                 className="mt-1"
-                name="doctorWord"
-                placeholder="AA"
-                inputRef={inputRoleWord}
-                formInputRef={formRoleWord}
+                name="salary"
+                placeholder={"Oylik ish haqqi"}
+                type="number"
+              // inputRef={inputSalary}
+              // formInputRef={formSalary}
               />
             </div>
+            <div className="2xl:col-span-3 col-span-4 mt-1">
+              <label className="text-gray-700 font-medium mt-2">
+                Hodimning roli
+                <span className="text-red-500">*</span>
+              </label>
+
+              <TreeSelectSingleCategory
+                data={workerPositions.data?.data}
+                language="uz"
+                placeholder="Tanlang"
+
+                onChange={handleChangeTreeSelect}
+              />
+            </div>
+            <div className="2xl:col-span-3 col-span-4 gap-2">
+
+              <div className="grid grid-cols-12">
+                <div className={`col-span-7 sm:mt-0 mt-2 ${possibleRoles.includes(selectedIds as number) ? "block" : "hidden"}`}>
+                  <FormInput
+                    label={
+                      <label htmlFor="firstName" className="text-gray-700">
+                        {`Navbat uchun harf`}
+                        <span className="text-red-500">*</span>
+                      </label>
+                    }
+                    // value={data.stateRegistrationNumber}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, orderSign: e.target.value })}
+                    className="mt-1"
+                    name="doctorRoleWord"
+                    placeholder="AA"
+                    inputRef={inputRoleWord}
+                    formInputRef={formRoleWord}
+                  />
+                </div>
+
+                <div className="mt-2 col-span-4">
+                  <div className="flex flex-col items-start space-y-2 ml-2">
+                    <label className="">Jinsi:</label>
+
+                    <div className="flex items-center space-x-4">
+                      <label className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          value="Male"
+                          name="sex"
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, sex: e.target.value })}
+                          className="w-3 h-3 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="">Erkak</span>
+                      </label>
+
+                      <label className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          value="Female"
+                          name="sex"
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, sex: e.target.value })}
+
+                          className="w-3 h-3 text-pink-600 focus:ring-pink-500"
+                        />
+                        <span className="">Ayol</span>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
 
           </div>
+
+
+          <div className="2xl:col-span-3 col-span-4 sm:mt-2">
+
+            <label htmlFor="firstName" className="text-gray-700 ">
+              Manzili
+              <span className="text-red-500">*</span>
+            </label>
+            <textarea id="message"
+
+              className="sm:block hidden mt-1 p-2.5 w-full text-gray-900  rounded-lg border border-gray-300"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setData({ ...data, legalAddress: e.target.value })}
+              placeholder="Manzil kiriting"></textarea>
+          </div>
+
 
           <div className="sm:grid grid-cols-12 gap-4 px-0.5 mt-3">
 
@@ -338,11 +570,7 @@ export default function DoctorAddTab2() {
                 : null
               }
             </div>
-
-
           </div>
-
-
 
 
 
@@ -353,9 +581,8 @@ export default function DoctorAddTab2() {
               <label className="flex items-center space-x-2">
                 <input
                   type="radio"
-                  value="no"
-                  name="check"
-
+                  value="yes"
+                  name="canSeeReports"
                   onChange={handleChekc}
                   className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                 />
@@ -365,9 +592,8 @@ export default function DoctorAddTab2() {
               <label className="flex items-center space-x-2">
                 <input
                   type="radio"
-                  value="yes"
-                  name="check"
-
+                  value="no"
+                  name="canSeeReports"
                   onChange={handleChekc}
                   className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                 />
@@ -378,6 +604,7 @@ export default function DoctorAddTab2() {
             </div>
 
           </div>
+
           <div className="flex items-center my-5 font-semibold ">
             <input
               id="link-radio"

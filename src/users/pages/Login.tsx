@@ -122,9 +122,9 @@ export default function Login() {
                                             className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
                                         />
 
-                                        <span className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                                        <span   onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
                                             <svg
-                                                onClick={handleShowPassword}
+                                              
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 16 16"
                                                 fill="currentColor"

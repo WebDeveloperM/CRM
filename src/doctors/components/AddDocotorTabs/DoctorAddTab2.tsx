@@ -391,7 +391,7 @@ export default function DoctorAddTab2() {
                     <button
                       type="button"
                       onClick={handleGeneratePassword}
-                      className="w-full px-4 py-1.5 mt-1 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none"
+                      className="w-full px-4 py-1.5 mt-1 bg-primary text-white font-medium rounded-md duration-200 hover:bg-primary/80 focus:outline-none"
                     >
                       Parol yaratish
                     </button>

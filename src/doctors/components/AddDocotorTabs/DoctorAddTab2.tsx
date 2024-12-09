@@ -16,11 +16,11 @@ import TextEditor from "../TextEditor";
 import { useMask } from "@react-input/mask";
 import { useWorkerPositions } from "@clinica/hooks/addClinic";
 import { getRelevantIds } from "@doctors/utils/selectedIDS";
-import TreeSelectSingleCategory from "../TreeSelectSingleCategory";
 import { useDoctors } from "@doctors/context/addDoctorContext";
 import { DoctorFormData } from "@doctors/types";
 import clsx from "clsx";
 import { generatePassword } from "@doctors/utils/functions";
+import TreeSelectComponent from "../TreeSelectComponent";
 
 // import TextEditor from "../TextEditor";
 let passwordTimeOutId: ReturnType<typeof setTimeout>
@@ -37,7 +37,7 @@ export default function DoctorAddTab2() {
   const [image, setImage] = useState<string | null>(null);
   const cropperRef = useRef<HTMLImageElement>(null);
   const workerPositions = useWorkerPositions()
-  const [selectedIds, setSelectedIds] = useState<number>()
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [_, setSalary] = useState<number>()
   const [allowTime, setAllowTime] = useState<string[]>(["08:00:00", "20:00:00"])
   const [showPass, setShowPass] = useState(false)
@@ -47,7 +47,10 @@ export default function DoctorAddTab2() {
   const [showConfPass, setShowConfPass] = useState(false)
   const [confirmPassword, setConfirmPassword] = useState("")
 
-
+  const handleChangeSelect = (ids: number[]) => {
+    setSelectedIds(ids)
+    // setData({ ...data, position: ids })
+  }
   const inputRoleWord = useMask({
     mask: "жж | _______",
     replacement: { ж: /[A-Za-z]/, _: /\d/ },
@@ -151,10 +154,6 @@ export default function DoctorAddTab2() {
   };
 
 
-  const handleChangeTreeSelect = (ids: number) => {
-    setSelectedIds(ids)
-    setData({ ...data, position: ids })
-  }
 
 
   const handleGeneratePassword = () => {
@@ -200,7 +199,7 @@ export default function DoctorAddTab2() {
   }
 
   return (
-    <div className="px-3 mt-4" >
+    <div className="px-3 mt-4">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} action="" className="  ">
           <div className="sm:grid grid-cols-12 gap-3 px-0.5">
@@ -298,110 +297,6 @@ export default function DoctorAddTab2() {
               </Space>
             </div>
 
-            <div className="2xl:col-span-3 col-span-4">
-              <FormInput
-                label={
-                  <label htmlFor="firstName" className="text-gray-700">
-                    Login
-                    <span className="text-red-500">*</span>
-                  </label>
-                }
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, userName: e.target.value })}
-                className="mt-1"
-                name="userName"
-                placeholder={"Login kiriting"}
-              />
-            </div>
-
-            <div className="2xl:col-span-3 col-span-4">
-              <div className="mt-1">
-                <span className="text-sm font-medium text-gray-900 mt-1">{t("password")}</span>
-                <span className="text-red-500">*</span>
-                <div className="flex mt-1">
-                  <input
-                    type={showPass ? "text" : "password"}
-                    onChange={(e) => setPassword(e.target.value)}
-                    name="password"
-                    value={password}
-                    onBlur={onBlurPassword}
-                    placeholder={t("placePassword")}
-                    id="website-admin"
-                    className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[5px]"
-                  />
-
-                  <span onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
-                    <svg
-
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
-                      className="h-4 w-4 opacity-70 hover:text-secondary"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                </div>
-                {errorPassword && (
-                  <p className="text-red-500 block mb-1 text-sm">{errorPassword}</p>
-                )}
-              </div>
-            </div>
-            <div className="2xl:col-span-3 col-span-4">
-              <div className="mt-1">
-                <span className="text-sm font-medium text-gray-900 mt-1">{t("repeatPassword")}</span>
-                <span className="text-red-500">*</span>
-
-                <div className="grid grid-cols-12 gap-2">
-                  <div className="flex mt-1 col-span-7">
-                    <input
-
-                      type={showConfPass ? "text" : "password"}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      name="confirmPassword"
-                      onBlur={onBlurConfPassword}
-                      value={confirmPassword}
-
-                      placeholder={t("repeatPassword")}
-                      id="website-admin"
-                      className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none  border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
-                    />
-
-                    <span onClick={handleShowConfPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
-                      <svg
-
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        className="h-4 w-4 opacity-70 hover:text-secondary"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-
-                  <div className="col-span-5">
-                    <button
-                      type="button"
-                      onClick={handleGeneratePassword}
-                      className="w-full px-4 py-1.5 mt-1 bg-primary text-white font-medium rounded-md duration-200 hover:bg-primary/80 focus:outline-none"
-                    >
-                      Parol yaratish
-                    </button>
-                  </div>
-                </div>
-                {errorConfPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorConfPassword}</p>}
-
-              </div>
-            </div>
-
             <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">
               <FormInput
                 label={
@@ -424,24 +319,25 @@ export default function DoctorAddTab2() {
               // formInputRef={formSalary}
               />
             </div>
+
             <div className="2xl:col-span-3 col-span-4 mt-1">
               <label className="text-gray-700 font-medium mt-2">
                 Hodimning roli
                 <span className="text-red-500">*</span>
               </label>
 
-              <TreeSelectSingleCategory
+
+              <TreeSelectComponent
                 data={workerPositions.data?.data}
                 language="uz"
                 placeholder="Tanlang"
-
-                onChange={handleChangeTreeSelect}
+                onChange={handleChangeSelect}
               />
             </div>
-            <div className="2xl:col-span-3 col-span-4 gap-2">
 
+            <div className="2xl:col-span-3 col-span-4 gap-2">
               <div className="grid grid-cols-12">
-                <div className={`col-span-7 sm:mt-0 mt-2 ${possibleRoles.includes(selectedIds as number) ? "block" : "hidden"}`}>
+                <div className={`col-span-7 sm:mt-0 mt-2 ${selectedIds.some(item => possibleRoles.includes(item)) ? "block" : "hidden"}`}>
                   <FormInput
                     label={
                       <label htmlFor="firstName" className="text-gray-700">
@@ -493,12 +389,116 @@ export default function DoctorAddTab2() {
               </div>
 
             </div>
-
-
           </div>
 
 
-          <div className="2xl:col-span-3 col-span-4 sm:mt-2">
+          <div className="mt-2">
+            <FormInput
+              label={
+                <label htmlFor="firstName" className="text-gray-700">
+                  Login
+                  <span className="text-red-500">*</span>
+                </label>
+              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, userName: e.target.value })}
+              className="mt-1"
+              name="userName"
+              placeholder={"Login kiriting"}
+            />
+          </div>
+
+
+          <div className="sm:grid grid-cols-12 gap-4 items-center mt-2">
+            <div className="col-span-4 mt-1">
+              <span className="text-sm font-medium text-gray-900 mt-1">{t("password")}</span>
+              <span className="text-red-500">*</span>
+              <div className="flex mt-1">
+                <input
+                  type={showPass ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                  name="password"
+                  value={password}
+                  onBlur={onBlurPassword}
+                  placeholder={t("placePassword")}
+                  id="website-admin"
+                  className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[5px]"
+                />
+
+                <span onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                  <svg
+
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="h-4 w-4 opacity-70 hover:text-secondary"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </div>
+              {errorPassword && (
+                <p className="text-red-500 block mb-1 text-sm">{errorPassword}</p>
+              )}
+            </div>
+            <div className="col-span-4 mt-1">
+              <span className="text-sm font-medium text-gray-900 mt-1">{t("repeatPassword")}</span>
+              <span className="text-red-500">*</span>
+
+              <div className="">
+                <div className="flex mt-1 col-span-7">
+                  <input
+
+                    type={showConfPass ? "text" : "password"}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    name="confirmPassword"
+                    onBlur={onBlurConfPassword}
+                    value={confirmPassword}
+
+                    placeholder={t("repeatPassword")}
+                    id="website-admin"
+                    className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none  border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
+                  />
+
+                  <span onClick={handleShowConfPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
+                    <svg
+
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      className="h-4 w-4 opacity-70 hover:text-secondary"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+
+              </div>
+              {errorConfPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorConfPassword}</p>}
+
+            </div>
+
+            <div className={`col-span-4 ${errorConfPassword || errorPassword ? "mt-0" : "sm:mt-6 mt-2"} `}>
+              <button
+                type="button"
+                onClick={handleGeneratePassword}
+                className="w-full px-4 py-1.5 mt-1 bg-primary text-white font-medium rounded-md duration-200 hover:bg-primary/80 focus:outline-none"
+              >
+                Parol yaratish
+              </button>
+            </div>
+          </div>
+
+
+          <div className="sm:mt-2 mt-1 ">
 
             <label htmlFor="firstName" className="text-gray-700 ">
               Manzili
@@ -506,14 +506,14 @@ export default function DoctorAddTab2() {
             </label>
             <textarea id="message"
 
-              className="sm:block hidden mt-1 p-2.5 w-full text-gray-900  rounded-lg border border-gray-300"
+              className=" mt-1 p-2.5 w-full text-gray-900  rounded-lg border border-gray-300"
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setData({ ...data, legalAddress: e.target.value })}
               placeholder="Manzil kiriting"></textarea>
           </div>
 
 
-          <div className="sm:grid grid-cols-12 gap-4 px-0.5 mt-3">
+          <div className="sm:grid grid-cols-12 gap-4 px-0.5 mt-2">
 
             <div className="col-span-8">
               <p className="mb-2">Hodim haqida malumot</p>
@@ -521,7 +521,7 @@ export default function DoctorAddTab2() {
 
               {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
             </div>
-            <div className="col-span-4 pt-2 ml-0.5 mt-12 sm:mt-0">
+            <div className="col-span-4 pt-2 ml-0.5 mt-[70px] sm:mt-0">
               {!image ?
                 <div className="flex items-center justify-start">
                   <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center  w-full sm:h-40 h-32 text-center   border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
@@ -571,7 +571,6 @@ export default function DoctorAddTab2() {
               }
             </div>
           </div>
-
 
 
           <div className="flex flex-col items-start space-y-2 mt-5">
@@ -644,8 +643,6 @@ export default function DoctorAddTab2() {
           <div className="my-5 2xl:max-w-[25%] sm:max-w-[25%] max-w-[80%]">
             <MathCaptcha onVerify={handleCaptchaVerify} />
           </div>
-
-
 
           <div className="flex gap-2 justify-end ">
 

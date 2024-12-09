@@ -24,7 +24,6 @@ export const defaultData: DoctorFormData = {
     canSeeReports: false,
     clinicId: 0,
     orderSign: "", 
-    legalAddress: "",
     description: ""
 };
 

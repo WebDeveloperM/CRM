@@ -52,12 +52,12 @@ export default function DoctorAddTab2() {
     // setData({ ...data, position: ids })
   }
   const inputRoleWord = useMask({
-    mask: "жж | _______",
-    replacement: { ж: /[A-Za-z]/, _: /\d/ },
+    mask: "жж",
+    replacement: { ж: /[A-Za-z]/},
     onMask: (mask) => (mask.target.value = mask.target.value.toUpperCase()),
   })
   //@ts-ignore
-  const { ref: formRoleWord } = methods.register("roleWord")
+  const { ref: formRoleWord } = methods.register("orderSign")
 
   const inputTimeOutRef = useMask({ mask: "___", replacement: { _: /\d/ }, })
   const { ref: formTimeOutRef } = methods.register("timeOutMinutes")
@@ -348,7 +348,7 @@ export default function DoctorAddTab2() {
                     // value={data.stateRegistrationNumber}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, orderSign: e.target.value })}
                     className="mt-1"
-                    name="doctorRoleWord"
+                    name="orderSign"
                     placeholder="AA"
                     inputRef={inputRoleWord}
                     formInputRef={formRoleWord}
@@ -495,21 +495,6 @@ export default function DoctorAddTab2() {
                 Parol yaratish
               </button>
             </div>
-          </div>
-
-
-          <div className="sm:mt-2 mt-1 ">
-
-            <label htmlFor="firstName" className="text-gray-700 ">
-              Manzili
-              <span className="text-red-500">*</span>
-            </label>
-            <textarea id="message"
-
-              className=" mt-1 p-2.5 w-full text-gray-900  rounded-lg border border-gray-300"
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setData({ ...data, legalAddress: e.target.value })}
-              placeholder="Manzil kiriting"></textarea>
           </div>
 
 

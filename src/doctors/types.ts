@@ -36,8 +36,7 @@ export type DoctorFormData = {
     position: number,
     canSeeReports: boolean,
     clinicId: number,
-    orderSign: string
-    legalAddress: string,
+    orderSign: string,
     description: string
 }
 

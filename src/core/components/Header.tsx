@@ -2,7 +2,7 @@ import { RiMessage3Line } from "react-icons/ri";
 import { AiFillAlert } from "react-icons/ai";
 import { RiListCheck3 } from "react-icons/ri";
 import { MdOutlineStarOutline } from "react-icons/md";
-import { doctor3 } from "../../dashboard/utils";
+import userLogo from "@doctors/static/userLogo.png"
 import { RiHome3Line } from "react-icons/ri";
 import logo from "@core/static/logo.png";
 import { FaBars } from "react-icons/fa6";
@@ -96,7 +96,7 @@ export default function Header({ open, setOpen }: Prop) {
                             <Space wrap>
                                 <Dropdown menu={{ items }} placement="bottomRight" arrow>
                                     <Button className="btn-ghost border-none btn-circle p-0 m-0">
-                                        <AvatarWithDot url={doctor3} isOnline={true} /></Button>
+                                        <AvatarWithDot url={userLogo} isOnline={true} /></Button>
                                 </Dropdown>
                             </Space>
                         </Space>

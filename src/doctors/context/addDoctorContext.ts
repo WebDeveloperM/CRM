@@ -20,10 +20,11 @@ export const defaultData: DoctorFormData = {
     allowedWorkingHours: [],
     sex: "",
     salary: 0,
-    position: 0,
+    position: [],
     canSeeReports: false,
     clinicId: 0,
-    orderSign: "", 
+    legalAddress: "Uzbekstan",
+    orderSign: "",
     description: ""
 };
 

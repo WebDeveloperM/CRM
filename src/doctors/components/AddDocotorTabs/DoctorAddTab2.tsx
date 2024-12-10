@@ -7,7 +7,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import type { TimeRangePickerProps } from 'antd/es/time-picker';
 import { useTranslation } from "react-i18next";
 import MathCaptcha from "@core/components/Captcha";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { VscRefresh } from "react-icons/vsc";
@@ -21,6 +21,7 @@ import { DoctorFormData } from "@doctors/types";
 import clsx from "clsx";
 import { generatePassword } from "@doctors/utils/functions";
 import TreeSelectComponent from "../TreeSelectComponent";
+import { useAddDoctors } from "@doctors/hooks/addDoctors";
 
 // import TextEditor from "../TextEditor";
 let passwordTimeOutId: ReturnType<typeof setTimeout>
@@ -46,18 +47,23 @@ export default function DoctorAddTab2() {
   const [errorConfPassword, setErrorConfPassword] = useState("")
   const [showConfPass, setShowConfPass] = useState(false)
   const [confirmPassword, setConfirmPassword] = useState("")
-
+  const [gender, setGender] = useState("")
+  const [canSeeReports, setCanSeeReports] = useState(false)
+  const navigate = useNavigate()
+  const { mutateAsync } = useAddDoctors()
   const handleChangeSelect = (ids: number[]) => {
     setSelectedIds(ids)
-    // setData({ ...data, position: ids })
+    setData({ ...data, position: ids })
   }
   const inputRoleWord = useMask({
     mask: "жж",
-    replacement: { ж: /[A-Za-z]/},
+    replacement: { ж: /[A-Za-z]/ },
     onMask: (mask) => (mask.target.value = mask.target.value.toUpperCase()),
+
   })
   //@ts-ignore
   const { ref: formRoleWord } = methods.register("orderSign")
+
 
   const inputTimeOutRef = useMask({ mask: "___", replacement: { _: /\d/ }, })
   const { ref: formTimeOutRef } = methods.register("timeOutMinutes")
@@ -73,6 +79,8 @@ export default function DoctorAddTab2() {
     console.log(dates);
     setAllowTime(dateStrings)
   };
+
+
 
   const handleCaptchaVerify = (status: boolean) => {
     setIsVerified(status);
@@ -112,11 +120,8 @@ export default function DoctorAddTab2() {
     setShowConfPass(true)
     confirmPasswordTimeOutId = setTimeout(() => setShowConfPass(false), 5000)
   }
-  const handleChekc = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.target.value == "yes" ?
-      setData({ ...data, canSeeReports: true }) :
-      setData({ ...data, canSeeReports: false })
-  };
+
+
 
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,8 +140,6 @@ export default function DoctorAddTab2() {
 
   const handleContentChange = (value: string) => {
     setContent(value);
-    setData({ ...data, description: value })
-
   };
 
 
@@ -161,16 +164,15 @@ export default function DoctorAddTab2() {
     setPassword(newPassword);
     setConfirmPassword(newPassword);
   };
+
   async function onSubmit(data: DoctorFormData) {
     data.allowedWorkingHours = allowTime
     data.clinicId = clinicId ? parseInt(clinicId) : 0
-
-    // if (isLoading) return
-    // if (error) {
-    //   toast.error(error.message)
-    //   return
-    // }
-
+    data.base64Photo = image as string
+    data.sex = gender
+    data.position = selectedIds
+    data.canSeeReports = canSeeReports
+    data.description = content
 
     if (password !== confirmPassword) {
       toast.warning("Parollar mos kelmadi")
@@ -188,8 +190,34 @@ export default function DoctorAddTab2() {
       toast.warning(t("proveNotRobot"))
       return
     }
-    console.log(data, "444444444444");
 
+    const response = await mutateAsync(data)
+
+
+
+    if (!response.success && response.message == "Username already exists.") {
+      toast.warning("Bunday foydalanuvchi mavjud. Boshqa login kiriting")
+      return
+    }
+    if (!response.success && response.message == "Failed to create user.") {
+      toast.warning("Parol kiritishda xatolik. (A-Za-z/1-9/) belgilar bo'lishi majburiy")
+      return
+    }
+    if (!response.success && response.message == "Clinic not found.") {
+      toast.warning("Shifoxona ma'lumotlarida xatolik mavjud. ")
+      return
+    }
+    if (!response.success && response.message == "Invalid position ID:") {
+      toast.warning("Hodimning rolida xatolik mavjud")
+      navigate("/")
+      return
+    }
+
+    if (response.success && response.message == "Employee created successfully.") {
+      toast.success("Hodim muvaffaqqaiyatli qo'shildi")
+      navigate("/doctors")
+      return
+    }
   }
 
 
@@ -350,6 +378,7 @@ export default function DoctorAddTab2() {
                     className="mt-1"
                     name="orderSign"
                     placeholder="AA"
+                  
                     inputRef={inputRoleWord}
                     formInputRef={formRoleWord}
                   />
@@ -365,7 +394,7 @@ export default function DoctorAddTab2() {
                           type="radio"
                           value="Male"
                           name="sex"
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, sex: e.target.value })}
+                          onChange={(e => setGender(e.target.value))}
                           className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                         />
                         <span className="">Erkak</span>
@@ -376,8 +405,7 @@ export default function DoctorAddTab2() {
                           type="radio"
                           value="Female"
                           name="sex"
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, sex: e.target.value })}
-
+                          onChange={(e => setGender(e.target.value))}
                           className="w-3 h-3 text-pink-600 focus:ring-pink-500"
                         />
                         <span className="">Ayol</span>
@@ -567,7 +595,7 @@ export default function DoctorAddTab2() {
                   type="radio"
                   value="yes"
                   name="canSeeReports"
-                  onChange={handleChekc}
+                  onChange={() => setCanSeeReports(true)}
                   className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                 />
                 <span className="">Ha</span>
@@ -578,7 +606,7 @@ export default function DoctorAddTab2() {
                   type="radio"
                   value="no"
                   name="canSeeReports"
-                  onChange={handleChekc}
+                  onChange={() => setCanSeeReports(false)}
                   className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                 />
                 <span className="">Yo'q</span>

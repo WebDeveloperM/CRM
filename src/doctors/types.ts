@@ -19,7 +19,6 @@ export type DoctorRolesResponse = BaseResponse & {
 
 
 
-
 export type DoctorFormData = {
     firstName: string,
     lastName: string,
@@ -33,9 +32,10 @@ export type DoctorFormData = {
     allowedWorkingHours: string[],
     sex: string,
     salary: number,
-    position: number,
+    position: number[],
     canSeeReports: boolean,
     clinicId: number,
+    legalAddress: string,
     orderSign: string,
     description: string
 }
@@ -45,3 +45,26 @@ export type DoctorFormDataResponse = BaseResponse & {
     data: [{ clinicId: string, clinicName: string, logoFilePath: string }]
 }
 
+
+
+export type DoctorsParamsType = {
+    clinicId: number
+}
+
+
+export type DoctorResponseType = ModelType & {
+    uniqueToken: string; 
+    firstName: string; 
+    lastName: string; 
+    fatherName: string; 
+    phoneNumber: string; 
+    sex: "Male" | "Female"; 
+    salary: number; 
+    position: number[]; 
+    canSeeReports: boolean;
+    allowedWorkingHours: string; 
+    legalAddress: string; 
+    description: string; 
+    orderSign: string; 
+    timeOutMinutes: number; 
+}

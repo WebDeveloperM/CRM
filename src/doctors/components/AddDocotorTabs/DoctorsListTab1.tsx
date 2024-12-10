@@ -11,8 +11,10 @@ import userLogo from "@doctors/static/userLogo.png"
 import TreeSelectComponent from "@my-clinica/components/TreeSelectComponent";
 import { toast } from "react-toastify";
 import { useDeleteDoctorData } from "@doctors/hooks/deleteDoctors";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import doctorsPage from "@doctors/static/doctors.png"
+import { convertTimeFormat } from "@doctors/utils/convertTimeFormat";
+import { formatNumberWithSpaces } from "@doctors/utils/converSlaryFormat";
 type Props = {
     search: string,
 }
@@ -120,7 +122,16 @@ export default function DoctorsListTab1({ search }: Props) {
                             Roli
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
+                            Ish soati
+                        </th>
+                        <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
                             Telefon raqam
+                        </th>
+                        <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
+                            Oylik maosh
+                        </th>
+                        <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
+                           Navbat harfi
                         </th>
 
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
@@ -165,7 +176,10 @@ export default function DoctorsListTab1({ search }: Props) {
 
                             </td>
 
+                            <td className="2xl:px-5 px-3 py-1.5  "> {convertTimeFormat(item.allowedWorkingHours)}</td>
                             <td className="2xl:px-5 px-3 py-1.5  ">+998 {item.phoneNumber}</td>
+                            <td className="2xl:px-5 px-3 py-1.5  "> {formatNumberWithSpaces(item.salary)} so'm</td>
+                            <td className="2xl:px-5 px-3 py-1.5 text-center ">{item.orderSign}</td>
                             <td className="2xl:px-5 px-3 py-1.5  border-r">
                                 <div className="flex items-center gap-6 justify-center float-left text-base">
                                     <FaRegTrashAlt onClick={() => {

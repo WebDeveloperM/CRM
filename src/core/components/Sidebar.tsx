@@ -1,4 +1,4 @@
-import doctor3 from "../../dashboard/static/doctor3.png"
+import userLogo from "@doctors/static/userLogo.png"
 import { RiHome3Line } from "react-icons/ri"
 import { RiEmpathizeLine } from "react-icons/ri"
 import { FaRegCalendarAlt } from "react-icons/fa"
@@ -41,7 +41,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
                     <div
                         className={`text-center flex flex-col items-center ${open ? "scale-100 sm:scale-100" : "scale-0 sm:scale-100"} duration-200`}
                     >
-                        <img src={doctor3} alt="doctor" className="w-[60px] h-[60px] rounded-full mt-3" />
+                        <img src={userLogo} alt="doctor" className="w-[60px] h-[60px] rounded-full mt-3" />
                         <p className="text-secondary text-sm tracking-wider  origin-left duration-0 py-1 font-medium">
                             Feruza
                         </p>

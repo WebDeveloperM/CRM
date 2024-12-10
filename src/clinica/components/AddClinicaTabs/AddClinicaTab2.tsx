@@ -58,6 +58,7 @@ export default function AddClinicaTab2({ onPrevious }: Props) {
     if (response.success && response.message == "Clinic logo and short name updated successfully.") {
       toast.success("Profile muvaffaqqiyatli saqlandi");
       navigate("/my-clinica")
+      window.location.reload()
       return
     }
 

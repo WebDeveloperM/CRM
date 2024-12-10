@@ -26,6 +26,7 @@ export const defaultData: DoctorFormData = {
     legalAddress: "Uzbekstan",
     orderSign: "",
     description: ""
+
 };
 
 

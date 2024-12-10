@@ -59,10 +59,10 @@ export default function DoctorAddTab2() {
     mask: "жж",
     replacement: { ж: /[A-Za-z]/ },
     onMask: (mask) => (mask.target.value = mask.target.value.toUpperCase()),
-
   })
-  //@ts-ignore
   const { ref: formRoleWord } = methods.register("orderSign")
+  const inputRef = useMask({ mask: "(__) ___-__-__", replacement: { _: /\d/ } })
+  const { ref: formInputRef } = methods.register("phoneNumber")
 
 
   const inputTimeOutRef = useMask({ mask: "___", replacement: { _: /\d/ }, })
@@ -216,6 +216,7 @@ export default function DoctorAddTab2() {
     if (response.success && response.message == "Employee created successfully.") {
       toast.success("Hodim muvaffaqqaiyatli qo'shildi")
       navigate("/doctors")
+      navigate(0)
       return
     }
   }
@@ -289,6 +290,8 @@ export default function DoctorAddTab2() {
                 className="mt-1"
                 name="phoneNumber"
                 placeholder={"Telefon raqam kiriting"}
+                inputRef={inputRef}
+                formInputRef={formInputRef}
               />
             </div>
 
@@ -378,7 +381,7 @@ export default function DoctorAddTab2() {
                     className="mt-1"
                     name="orderSign"
                     placeholder="AA"
-                  
+
                     inputRef={inputRoleWord}
                     formInputRef={formRoleWord}
                   />

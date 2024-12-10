@@ -52,19 +52,31 @@ export type DoctorsParamsType = {
 }
 
 
-export type DoctorResponseType = ModelType & {
-    uniqueToken: string; 
-    firstName: string; 
-    lastName: string; 
-    fatherName: string; 
-    phoneNumber: string; 
-    sex: "Male" | "Female"; 
-    salary: number; 
-    position: number[]; 
+export type DoctorItemResponseType = {
+
+    uniqueToken: string;
+    firstName: string;
+    lastName: string;
+    fatherName: string;
+    phoneNumber: string;
+    sex: "Male" | "Female";
+    salary: number;
+    position: number[];
     canSeeReports: boolean;
-    allowedWorkingHours: string; 
-    legalAddress: string; 
-    description: string; 
-    orderSign: string; 
-    timeOutMinutes: number; 
+    allowedWorkingHours: string;
+    legalAddress: string;
+    description: string;
+    orderSign: string;
+    timeOutMinutes: number;
+    base64Photo: string
+
 }
+export type DoctorResponseType = BaseResponse & {
+    data?: []
+}
+
+
+export type DeleteDoctorResponseType = BaseResponse & {
+    data?: []
+}
+

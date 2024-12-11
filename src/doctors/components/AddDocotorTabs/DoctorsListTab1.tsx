@@ -11,7 +11,7 @@ import userLogo from "@doctors/static/userLogo.png"
 import TreeSelectComponent from "@my-clinica/components/TreeSelectComponent";
 import { toast } from "react-toastify";
 import { useDeleteDoctorData } from "@doctors/hooks/deleteDoctors";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import doctorsPage from "@doctors/static/doctors.png"
 import { convertTimeFormat } from "@doctors/utils/convertTimeFormat";
 import { formatNumberWithSpaces } from "@doctors/utils/converSlaryFormat";
@@ -131,7 +131,7 @@ export default function DoctorsListTab1({ search }: Props) {
                             Oylik maosh
                         </th>
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
-                           Navbat harfi
+                            Navbat harfi
                         </th>
 
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
@@ -171,7 +171,6 @@ export default function DoctorsListTab1({ search }: Props) {
                                     onChange={() => console.log()}
                                     defaultValue={item.position}
 
-
                                 />
 
                             </td>
@@ -187,7 +186,9 @@ export default function DoctorsListTab1({ search }: Props) {
                                         setUniqueToken(item.uniqueToken)
                                     }} className="text-red-500 cursor-pointer" />
                                     <BiSolidEdit className="text-blue-500 cursor-pointer" />
-                                    <LuEye className="text-green-500 cursor-pointer" />
+                                    <Link to={`/doctors/view-doctor/${item.uniqueToken}/`}>
+                                        <LuEye className="text-green-500 cursor-pointer" />
+                                    </Link>
                                 </div>
                             </td>
                         </tr>

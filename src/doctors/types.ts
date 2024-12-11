@@ -80,3 +80,26 @@ export type DeleteDoctorResponseType = BaseResponse & {
     data?: []
 }
 
+
+type DoctorsView = {
+    uniqueToken: string;
+    firstName: string;
+    lastName: string;
+    fatherName: string;
+    base64Photo: string;
+    phoneNumber: string;
+    sex: "Male" | "Female";
+    salary: number;
+    position: number[];
+    canSeeReports: boolean;
+    legalAddress: string;
+    description: string;
+    orderSign: string;
+    allowedWorkingHours: string; // Format: "HH:MM:SS,HH:MM:SS"
+    timeOutMinutes: number;
+    clinicId: number;
+}
+
+export type DoctorDetailResponseType = BaseResponse & {
+    data: DoctorsView
+}

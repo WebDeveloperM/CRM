@@ -3,9 +3,9 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { isAuthenticated, isCheckClinic } from "@users/utils/auth";
 
-import { defaultData, DoctorContext } from "@doctors/context/addDoctorContext";
-import { DoctorFormData, DoctorUpdate } from "@doctors/types";
-import DoctorDetail from "@doctors/components/DoctorDetail";
+import { defaultData } from "@doctors/context/addDoctorContext";
+import {  DoctorUpdate } from "@doctors/types";
+
 import DoctorEdit from "@doctors/components/DoctorEdit";
 import { UpdateDoctorContext } from "@doctors/context/updateDoctorsContext";
 

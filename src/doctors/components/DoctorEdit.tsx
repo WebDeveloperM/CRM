@@ -14,13 +14,13 @@ import { VscRefresh } from "react-icons/vsc";
 import { toast } from "react-toastify";
 import { useMask } from "@react-input/mask";
 import { useWorkerPositions } from "@clinica/hooks/addClinic";
-import { getRelevantIds } from "@doctors/utils/selectedIDS";;
+
 import { DoctorUpdate } from "@doctors/types";
-import { useAddDoctors } from "@doctors/hooks/addDoctors";
 import TreeSelectComponent from "./TreeSelectComponent";
 import TextEditor from "./TextEditor";
 import { useDocorView } from "@doctors/hooks/viewDoctor";
 import { useUpdateDoctor } from "@doctors/context/updateDoctorsContext";
+import { useUpdateDoctorReq } from "@doctors/hooks/editDoctors";
 
 export default function DoctorEdit() {
     const [check, setCheck] = useState<SetStateAction<boolean>>(false)
@@ -28,7 +28,6 @@ export default function DoctorEdit() {
     const { userData, setUserData } = useUpdateDoctor()
     const uniqueToken = localStorage.getItem("doctorToken")
     const doctorData = useDocorView(uniqueToken as string)
-    console.log(doctorData, "11111111111111");
 
     const methods = useForm<DoctorUpdate>({ mode: "onBlur" })
 
@@ -39,16 +38,17 @@ export default function DoctorEdit() {
     const cropperRef = useRef<HTMLImageElement>(null);
     const workerPositions = useWorkerPositions()
     const [selectedIds, setSelectedIds] = useState<number[]>([])
-    const [_, setSalary] = useState<number>()
-    const [allowTime, setAllowTime] = useState<string[]>(["08:00:00", "20:00:00"])
+
+    const [content, setContent] = useState<string>(doctorData.data?.data.description ? doctorData.data?.data.description : "");
+
 
 
     const [gender, setGender] = useState("")
-    const [canSeeReports, setCanSeeReports] = useState(false)
+    const [canSeeReports, setCanSeeReports] = useState(doctorData.data?.data.canSeeReports)
     const navigate = useNavigate()
 
 
-    const { mutateAsync } = useAddDoctors()
+    const { mutateAsync } = useUpdateDoctorReq(uniqueToken as string)
     const handleChangeSelect = (ids: number[]) => {
         setSelectedIds(ids)
         setUserData({ ...userData, position: ids })
@@ -67,17 +67,20 @@ export default function DoctorEdit() {
     const inputTimeOutRef = useMask({ mask: "___", replacement: { _: /\d/ }, })
     const { ref: formTimeOutRef } = methods.register("timeOutMinutes")
 
-    const possibleRoles = getRelevantIds("uz")
+    // const possibleRoles = getRelevantIds("uz")
 
     dayjs.extend(customParseFormat);
 
     const timePickerChange: TimeRangePickerProps['onChange'] = (dates, dateStrings) => {
         console.log(dates);
-        setAllowTime(dateStrings)
+
+        // setAllowTime(dateStrings)
         setUserData({ ...userData, allowedWorkingHours: dateStrings })
     };
 
-
+    useEffect(() => {
+        setUserData({ ...userData, sex: doctorData.data?.data.sex as string })
+    }, [])
 
     const handleCaptchaVerify = (status: boolean) => {
         setIsVerified(status);
@@ -90,12 +93,12 @@ export default function DoctorEdit() {
             const reader = new FileReader();
             reader.onload = () => {
                 setImage(reader.result as string);
+                setImageDoctor(reader.result as string);
             };
             reader.readAsDataURL(file);
         }
     };
 
-    const [content, setContent] = useState<string>('');
 
     const handleContentChange = (value: string) => {
         setContent(value);
@@ -116,43 +119,23 @@ export default function DoctorEdit() {
         }
     };
 
-    console.log(doctorData.data?.data.allowedWorkingHours)
-
-    // useEffect(() => {
-    //     setUserData({
-    //         ...userData,
-    //         firstName: doctorData.data?.data.firstName ? doctorData.data?.data.firstName : "",
-    //         lastName: doctorData.data?.data.lastName ? doctorData.data?.data.lastName : "",
-    //         fatherName: doctorData.data?.data.fatherName ? doctorData.data?.data.fatherName : "",
-    //         base64Photo: doctorData.data?.data.base64Photo ? doctorData.data?.data.base64Photo : "",
-    //         phoneNumber: doctorData.data?.data.phoneNumber ? doctorData.data?.data.phoneNumber : "",
-    //         salary: doctorData.data?.data.salary ? doctorData.data?.data.salary : 0,
-    //         orderSign: doctorData.data?.data.orderSign ? doctorData.data?.data.orderSign : "",
-    //         sex: doctorData.data?.data.sex ? doctorData.data?.data.sex : "",
-
-    //         // salary: doctorData.data?.data.salary ? doctorData.data?.data.salary : "",
-    //         // salary: doctorData.data?.data.salary ? doctorData.data?.data.salary : "",
-    //         // timeOutMinutes: doctorData.data?.data.timeOutMinutes ? doctorData.data?.data.timeOutMinutes : 0,
-    //         // allowedWorkingHours: doctorData.data?.data.allowedWorkingHours ? [doctorData.data?.data.allowedWorkingHours.slice(0, 8), doctorData.data?.data.allowedWorkingHours.slice(9, 8)] : [],
-
-
-    //     })
-    // }, [])
-
-
-    // console.log(doctorData, "1111111111111");
-    console.log(userData, "22222222");
 
 
     async function onSubmit(data: DoctorUpdate) {
-        // data.allowedWorkingHours = allowTime
-        // data.clinicId = clinicId ? parseInt(clinicId) : 0
-        // data.base64Photo = image as string
-        // data.sex = gender
-        // data.position = selectedIds
-        // data.canSeeReports = canSeeReports
-        // data.description = content
 
+        data.allowedWorkingHours = userData.allowedWorkingHours.length == 0 ?
+            [
+                doctorData.data?.data.allowedWorkingHours as string && doctorData.data?.data.allowedWorkingHours.split(',')[0] as string,
+                doctorData.data?.data.allowedWorkingHours as string && doctorData.data?.data.allowedWorkingHours.split(',')[1] as string
+            ] : userData.allowedWorkingHours
+
+        // data.base64Photo = imageDoctor == "" ? doctorData.data?.data.base64Photo as string : imageDoctor as string
+        data.base64Photo =  doctorData.data?.data.base64Photo as string 
+        data.sex = gender == "" ? doctorData.data?.data.sex as string : gender
+        data.position = selectedIds
+        data.canSeeReports = canSeeReports as boolean
+        data.description = content
+        data.legalAddress = "Uzbekistan"
 
         if (!check) {
             toast.warning(t("agreeTerms"))
@@ -163,7 +146,7 @@ export default function DoctorEdit() {
             return
         }
 
-        // const response = await mutateAsync(data)
+        const response = await mutateAsync(data)
 
 
 
@@ -185,18 +168,22 @@ export default function DoctorEdit() {
         //     return
         // }
 
-        // if (response.success && response.message == "Employee created successfully.") {
-        //     toast.success("Hodim muvaffaqqaiyatli qo'shildi")
-        //     navigate("/doctors")
-        //     navigate(0)
-        //     return
-        // }
+        if (response.success && response.message == "Employee updated successfully.") {
+            toast.success("Hodim ma'lumotlari o'zgartirildi")
+            navigate("/doctors")
+
+            return
+        }
     }
 
 
 
+    if (!doctorData.data || !doctorData.data.data) {
+        return <p className="m-5">Ma'lumotlar yuklanmoqda...</p> // Yuklanayotgan holat
+    }
+
     if (!workerPositions.data || !workerPositions.data.data) {
-        return <p className="px-5">Ma'lumotlar yuklanmoqda...</p> // Yuklanayotgan holat
+        return <p className="m-5">Ma'lumotlar yuklanmoqda...</p> // Yuklanayotgan holat
     }
 
 
@@ -210,12 +197,12 @@ export default function DoctorEdit() {
                         <div className="2xl:col-span-3 col-span-4">
                             <FormInput
                                 label={
-                                    <label htmlFor="firstName" className="text-gray-700">
+                                    <label htmlFor="lastName" className="text-gray-700">
                                         Familiya
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={doctorData.data?.data.firstName}
+                                defaultValue={doctorData.data?.data.lastName}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, lastName: e.target.value })}
                                 className="mt-1"
                                 name="lastName"
@@ -230,7 +217,7 @@ export default function DoctorEdit() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={doctorData.data?.data.lastName}
+                                defaultValue={doctorData.data?.data.firstName}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, firstName: e.target.value })}
                                 className="mt-1"
                                 name="firstName"
@@ -240,7 +227,7 @@ export default function DoctorEdit() {
                         <div className="2xl:col-span-3 col-span-4">
                             <FormInput
                                 label={
-                                    <label htmlFor="firstName" className="text-gray-700">
+                                    <label htmlFor="fatherName" className="text-gray-700">
                                         Otasining ismi
                                         <span className="text-red-500">*</span>
                                     </label>
@@ -370,8 +357,8 @@ export default function DoctorEdit() {
                                                     type="radio"
                                                     value="Male"
                                                     name="sex"
-                                                    checked={doctorData.data?.data.sex == 'Male' ? true : false}
-                                                    onChange={(e => setGender(e.target.value))}
+                                                    defaultChecked={doctorData.data?.data.sex == 'Male'}
+                                                    onChange={(() => setGender("Male"))}
                                                     className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                                                 />
                                                 <span className="">Erkak</span>
@@ -382,8 +369,8 @@ export default function DoctorEdit() {
                                                     type="radio"
                                                     value="Female"
                                                     name="sex"
-                                                    checked={doctorData.data?.data.sex == 'Female' ? true : false}
-                                                    onChange={(e => setGender(e.target.value))}
+                                                    defaultChecked={doctorData.data?.data.sex == 'Female'}
+                                                    onChange={(() => setGender("Female"))}
                                                     className="w-3 h-3 text-pink-600 focus:ring-pink-500"
                                                 />
                                                 <span className="">Ayol</span>
@@ -407,7 +394,7 @@ export default function DoctorEdit() {
                             {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
                         </div>
                         <div className="col-span-4 pt-2 ml-0.5 mt-[70px] sm:mt-0">
-                            {!image && !imageDoctor ?
+                            {!image && imageDoctor == "" ?
                                 <div className="flex items-center justify-start">
                                     <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center  w-full sm:h-40 h-32 text-center   border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                                         <div className="flex flex-col items-center justify-center">
@@ -438,14 +425,14 @@ export default function DoctorEdit() {
                                 null}
 
 
-
-                            {file || imageDoctor ?
+                            {/* doctorData.data ? imageDoctor as string : URL.createObjectURL(file as File) */}
+                            {file && imageDoctor ?
                                 <>
-                                    <img src={doctorData ? doctorData.data?.data.base64Photo : URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" />
+                                    <img src={doctorData.data.data.base64Photo ? doctorData.data.data.base64Photo as string : image  as string} alt="" className="w-40 rounded-xl" />
                                     <button onClick={() => {
                                         setImage(null)
                                         setFile(null)
-                                        setImageDoctor(null)
+                                        setImageDoctor("")
                                     }}
                                         type="button"
                                         className="w- p-1.5  bg-slate-400 mt-2 text-sm text-white rounded-md duration-200 flex items-center gap-2">
@@ -459,16 +446,15 @@ export default function DoctorEdit() {
                     </div>
 
 
-                    <div className="flex flex-col items-start space-y-2 mt-5">
+                    <div className="flex flex-col items-start space-y-2 mt-16">
                         <label className="">Faqat o'z hisbotlarini ko'ra olsin:</label>
 
                         <div className="flex items-center space-x-4">
                             <label className="flex items-center space-x-2">
                                 <input
                                     type="radio"
-                                    value="yes"
                                     name="canSeeReports"
-                                    checked={doctorData.data?.data.canSeeReports ? true : false}
+                                    defaultChecked={doctorData.data?.data.canSeeReports == true ? true : false}
                                     onChange={() => setCanSeeReports(true)}
                                     className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                                 />
@@ -478,9 +464,8 @@ export default function DoctorEdit() {
                             <label className="flex items-center space-x-2">
                                 <input
                                     type="radio"
-                                    value="no"
                                     name="canSeeReports"
-                                    checked={doctorData.data?.data.canSeeReports ? true : false}
+                                    defaultChecked={doctorData.data?.data.canSeeReports == false ? true : false}
                                     onChange={() => setCanSeeReports(false)}
                                     className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                                 />

@@ -25,7 +25,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
         width: window.innerWidth,
         height: window.innerHeight,
     })
-    console.log(data, "11111");
+
 
     useEffect(() => {
         screenSize.width < 768 && setOpen(false)

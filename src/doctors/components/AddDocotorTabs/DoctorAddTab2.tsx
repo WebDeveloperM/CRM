@@ -326,6 +326,8 @@ export default function DoctorAddTab2() {
 
                 />
               </Space>
+
+
             </div>
 
             <div className="2xl:col-span-3 col-span-4 sm:mt-0 mt-2">

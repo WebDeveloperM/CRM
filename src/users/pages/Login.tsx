@@ -58,8 +58,7 @@ export default function Login() {
 
         if (response.success) {
             toast.success(t("succesfulLogin"))
-            console.log(response.data[0])
-            login(response.data[0], navigate)
+            login(response.data, navigate)
             return
         }
 

@@ -41,7 +41,7 @@ export type AccountLogin = {
 }
 
 export type AccountLoginResponse = BaseResponse & {
-    data: { token: string; expiration: string, uniqueToken: string, clinicId: number }[]
+    data: { token: string; expiration: string, role: string, uniqueToken: string, clinicId: number }
 }
 
 // export type AccountLoginResponseAuth = {
@@ -49,8 +49,16 @@ export type AccountLoginResponse = BaseResponse & {
 //     expiration: string
 // }
 
-type AdminData = {
 
+export type LoginResponse = {
+    token: string;
+    expiration: string,
+    role: string,
+    uniqueToken: string,
+    clinicId: number
+}
+
+type AdminData = {
     uniqueToken: string;
     id: string;
     firstName: string;

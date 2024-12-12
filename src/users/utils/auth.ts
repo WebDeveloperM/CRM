@@ -1,3 +1,4 @@
+import { LoginResponse } from "@users/types"
 import { NavigateFunction } from "react-router-dom"
 
 const authToken = import.meta.env.VITE_AUTHORIZATION_TOKEN
@@ -29,11 +30,12 @@ export function clearPermissions() {
 //     return `${token}`
 // }
 
-export function login({ clinicId, token, expiration, uniqueToken }: { token: string; expiration: string, uniqueToken: string, clinicId: number }, navigate: NavigateFunction) {
+export function login({ clinicId, token, expiration, role, uniqueToken }: LoginResponse, navigate: NavigateFunction) {
     localStorage.setItem("token", token)
     localStorage.setItem("expiration", expiration)
     localStorage.setItem("uniqueToken", uniqueToken)
     localStorage.setItem("clinicId", clinicId.toString())
+    localStorage.setItem("role", role)
     clinicId == 0 ? navigate("/clinica") : navigate("/dashboard")
         
 }

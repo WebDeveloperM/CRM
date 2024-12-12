@@ -12,15 +12,11 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { VscRefresh } from "react-icons/vsc";
 import { toast } from "react-toastify";
-
 import { useMask } from "@react-input/mask";
 import { useWorkerPositions } from "@clinica/hooks/addClinic";
-import { getRelevantIds } from "@doctors/utils/selectedIDS";
-import { useDoctors } from "@doctors/context/addDoctorContext";
-import { DoctorFormData, DoctorUpdate } from "@doctors/types";
-import clsx from "clsx";
+import { getRelevantIds } from "@doctors/utils/selectedIDS";;
+import {  DoctorUpdate } from "@doctors/types";
 import { generatePassword } from "@doctors/utils/functions";
-
 import { useAddDoctors } from "@doctors/hooks/addDoctors";
 import TreeSelectComponent from "./TreeSelectComponent";
 import TextEditor from "./TextEditor";
@@ -28,17 +24,19 @@ import { useDocorsView } from "@doctors/hooks/viewDoctors";
 import { useUpdateDoctor } from "@doctors/context/updateDoctorsContext";
 
 // import TextEditor from "../TextEditor";
-let passwordTimeOutId: ReturnType<typeof setTimeout>
-let confirmPasswordTimeOutId: ReturnType<typeof setTimeout>
+// let passwordTimeOutId: ReturnType<typeof setTimeout>
+// let confirmPasswordTimeOutId: ReturnType<typeof setTimeout>
 
 export default function DoctorEdit() {
     const [check, setCheck] = useState<SetStateAction<boolean>>(false)
-    const clinicId = localStorage.getItem("clinicId")
-    const [isVerified, setIsVerified] = useState(false)
     const { t, i18n } = useTranslation()
     const { userData, setUserData } = useUpdateDoctor()
+    const uniqueToken = localStorage.getItem("doctorToken")
     const { data } = useDocorsView(uniqueToken as string)
-    const methods = useForm<DoctorUpdate>({ mode: "onBlur", defaultValues: data })
+    
+    const methods = useForm<DoctorUpdate>({ mode: "onBlur" })
+
+    const [isVerified, setIsVerified] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const [image, setImage] = useState<string | null>(null);
     const cropperRef = useRef<HTMLImageElement>(null);
@@ -56,11 +54,6 @@ export default function DoctorEdit() {
     const [canSeeReports, setCanSeeReports] = useState(false)
     const navigate = useNavigate()
 
-
-    const uniqueToken = localStorage.getItem("doctorToken")
-
-
-    console.log(userData, "11111111111111");
 
     const { mutateAsync } = useAddDoctors()
     const handleChangeSelect = (ids: number[]) => {
@@ -97,39 +90,39 @@ export default function DoctorEdit() {
     };
 
 
-    const handleShowPassword = () => {
-        if (passwordTimeOutId) clearTimeout(passwordTimeOutId)
-        if (showPass) return setShowPass(false)
+    // const handleShowPassword = () => {
+    //     if (passwordTimeOutId) clearTimeout(passwordTimeOutId)
+    //     if (showPass) return setShowPass(false)
 
-        setShowPass(true)
-        passwordTimeOutId = setTimeout(() => setShowPass(false), 5000)
-    }
+    //     setShowPass(true)
+    //     passwordTimeOutId = setTimeout(() => setShowPass(false), 5000)
+    // }
 
-    const onBlurPassword = () => {
-        if (password == "") {
-            setErrorPassword(t("errorPassword"))
-            return
-        } else {
-            setErrorPassword("")
-        }
-    }
+    // const onBlurPassword = () => {
+    //     if (password == "") {
+    //         setErrorPassword(t("errorPassword"))
+    //         return
+    //     } else {
+    //         setErrorPassword("")
+    //     }
+    // }
 
-    const onBlurConfPassword = () => {
-        if (confirmPassword == "") {
-            setErrorConfPassword(t("repeatConfPassword"))
-            return
-        } else {
-            setErrorConfPassword("")
-        }
-    }
+    // const onBlurConfPassword = () => {
+    //     if (confirmPassword == "") {
+    //         setErrorConfPassword(t("repeatConfPassword"))
+    //         return
+    //     } else {
+    //         setErrorConfPassword("")
+    //     }
+    // }
 
-    const handleShowConfPassword = () => {
-        if (confirmPasswordTimeOutId) clearTimeout(confirmPasswordTimeOutId)
-        if (showConfPass) return setShowConfPass(false)
+    // const handleShowConfPassword = () => {
+    //     if (confirmPasswordTimeOutId) clearTimeout(confirmPasswordTimeOutId)
+    //     if (showConfPass) return setShowConfPass(false)
 
-        setShowConfPass(true)
-        confirmPasswordTimeOutId = setTimeout(() => setShowConfPass(false), 5000)
-    }
+    //     setShowConfPass(true)
+    //     confirmPasswordTimeOutId = setTimeout(() => setShowConfPass(false), 5000)
+    // }
 
 
 
@@ -149,6 +142,7 @@ export default function DoctorEdit() {
 
     const handleContentChange = (value: string) => {
         setContent(value);
+        setUserData({...userData, description: value})
     };
 
 
@@ -364,12 +358,12 @@ export default function DoctorEdit() {
                                 <span className="text-red-500">*</span>
                             </label>
 
-
                             <TreeSelectComponent
                                 data={workerPositions.data?.data}
                                 language="uz"
                                 placeholder="Tanlang"
                                 onChange={handleChangeSelect}
+                                defaultValue={data?.data.position}
                             />
                         </div>
 
@@ -404,6 +398,7 @@ export default function DoctorEdit() {
                                                     type="radio"
                                                     value="Male"
                                                     name="sex"
+                                                    checked={data?.data.sex == 'Male' ? true : false}
                                                     onChange={(e => setGender(e.target.value))}
                                                     className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                                                 />
@@ -415,6 +410,7 @@ export default function DoctorEdit() {
                                                     type="radio"
                                                     value="Female"
                                                     name="sex"
+                                                    checked={data?.data.sex == 'Female' ? true : false}
                                                     onChange={(e => setGender(e.target.value))}
                                                     className="w-3 h-3 text-pink-600 focus:ring-pink-500"
                                                 />

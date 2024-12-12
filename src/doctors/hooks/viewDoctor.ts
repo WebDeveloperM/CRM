@@ -5,6 +5,6 @@ import { DoctorDetailResponseType } from "@doctors/types"
 import { DOCTORS_VIEW } from "@doctors/urls"
 
 
-export function useDocorsView(uniqueToken: string) {
-    return useFetch<DoctorDetailResponseType>([uniqueToken], () => request({ url: DOCTORS_VIEW.replace("{uniqueToken}", uniqueToken) }))
+export function useDocorView(uniqueToken: string) {
+    return useFetch<DoctorDetailResponseType>(["get-doctors"], () => request({ url: DOCTORS_VIEW.replace("{uniqueToken}", uniqueToken) }))
 }

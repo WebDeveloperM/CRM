@@ -55,8 +55,8 @@ export default function AddClinicaTab1({ onPrevious, onNext }: Props) {
     async function onSubmit(data: ClinicaFormData) {
         data.additionalServices = selectedIds
         data.clinicType = сlinicaType
-        const phoneNumber = "+998" + data.phoneNumber.replace(/\D/g, "")
-        setData({ ...data, phoneNumber: phoneNumber, additionalServices: selectedIds, clinicType: сlinicaType })
+        // const phoneNumber = data.phoneNumber.replace(/\D/g, "")
+        // setData({ ...data, phoneNumber: phoneNumber, additionalServices: selectedIds, clinicType: сlinicaType })
 
         if (data.taxpayerIdNumber.length != 9) {
             toast.warning(t("innError"))

@@ -120,5 +120,10 @@ export type DoctorUpdate = {
     legalAddress: string;
     description: string;
     orderSign: string;
-  };
-  
+};
+
+
+
+export type DoctorUpdateResponse = BaseResponse & {
+    data?: { employeeId: string; firstName: string; lastName: string }
+}

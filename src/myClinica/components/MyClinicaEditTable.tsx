@@ -28,8 +28,11 @@ import { useNavigate } from "react-router-dom"
 export default function MyClinicaEditTable() {
     const clinicId = localStorage.getItem("clinicId")
     const clinicData = useGetClinicData(clinicId ? clinicId as string : "0")
+
     const [isModalOpen, setIsModalOpen] = useState(false)
+
     const { mutateAsync } = useUpdateClinica(clinicId ? clinicId as string : "0")
+
     const [confirmModal, setConfirmModal] = useState(false)
     const [selectedId, setSelectedIds] = useState<number[]>(clinicData.data?.data.additionalServices as [])
     const [check, setCheck] = useState<SetStateAction<boolean>>(false)
@@ -38,9 +41,10 @@ export default function MyClinicaEditTable() {
     const { t, i18n } = useTranslation()
 
     const { newData, setData } = useClinicaUpdate()
+
     const methods = useForm<ClinicaUpdateData>({ mode: "onBlur" })
 
-    const inputRef = useMask({ mask: "+998(__) ___-__-__", replacement: { _: /\d/ } })
+    const inputRef = useMask({ mask: "(__) ___-__-__", replacement: { _: /\d/ } })
     const { ref: formInputRef } = methods.register("phoneNumber")
 
     const inputRefINN = useMask({ mask: "_________", replacement: { _: /\d/ } })
@@ -88,7 +92,7 @@ export default function MyClinicaEditTable() {
             toast.warning("Ma'lumotlar tasdiqlanmagan")
             return
         }
-       
+
 
         if (profileSubmitRef.current) {
             await profileSubmitRef.current();
@@ -146,7 +150,7 @@ export default function MyClinicaEditTable() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                value={clinicData.data?.data.clinicName}
+                                defaultValue={clinicData.data?.data.clinicName}
                                 onChange={(e) => setData({ ...newData, clinicName: e.target.value })}
                                 className="mt-1"
                                 name="clinicName"
@@ -260,7 +264,7 @@ export default function MyClinicaEditTable() {
                                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                                     setData({ ...newData, clinicType: e.target.value })
                                 }}
-                                value={clinicData.data?.data.clinicType}
+                                value={newData.clinicType || clinicData.data?.data.clinicType}
                                 className="bg-white border border-gray-300 select-sm text-gray-900 text-sm rounded-lg focus:ring-1 focus:ring-secondary focus:border-secondary block w-full  "
                             >
                                 <option>Shifoxona turini tanlang</option>

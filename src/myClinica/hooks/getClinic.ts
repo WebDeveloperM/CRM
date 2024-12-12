@@ -9,3 +9,4 @@ export const useGetClinicData = (clinicId: string) => {
     return useFetch<ClinicResponse>(["get-clinic"], () => request({ url: GET_CLINIC.replace("{clinicId}", clinicId) }))
 }
 
+

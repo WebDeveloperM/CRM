@@ -1,6 +1,6 @@
 import FormInput from "@core/components/FormInput";
 import { FormProvider, useForm } from "react-hook-form";
-import { SetStateAction, useRef, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { Space, TimePicker } from 'antd';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -15,41 +15,34 @@ import { toast } from "react-toastify";
 import { useMask } from "@react-input/mask";
 import { useWorkerPositions } from "@clinica/hooks/addClinic";
 import { getRelevantIds } from "@doctors/utils/selectedIDS";;
-import {  DoctorUpdate } from "@doctors/types";
-import { generatePassword } from "@doctors/utils/functions";
+import { DoctorUpdate } from "@doctors/types";
 import { useAddDoctors } from "@doctors/hooks/addDoctors";
 import TreeSelectComponent from "./TreeSelectComponent";
 import TextEditor from "./TextEditor";
-import { useDocorsView } from "@doctors/hooks/viewDoctors";
+import { useDocorView } from "@doctors/hooks/viewDoctor";
 import { useUpdateDoctor } from "@doctors/context/updateDoctorsContext";
-
-// import TextEditor from "../TextEditor";
-// let passwordTimeOutId: ReturnType<typeof setTimeout>
-// let confirmPasswordTimeOutId: ReturnType<typeof setTimeout>
 
 export default function DoctorEdit() {
     const [check, setCheck] = useState<SetStateAction<boolean>>(false)
     const { t, i18n } = useTranslation()
     const { userData, setUserData } = useUpdateDoctor()
     const uniqueToken = localStorage.getItem("doctorToken")
-    const { data } = useDocorsView(uniqueToken as string)
-    
+    const doctorData = useDocorView(uniqueToken as string)
+    console.log(doctorData, "11111111111111");
+
     const methods = useForm<DoctorUpdate>({ mode: "onBlur" })
 
     const [isVerified, setIsVerified] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const [image, setImage] = useState<string | null>(null);
+    const [imageDoctor, setImageDoctor] = useState<string | null>(doctorData.data?.data.base64Photo as string);
     const cropperRef = useRef<HTMLImageElement>(null);
     const workerPositions = useWorkerPositions()
     const [selectedIds, setSelectedIds] = useState<number[]>([])
     const [_, setSalary] = useState<number>()
     const [allowTime, setAllowTime] = useState<string[]>(["08:00:00", "20:00:00"])
-    const [showPass, setShowPass] = useState(false)
-    const [password, setPassword] = useState("")
-    const [errorPassword, setErrorPassword] = useState("")
-    const [errorConfPassword, setErrorConfPassword] = useState("")
-    const [showConfPass, setShowConfPass] = useState(false)
-    const [confirmPassword, setConfirmPassword] = useState("")
+
+
     const [gender, setGender] = useState("")
     const [canSeeReports, setCanSeeReports] = useState(false)
     const navigate = useNavigate()
@@ -66,6 +59,7 @@ export default function DoctorEdit() {
         onMask: (mask) => (mask.target.value = mask.target.value.toUpperCase()),
     })
     const { ref: formRoleWord } = methods.register("orderSign")
+
     const inputRef = useMask({ mask: "(__) ___-__-__", replacement: { _: /\d/ } })
     const { ref: formInputRef } = methods.register("phoneNumber")
 
@@ -90,43 +84,6 @@ export default function DoctorEdit() {
     };
 
 
-    // const handleShowPassword = () => {
-    //     if (passwordTimeOutId) clearTimeout(passwordTimeOutId)
-    //     if (showPass) return setShowPass(false)
-
-    //     setShowPass(true)
-    //     passwordTimeOutId = setTimeout(() => setShowPass(false), 5000)
-    // }
-
-    // const onBlurPassword = () => {
-    //     if (password == "") {
-    //         setErrorPassword(t("errorPassword"))
-    //         return
-    //     } else {
-    //         setErrorPassword("")
-    //     }
-    // }
-
-    // const onBlurConfPassword = () => {
-    //     if (confirmPassword == "") {
-    //         setErrorConfPassword(t("repeatConfPassword"))
-    //         return
-    //     } else {
-    //         setErrorConfPassword("")
-    //     }
-    // }
-
-    // const handleShowConfPassword = () => {
-    //     if (confirmPasswordTimeOutId) clearTimeout(confirmPasswordTimeOutId)
-    //     if (showConfPass) return setShowConfPass(false)
-
-    //     setShowConfPass(true)
-    //     confirmPasswordTimeOutId = setTimeout(() => setShowConfPass(false), 5000)
-    // }
-
-
-
-
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -142,7 +99,7 @@ export default function DoctorEdit() {
 
     const handleContentChange = (value: string) => {
         setContent(value);
-        setUserData({...userData, description: value})
+        setUserData({ ...userData, description: value })
     };
 
 
@@ -159,14 +116,33 @@ export default function DoctorEdit() {
         }
     };
 
+    console.log(doctorData.data?.data.allowedWorkingHours)
+
+    // useEffect(() => {
+    //     setUserData({
+    //         ...userData,
+    //         firstName: doctorData.data?.data.firstName ? doctorData.data?.data.firstName : "",
+    //         lastName: doctorData.data?.data.lastName ? doctorData.data?.data.lastName : "",
+    //         fatherName: doctorData.data?.data.fatherName ? doctorData.data?.data.fatherName : "",
+    //         base64Photo: doctorData.data?.data.base64Photo ? doctorData.data?.data.base64Photo : "",
+    //         phoneNumber: doctorData.data?.data.phoneNumber ? doctorData.data?.data.phoneNumber : "",
+    //         salary: doctorData.data?.data.salary ? doctorData.data?.data.salary : 0,
+    //         orderSign: doctorData.data?.data.orderSign ? doctorData.data?.data.orderSign : "",
+    //         sex: doctorData.data?.data.sex ? doctorData.data?.data.sex : "",
+
+    //         // salary: doctorData.data?.data.salary ? doctorData.data?.data.salary : "",
+    //         // salary: doctorData.data?.data.salary ? doctorData.data?.data.salary : "",
+    //         // timeOutMinutes: doctorData.data?.data.timeOutMinutes ? doctorData.data?.data.timeOutMinutes : 0,
+    //         // allowedWorkingHours: doctorData.data?.data.allowedWorkingHours ? [doctorData.data?.data.allowedWorkingHours.slice(0, 8), doctorData.data?.data.allowedWorkingHours.slice(9, 8)] : [],
 
 
+    //     })
+    // }, [])
 
-    const handleGeneratePassword = () => {
-        const newPassword = generatePassword();
-        setPassword(newPassword);
-        setConfirmPassword(newPassword);
-    };
+
+    // console.log(doctorData, "1111111111111");
+    console.log(userData, "22222222");
+
 
     async function onSubmit(data: DoctorUpdate) {
         // data.allowedWorkingHours = allowTime
@@ -176,11 +152,6 @@ export default function DoctorEdit() {
         // data.position = selectedIds
         // data.canSeeReports = canSeeReports
         // data.description = content
-
-        if (password !== confirmPassword) {
-            toast.warning("Parollar mos kelmadi")
-            return
-        }
 
 
         if (!check) {
@@ -244,7 +215,7 @@ export default function DoctorEdit() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={data?.data.lastName}
+                                defaultValue={doctorData.data?.data.firstName}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, lastName: e.target.value })}
                                 className="mt-1"
                                 name="lastName"
@@ -259,7 +230,7 @@ export default function DoctorEdit() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={data?.data.firstName}
+                                defaultValue={doctorData.data?.data.lastName}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, firstName: e.target.value })}
                                 className="mt-1"
                                 name="firstName"
@@ -274,7 +245,7 @@ export default function DoctorEdit() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={data?.data.fatherName}
+                                defaultValue={doctorData.data?.data.fatherName}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, fatherName: e.target.value })}
                                 className="mt-1"
                                 name="fatherName"
@@ -290,7 +261,7 @@ export default function DoctorEdit() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={data?.data.phoneNumber}
+                                defaultValue={doctorData.data?.data.phoneNumber}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, phoneNumber: e.target.value })}
                                 className="mt-1"
                                 name="phoneNumber"
@@ -307,7 +278,8 @@ export default function DoctorEdit() {
                                         Time Out (minut)
                                     </label>
                                 }
-                                defaultValue={data?.data.timeOutMinutes}
+
+                                defaultValue={doctorData.data?.data.timeOutMinutes}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, timeOutMinutes: parseInt(e.target.value) })}
                                 className="mt-1"
                                 name="timeOutMinutes"
@@ -326,7 +298,7 @@ export default function DoctorEdit() {
                             <Space direction="vertical" >
                                 <TimePicker.RangePicker className="sm:w-[338px] w-[100%]"
                                     onChange={timePickerChange}
-                                    defaultValue={[dayjs('08:00', 'HH:mm'), dayjs('20:00', 'HH:mm')]}
+                                    defaultValue={[dayjs(`${doctorData ? doctorData.data?.data.allowedWorkingHours.slice(0, 8) : "08:00"}`, 'HH:mm'), dayjs(`${doctorData.data?.data.allowedWorkingHours.slice(9, 16)}`, 'HH:mm')]}
                                     placeholder={['Boshlash', 'Tugash']}
 
                                 />
@@ -341,7 +313,7 @@ export default function DoctorEdit() {
                                         <span className="text-red-500">*</span>
                                     </label>
                                 }
-                                defaultValue={data?.data.salary}
+                                defaultValue={doctorData.data?.data.timeOutMinutes}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, salary: parseInt(e.target.value) })}
 
                                 className="mt-1"
@@ -363,13 +335,13 @@ export default function DoctorEdit() {
                                 language="uz"
                                 placeholder="Tanlang"
                                 onChange={handleChangeSelect}
-                                defaultValue={data?.data.position}
+                                defaultValue={doctorData.data?.data.position}
                             />
                         </div>
 
                         <div className="2xl:col-span-3 col-span-4 gap-2">
                             <div className="grid grid-cols-12">
-                                <div className={`col-span-7 sm:mt-0 mt-2 ${selectedIds.some(item => possibleRoles.includes(item)) ? "block" : "hidden"}`}>
+                                <div className={`col-span-7 sm:mt-0 mt-2 `}>
                                     <FormInput
                                         label={
                                             <label htmlFor="firstName" className="text-gray-700">
@@ -377,7 +349,7 @@ export default function DoctorEdit() {
                                                 <span className="text-red-500">*</span>
                                             </label>
                                         }
-                                        defaultValue={data?.data.orderSign}
+                                        defaultValue={doctorData.data?.data.orderSign}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserData({ ...userData, orderSign: e.target.value })}
                                         className="mt-1"
                                         name="orderSign"
@@ -398,7 +370,7 @@ export default function DoctorEdit() {
                                                     type="radio"
                                                     value="Male"
                                                     name="sex"
-                                                    checked={data?.data.sex == 'Male' ? true : false}
+                                                    checked={doctorData.data?.data.sex == 'Male' ? true : false}
                                                     onChange={(e => setGender(e.target.value))}
                                                     className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                                                 />
@@ -410,7 +382,7 @@ export default function DoctorEdit() {
                                                     type="radio"
                                                     value="Female"
                                                     name="sex"
-                                                    checked={data?.data.sex == 'Female' ? true : false}
+                                                    checked={doctorData.data?.data.sex == 'Female' ? true : false}
                                                     onChange={(e => setGender(e.target.value))}
                                                     className="w-3 h-3 text-pink-600 focus:ring-pink-500"
                                                 />
@@ -426,122 +398,16 @@ export default function DoctorEdit() {
                     </div>
 
 
-                    {/* <div className="mt-2">
-                        <FormInput
-                            label={
-                                <label htmlFor="firstName" className="text-gray-700">
-                                    Login
-                                    <span className="text-red-500">*</span>
-                                </label>
-                            }
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({ ...data, userName: e.target.value })}
-                            className="mt-1"
-                            name="userName"
-                            placeholder={"Login kiriting"}
-                        />
-                    </div>
-
-
-                    <div className="sm:grid grid-cols-12 gap-4 items-center mt-2">
-                        <div className="col-span-4 mt-1">
-                            <span className="text-sm font-medium text-gray-900 mt-1">{t("password")}</span>
-                            <span className="text-red-500">*</span>
-                            <div className="flex mt-1">
-                                <input
-                                    type={showPass ? "text" : "password"}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    name="password"
-                                    value={password}
-                                    onBlur={onBlurPassword}
-                                    placeholder={t("placePassword")}
-                                    id="website-admin"
-                                    className="rounded-none  placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[5px]"
-                                />
-
-                                <span onClick={handleShowPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
-                                    <svg
-
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 16 16"
-                                        fill="currentColor"
-                                        className="h-4 w-4 opacity-70 hover:text-secondary"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </span>
-                            </div>
-                            {errorPassword && (
-                                <p className="text-red-500 block mb-1 text-sm">{errorPassword}</p>
-                            )}
-                        </div>
-                        <div className="col-span-4 mt-1">
-                            <span className="text-sm font-medium text-gray-900 mt-1">{t("repeatPassword")}</span>
-                            <span className="text-red-500">*</span>
-
-                            <div className="">
-                                <div className="flex mt-1 col-span-7">
-                                    <input
-
-                                        type={showConfPass ? "text" : "password"}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                        name="confirmPassword"
-                                        onBlur={onBlurConfPassword}
-                                        value={confirmPassword}
-
-                                        placeholder={t("repeatPassword")}
-                                        id="website-admin"
-                                        className="rounded-none placeholder:text-gray-500 rounded-l-lg focus:ring-1 mr-[0.5px] focus:ring-secondary focus:outline-none  border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 px-2.5 py-[4.5px]"
-                                    />
-
-                                    <span onClick={handleShowConfPassword} className="inline-flex cursor-pointer text-secondary items-center px-3 text-sm bg-gray-200 border rounded-l-0 border-gray-300 border-l-0 rounded-r-md">
-                                        <svg
-
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 16 16"
-                                            fill="currentColor"
-                                            className="h-4 w-4 opacity-70 hover:text-secondary"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </span>
-                                </div>
-
-
-                            </div>
-                            {errorConfPassword && <p className={clsx("text-red-500 block mb-1 text-sm")}>{errorConfPassword}</p>}
-
-                        </div>
-
-                        <div className={`col-span-4 ${errorConfPassword || errorPassword ? "mt-0" : "sm:mt-6 mt-2"} `}>
-                            <button
-                                type="button"
-                                onClick={handleGeneratePassword}
-                                className="w-full px-4 py-1.5 mt-1 bg-primary text-white font-medium rounded-md duration-200 hover:bg-primary/80 focus:outline-none"
-                            >
-                                Parol yaratish
-                            </button>
-                        </div>
-                    </div> */}
-
-
                     <div className="sm:grid grid-cols-12 gap-4 px-0.5 mt-2">
 
                         <div className="col-span-8">
                             <p className="mb-2">Hodim haqida malumot</p>
-                            <TextEditor value={content} onChange={handleContentChange} />
+                            <TextEditor value={doctorData.data?.data.description} onChange={handleContentChange} />
 
                             {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
                         </div>
                         <div className="col-span-4 pt-2 ml-0.5 mt-[70px] sm:mt-0">
-                            {!image ?
+                            {!image && imageDoctor ?
                                 <div className="flex items-center justify-start">
                                     <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center  w-full sm:h-40 h-32 text-center   border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                                         <div className="flex flex-col items-center justify-center">
@@ -573,12 +439,13 @@ export default function DoctorEdit() {
 
 
 
-                            {file ?
+                            {file || doctorData.data?.data.base64Photo ?
                                 <>
-                                    <img src={URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" />
+                                    <img src={doctorData ? doctorData.data?.data.base64Photo : URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" />
                                     <button onClick={() => {
                                         setImage(null)
                                         setFile(null)
+                                        setImageDoctor(null)
                                     }}
                                         type="button"
                                         className="w- p-1.5  bg-slate-400 mt-2 text-sm text-white rounded-md duration-200 flex items-center gap-2">
@@ -601,6 +468,7 @@ export default function DoctorEdit() {
                                     type="radio"
                                     value="yes"
                                     name="canSeeReports"
+                                    checked={doctorData.data?.data.canSeeReports ? true : false}
                                     onChange={() => setCanSeeReports(true)}
                                     className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                                 />
@@ -612,6 +480,7 @@ export default function DoctorEdit() {
                                     type="radio"
                                     value="no"
                                     name="canSeeReports"
+                                    checked={doctorData.data?.data.canSeeReports ? true : false}
                                     onChange={() => setCanSeeReports(false)}
                                     className="w-3 h-3 text-blue-600 focus:ring-blue-500"
                                 />

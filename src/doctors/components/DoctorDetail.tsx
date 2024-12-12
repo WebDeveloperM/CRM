@@ -6,8 +6,7 @@ import type { TimeRangePickerProps } from 'antd/es/time-picker';
 import { Link } from "react-router-dom";
 import { useWorkerPositions } from "@clinica/hooks/addClinic";
 import TreeSelectComponent from "./TreeSelectComponent";
-import { useDocorsView } from "@doctors/hooks/viewDoctors";
-import { useParams } from "@core/hooks/queryString";
+import { useDocorView } from "@doctors/hooks/viewDoctor";
 import { FormProvider, useForm } from "react-hook-form";
 import { DoctorDetailResponseType } from "@doctors/types";
 import userLogo from "@doctors/static/userLogo.png"
@@ -16,7 +15,7 @@ import userLogo from "@doctors/static/userLogo.png"
 export default function DoctorDetail() {
 
     const uniqueToken  = localStorage.getItem("doctorToken")
-    const { data } = useDocorsView(uniqueToken as string)
+    const { data } = useDocorView(uniqueToken as string)
     const workerPositions = useWorkerPositions()
 
     // const [allowTime, setAllowTime] = useState<string[]>(["08:00:00", "20:00:00"])

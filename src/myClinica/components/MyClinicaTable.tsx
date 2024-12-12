@@ -16,9 +16,6 @@ import { useDeleteClinicData } from "@my-clinica/hooks/deleteClinic"
 
 
 export default function MyClinicaTable() {
-    if (!isCheckClinic()) {
-        return <Navigate to="/clinica" />
-    }
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showData, setShowData] = useState(false)
@@ -39,7 +36,10 @@ export default function MyClinicaTable() {
         setIsModalOpen(false)
         navigate("/clinica")
     }
-
+    
+    if (!isCheckClinic()) {
+        return <Navigate to="/clinica" />
+    }
 
     return (
         <div className=" ">
@@ -133,7 +133,7 @@ export default function MyClinicaTable() {
             </table>
 
             {isModalOpen && (
-               
+
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white  shadow-lg  max-w-md w-full pb-6">
                         {/* Modal header */}

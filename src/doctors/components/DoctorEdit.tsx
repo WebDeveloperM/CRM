@@ -407,7 +407,7 @@ export default function DoctorEdit() {
                             {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
                         </div>
                         <div className="col-span-4 pt-2 ml-0.5 mt-[70px] sm:mt-0">
-                            {!image && imageDoctor ?
+                            {!image && !imageDoctor ?
                                 <div className="flex items-center justify-start">
                                     <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center  w-full sm:h-40 h-32 text-center   border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                                         <div className="flex flex-col items-center justify-center">
@@ -439,7 +439,7 @@ export default function DoctorEdit() {
 
 
 
-                            {file || doctorData.data?.data.base64Photo ?
+                            {file || imageDoctor ?
                                 <>
                                     <img src={doctorData ? doctorData.data?.data.base64Photo : URL.createObjectURL(file)} alt="" className="w-40 rounded-xl" />
                                     <button onClick={() => {

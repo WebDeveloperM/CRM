@@ -10,4 +10,6 @@ export const routerNames = [
     { key: "/my-clinica", value: "/ Shifoxona" },
     { key: "/my-clinica/edit-clinica", value: "/ Shifoxona" },
     { key: "/finance", value: "/ Hisobotlar" },
+    { key: "/doctors/view-doctor/", value: "/ Hodim to'g'risida ma'lumot" },
+    { key: "/doctors/edit-doctor/", value: "/ Hodim ma'lumotlarini tahrirlash" },
 ]

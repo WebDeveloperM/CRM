@@ -14,15 +14,15 @@ import userLogo from "@doctors/static/userLogo.png"
 
 
 export default function DoctorDetail() {
-    
-    const { uniqueToken } = useParams()
+
+    const uniqueToken  = localStorage.getItem("doctorToken")
     const { data } = useDocorsView(uniqueToken as string)
     const workerPositions = useWorkerPositions()
 
     // const [allowTime, setAllowTime] = useState<string[]>(["08:00:00", "20:00:00"])
     const methods = useForm<DoctorDetailResponseType>({ mode: "onBlur" })
     // const [startTime, endTime] = `${data && convertTimeFormat(data?.data.allowedWorkingHours as string)}`.split("-");
-    
+
     const handleChangeSelect = () => {
         console.log("")
     }
@@ -38,7 +38,7 @@ export default function DoctorDetail() {
 
     return (
         <div className="px-6 mt-6">
-            <h4 className="mb-5">Hodim to'g'risida ma'lumot</h4>
+            <h4 className="mb-5">Hodim tog'risida ma'lumot</h4>
             <FormProvider {...methods}>
                 <form action="" className="  ">
                     <div className="sm:grid grid-cols-12 gap-3 px-0.5">

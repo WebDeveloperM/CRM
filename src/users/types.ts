@@ -48,3 +48,22 @@ export type AccountLoginResponse = BaseResponse & {
 //     token: string
 //     expiration: string
 // }
+
+type AdminData = {
+
+    uniqueToken: string;
+    id: string;
+    firstName: string;
+    lastName: string;
+    fatherName: string;
+    personalNumber: number;
+    pasportSerNum: string;
+    isActive: boolean;
+    paymentExpiryDate: string; // ISO date string (e.g., "YYYY-MM-DD")
+    photoBase64: string; // Base64 encoded string or empty
+};
+
+
+export type AdminDataResponse = BaseResponse & {
+    data?: AdminData
+}

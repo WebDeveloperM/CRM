@@ -103,3 +103,22 @@ type DoctorsView = {
 export type DoctorDetailResponseType = BaseResponse & {
     data: DoctorsView
 }
+
+
+export type DoctorUpdate = {
+    firstName: string;
+    lastName: string;
+    fatherName: string;
+    base64Photo: string;
+    phoneNumber: string;
+    timeOutMinutes: number;
+    allowedWorkingHours: string[];
+    sex: string;
+    salary: number;
+    position: number[];
+    canSeeReports: boolean;
+    legalAddress: string;
+    description: string;
+    orderSign: string;
+  };
+  

@@ -10,6 +10,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { logout } from "@users/utils/auth"
 import { FaRegHospital } from "react-icons/fa6";
+import { useAdminData } from "@users/hooks/superUser"
 type Prop = {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
@@ -17,12 +18,14 @@ type Prop = {
 
 export default function Sidebar({ open, setOpen }: Prop) {
     const { pathname } = useLocation()
+    const uniqueToken = localStorage.getItem("uniqueToken")
     const navigate = useNavigate()
-
+    const { data } = useAdminData(uniqueToken as string)
     const [screenSize] = useState({
         width: window.innerWidth,
         height: window.innerHeight,
     })
+    console.log(data, "11111");
 
     useEffect(() => {
         screenSize.width < 768 && setOpen(false)
@@ -41,9 +44,9 @@ export default function Sidebar({ open, setOpen }: Prop) {
                     <div
                         className={`text-center flex flex-col items-center ${open ? "scale-100 sm:scale-100" : "scale-0 sm:scale-100"} duration-200`}
                     >
-                        <img src={userLogo} alt="doctor" className="w-[60px] h-[60px] rounded-full mt-3" />
+                        <img src={data?.data?.photoBase64 ? data?.data?.photoBase64 : userLogo} alt="doctor" className="w-[60px] h-[60px] rounded-full mt-3" />
                         <p className="text-secondary text-sm tracking-wider  origin-left duration-0 py-1 font-medium">
-                            Feruza
+                            {data?.data?.firstName}
                         </p>
                         <span className="text-gray-500 text-sm">Admin</span>
                     </div>

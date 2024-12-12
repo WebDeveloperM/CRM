@@ -8,7 +8,7 @@ import { DoctorItemResponseType } from "@doctors/types";
 import { useWorkerPositions } from "@clinica/hooks/addClinic";
 import getCategoryNames from "@doctors/utils/checkPositions";
 import userLogo from "@doctors/static/userLogo.png"
-import TreeSelectComponent from "@my-clinica/components/TreeSelectComponent";
+// import TreeSelectComponent from "@my-clinica/components/TreeSelectComponent";
 import { toast } from "react-toastify";
 import { useDeleteDoctorData } from "@doctors/hooks/deleteDoctors";
 import { Link, useNavigate } from "react-router-dom";
@@ -118,9 +118,9 @@ export default function DoctorsListTab1({ search }: Props) {
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
                             Sohasi
                         </th>
-                        <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
+                        {/* <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
                             Roli
-                        </th>
+                        </th> */}
                         <th scope="col" className="2xl:px-6 px-3 py-2  font-semibold ">
                             Ish soati
                         </th>
@@ -150,19 +150,16 @@ export default function DoctorsListTab1({ search }: Props) {
                                 {id + 1}
                             </th>
 
-                            <td className="2xl:px-5 px-3 py-1.5  grid grid-cols-12 items-center min-w-[10px] max-w-[300px]">
-                                <img src={item.base64Photo ? item.base64Photo : userLogo} alt="" className="w-10 h-10 rounded-full col-span-2" />
-                                <p className="ml-3">{item.lastName} {item.firstName} {item.fatherName}</p>
+                            <td className="2xl:px-5 px-3 py-1.5  grid grid-cols-12 items-center min-w-[10px] max-w-[300px] ">
+                                <img src={item.base64Photo ? item.base64Photo : userLogo} alt="" className="min-w-10 h-10 rounded-full col-span-2" />
+                                <p className="ml-3 ">{item.lastName} {item.firstName} {item.fatherName}</p>
                             </td>
 
                             <td className="2xl:px-5 px-3 py-1.5  ">{
                                 getCategoryNames(workerPositions.data.data, item.position)
                             }</td>
-                            <td className="2xl:px-5 px-3 py-1.5  ">
-                                {/* {
-                                    //@ts-ignore
-                                    getMatchedItems(workerPositions.data.data, item.position, i18n.language).map(item => `${item.nameUz} `).slice(0, 100)
-                                } */}
+                            {/* <td className="2xl:px-5 px-3 py-1.5  ">
+
 
                                 <TreeSelectComponent
                                     data={workerPositions.data?.data}
@@ -173,7 +170,7 @@ export default function DoctorsListTab1({ search }: Props) {
 
                                 />
 
-                            </td>
+                            </td> */}
 
                             <td className="2xl:px-5 px-3 py-1.5  "> {convertTimeFormat(item.allowedWorkingHours)}</td>
                             <td className="2xl:px-5 px-3 py-1.5  ">+998 {item.phoneNumber}</td>
@@ -185,8 +182,10 @@ export default function DoctorsListTab1({ search }: Props) {
                                         setIsModalOpen(true)
                                         setUniqueToken(item.uniqueToken)
                                     }} className="text-red-500 cursor-pointer" />
-                                    <BiSolidEdit className="text-blue-500 cursor-pointer" />
-                                    <Link to={`/doctors/view-doctor/${item.uniqueToken}/`}>
+                                    <Link to={`/doctors/edit-doctor/`} onClick={() => localStorage.setItem("doctorToken", item.uniqueToken)}>
+                                        <BiSolidEdit className="text-blue-500 cursor-pointer" />
+                                    </Link>
+                                    <Link to={`/doctors/view-doctor/`} onClick={() => localStorage.setItem("doctorToken", item.uniqueToken)}>
                                         <LuEye className="text-green-500 cursor-pointer" />
                                     </Link>
                                 </div>

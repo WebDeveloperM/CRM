@@ -1,9 +1,10 @@
 import { request } from "@core/utils/baseAxios.ts"
 import { useFetch, useMutate } from "@core/hooks/request.ts"
-import { ACCOUNT_LOGIN, SUPER_USER_ADD_REGISTER_DATA, SUPER_USER_CREATE } from "@users/urls.ts"
+import { ACCOUNT_LOGIN, ADMIN_DATA, SUPER_USER_ADD_REGISTER_DATA, SUPER_USER_CREATE } from "@users/urls.ts"
 import {
     AccountLogin,
     AccountLoginResponse,
+    AdminDataResponse,
     SignUpSuperUser,
     SignUpSuperUserAddRegister,
     SignUpSuperUserAddRegisterResponse,
@@ -30,4 +31,10 @@ export const useAccountLogin = () => {
     return useMutate<AccountLoginResponse, AccountLogin>((data) =>
         request({ url: ACCOUNT_LOGIN, method: "POST", data })
     )
+}
+
+
+
+export function useAdminData(uniqueToken: string) {
+    return useFetch<AdminDataResponse>([uniqueToken], () => request({ url: ADMIN_DATA.replace("{uniqueToken}", uniqueToken) }))
 }

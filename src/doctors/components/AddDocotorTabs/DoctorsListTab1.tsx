@@ -1,7 +1,7 @@
 
-import { FaRegTrashAlt, FaTimes, FaTrashAlt } from "react-icons/fa";
+import {  FaTimes, FaTrashAlt } from "react-icons/fa";
 import { BiSolidEdit } from "react-icons/bi";
-import { LuEye } from "react-icons/lu";
+
 import { useEffect, useState } from "react";
 import { useDocorsList } from "@doctors/hooks/getDoctors";
 import { DoctorItemResponseType } from "@doctors/types";
@@ -15,6 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import doctorsPage from "@doctors/static/doctors.png"
 import { convertTimeFormat } from "@doctors/utils/convertTimeFormat";
 import { formatNumberWithSpaces } from "@doctors/utils/converSlaryFormat";
+import Tooltip from "@core/components/Tooltip";
+import { TiDeleteOutline } from "react-icons/ti";
 type Props = {
     search: string,
 }
@@ -177,17 +179,35 @@ export default function DoctorsListTab1({ search }: Props) {
                             <td className="2xl:px-5 px-3 py-1.5  "> {formatNumberWithSpaces(item.salary)} so'm</td>
                             <td className="2xl:px-5 px-3 py-1.5 text-center ">{item.orderSign}</td>
                             <td className="2xl:px-5 px-3 py-1.5  border-r">
-                                <div className="flex items-center gap-6 justify-center float-left text-base">
-                                    <FaRegTrashAlt onClick={() => {
-                                        setIsModalOpen(true)
-                                        setUniqueToken(item.uniqueToken)
-                                    }} className="text-red-500 cursor-pointer" />
-                                    <Link to={`/doctors/edit-doctor/`} onClick={() => localStorage.setItem("doctorToken", item.uniqueToken)}>
-                                        <BiSolidEdit className="text-blue-500 cursor-pointer" />
-                                    </Link>
-                                    <Link to={`/doctors/view-doctor/`} onClick={() => localStorage.setItem("doctorToken", item.uniqueToken)}>
-                                        <LuEye className="text-green-500 cursor-pointer" />
-                                    </Link>
+
+                                <div className="flex items-center gap-1 justify-center float-left text-base">
+
+                                    <Tooltip tip={"ko'rish"}>
+
+                                        <Link to={`/doctors/view-doctor/`}
+                                            onClick={() => localStorage.setItem("doctorToken", item.uniqueToken)}>
+                                            <BiSolidEdit className="text-secondary cursor-pointer border p-2 text-[33px] hover:bg-secondary hover:text-white duration-200 rounded-lg" />
+                                        </Link>
+
+                                    </Tooltip>
+
+                                    <Tooltip tip={"o'chirish"}>
+                                        <TiDeleteOutline
+                                            onClick={() => {
+                                                setIsModalOpen(true)
+                                                setUniqueToken(item.uniqueToken)
+                                            }}
+                                            className="text-red-500 cursor-pointer border p-2 text-[33px] hover:bg-red-500 hover:text-white duration-200 rounded-lg"
+                                        />
+                                    </Tooltip>
+
+
+                                    <Tooltip tip={"tahrirlash"}>
+                                        <Link to={`/doctors/edit-doctor/`}
+                                            onClick={() => localStorage.setItem("doctorToken", item.uniqueToken)}>
+                                            <BiSolidEdit className="text-blue-500 cursor-pointer border p-2 mt-1 text-[33px] hover:bg-blue-500 hover:text-white duration-200 rounded-lg" />
+                                        </Link>
+                                    </Tooltip>
                                 </div>
                             </td>
                         </tr>

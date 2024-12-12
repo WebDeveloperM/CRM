@@ -2,9 +2,8 @@ import { useGetClinicData } from "@my-clinica/hooks/getClinic"
 import { isCheckClinic } from "@users/utils/auth"
 import { useState } from "react"
 import { BiSolidEdit } from "react-icons/bi"
-import { FaRegTrashAlt, FaTimes } from "react-icons/fa"
-import { LuEye } from "react-icons/lu"
-import { LuEyeOff } from "react-icons/lu";
+import { FaTimes } from "react-icons/fa"
+
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import { FaTrashAlt } from "react-icons/fa"
 import { toast } from "react-toastify"
@@ -13,6 +12,8 @@ import { domain } from "@core/utils/baseAxios"
 import ShowClinicData from "./ShowClinicData"
 import logo from "@core/static/logo.png";
 import { useDeleteClinicData } from "@my-clinica/hooks/deleteClinic"
+import { TiDeleteOutline } from "react-icons/ti";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 
 export default function MyClinicaTable() {
@@ -36,7 +37,7 @@ export default function MyClinicaTable() {
         setIsModalOpen(false)
         navigate("/clinica")
     }
-    
+
     if (!isCheckClinic()) {
         return <Navigate to="/clinica" />
     }
@@ -103,29 +104,56 @@ export default function MyClinicaTable() {
                         <td className="2xl:px-5 px-3 py-1.5 ">{clincData.data?.data.email}</td>
                         <td className="2xl:px-5 px-3 py-1.5  ">{clincData.data?.data.clinicType}</td>
                         <td className="2xl:px-5 px-3 py-1.5  border-r">
-                            <div className="flex items-center gap-6 justify-center float-left text-base">
+                            {/* <div className="flex items-center gap-1 justify-center float-left text-base">
+
+                                <Tooltip tip={"ko'rish"}>
+
+                                    <FaRegCheckCircle
+                                        onClick={() => { setShowData(!showData) }}
+                                        className="text-secondary cursor-pointer border p-2 text-[33px] hover:bg-secondary hover:text-white duration-200 rounded-lg" />
+
+
+                                </Tooltip>
+
                                 <Tooltip tip={"o'chirish"}>
-                                    <FaRegTrashAlt
+                                    <TiDeleteOutline
                                         onClick={() => setIsModalOpen(true)}
-                                        className="text-red-500 cursor-pointer"
+                                        className="text-red-500 cursor-pointer border p-2 text-[33px] hover:bg-red-500 hover:text-white duration-200 rounded-lg"
                                     />
                                 </Tooltip>
+
+
                                 <Link to={"/my-clinica/edit-clinica"}>
                                     <Tooltip tip={"tahrirlash"}>
-                                        <BiSolidEdit className="text-blue-500 cursor-pointer" />
+                                        <BiSolidEdit className="text-blue-500 cursor-pointer border p-2 mt-1 text-[33px] hover:bg-blue-500 hover:text-white duration-200 rounded-lg" />
                                     </Tooltip>
                                 </Link>
+                            </div> */}
+
+                            <div className="flex items-center gap-1 justify-center float-left text-base">
+
                                 <Tooltip tip={"ko'rish"}>
-                                    {showData ?
-                                        <LuEyeOff
-                                            onClick={() => { setShowData(!showData) }}
-                                            className="text-green-500 cursor-pointer" />
-                                        :
-                                        <LuEye
-                                            onClick={() => setShowData(!showData)}
-                                            className="text-green-500 cursor-pointer" />
-                                    }
+
+                                    <FaRegCheckCircle
+                                        onClick={() => { setShowData(!showData) }}
+                                        className="text-secondary cursor-pointer border p-2 text-[33px] hover:bg-secondary hover:text-white duration-200 rounded-lg" />
+
+
                                 </Tooltip>
+
+                                <Tooltip tip={"o'chirish"}>
+                                    <TiDeleteOutline
+                                        onClick={() => setIsModalOpen(true)}
+                                        className="text-red-500 cursor-pointer border p-2 text-[33px] hover:bg-red-500 hover:text-white duration-200 rounded-lg"
+                                    />
+                                </Tooltip>
+
+
+                                <Link to={"/my-clinica/edit-clinica"}>
+                                    <Tooltip tip={"tahrirlash"}>
+                                        <BiSolidEdit className="text-blue-500 cursor-pointer border p-2 mt-1 text-[33px] hover:bg-blue-500 hover:text-white duration-200 rounded-lg" />
+                                    </Tooltip>
+                                </Link>
                             </div>
                         </td>
                     </tr>

@@ -7,6 +7,7 @@ const config: Config = {
         extend: {
             colors: {
                 "secondary-light": "#e5f5f4",
+                "secondary-light2": "rgb(240, 246, 247)",
             },
         },
     },

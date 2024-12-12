@@ -170,8 +170,8 @@ export default function Sidebar({ open, setOpen }: Prop) {
                 </ul>
 
 
-                <div className="fixed bottom-2 ">
-                    <div className="grid items-center grid-cols-12 bg-secondary  w-56 ml-4 rounded-md gap-6 px-3 text-white">
+                <div className="fixed bottom-20">
+                    <div className={`grid absolute  items-center origin-left duration-200 grid-cols-12 bg-secondary  w-56 ml-4 rounded-md gap-6 px-3 text-white ${!open ? "hidden" : "block"}`} >
                         <div className="col-span-2">
                             <SlScreenSmartphone className="text-[45px]" />
                         </div>

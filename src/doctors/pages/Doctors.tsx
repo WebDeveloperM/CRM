@@ -22,7 +22,7 @@ export default function Doctors() {
     return (
         <>
             <Layout open={open} setOpen={setOpen}>
-                <div className="overflow-x-auto bg-white rounded-md text-gray-700  h-full pb-5 overflow-y-scroll 2xl:m-5 m-3 ">
+                <div className="overflow-x-auto bg-white rounded-md text-gray-700 h-[100vh] pb-5 overflow-y-scroll 2xl:m-5 m-3 ">
                     <DoctorContext.Provider value={{ data, setData }}>
                         <DoctorsTab />
                     </DoctorContext.Provider>

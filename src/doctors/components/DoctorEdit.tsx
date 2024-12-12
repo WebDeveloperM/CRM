@@ -391,7 +391,7 @@ export default function DoctorEdit() {
                             <p className="mb-2">Hodim haqida malumot</p>
                             <TextEditor value={doctorData.data?.data.description} onChange={handleContentChange} />
 
-                            {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
+                           
                         </div>
                         <div className="col-span-4 pt-2 ml-0.5 mt-[70px] sm:mt-0">
                             {!image && imageDoctor == "" ?
@@ -531,7 +531,7 @@ export default function DoctorEdit() {
                             type="submit"
                             className="w-24 p-1.5  mt-2 bg-secondary hover:bg-secondary/80 text-sm text-white rounded-md duration-200"
                         >
-                            Qo'shish
+                           O'zgartirish
                         </button>
                     </div>
 

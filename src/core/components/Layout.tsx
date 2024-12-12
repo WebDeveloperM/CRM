@@ -13,10 +13,10 @@ type Props = {
 export default function Layout({ children, open, setOpen }: Props) {
     const [link] = useState<string>("Dashboard")
     return (
-        <div className="scrollbar-thin ">
+        <div className="scrollbar-thin bg-secondary-light">
             <Sidebar open={open} setOpen={setOpen} />
             <Header open={open} setOpen={setOpen} link={link} />
-            <div className={`2xl:w-[95%] w-[100%] overflow-y-auto bg-gray-100  mx-auto pb-5 mt-[100px] pt-1 duration-300  ${open ? "md:ml-64 md:max-w-[calc(100%-256px)]" : "md:ml-20 md:max-w-[calc(100%-80px)]"}`}>
+            <div className={`2xl:w-[95%] w-[100%] overflow-y-auto bg-secondary-light h-[100vh]  mx-auto pb-5 mt-[100px] pt-1 duration-300  ${open ? "md:ml-64 md:max-w-[calc(100%-256px)]" : "md:ml-20 md:max-w-[calc(100%-80px)]"}`}>
                 {children}
             </div>
         </div>

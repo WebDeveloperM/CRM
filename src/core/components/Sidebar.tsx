@@ -11,6 +11,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { logout } from "@users/utils/auth"
 import { FaRegHospital } from "react-icons/fa6";
 import { useAdminData } from "@users/hooks/superUser"
+import { SlScreenSmartphone } from "react-icons/sl";
 type Prop = {
     open: boolean
     setOpen: Dispatch<SetStateAction<boolean>>
@@ -37,7 +38,7 @@ export default function Sidebar({ open, setOpen }: Prop) {
 
     return (
         <div
-            className={`h-full bg-white fixed top-[57px] z-20 left-0  ${open ? "w-64" : "md:w-20 w-0"}  duration-300 `}
+            className={`h-full bg-white fixed top-[57px] z-20 left-0   ${open ? "w-64" : "md:w-20 w-0"}  duration-300 `}
         >
             <div className="h-full relative shadow">
                 <div className="flex justify-center gap-2 border-b border-gray-200 pb-2 pt-1 min-h-[132px]">
@@ -168,7 +169,21 @@ export default function Sidebar({ open, setOpen }: Prop) {
                     </Link>
                 </ul>
 
+
+                <div className="fixed bottom-2 ">
+                    <div className="grid items-center grid-cols-12 bg-secondary  w-56 ml-4 rounded-md gap-6 px-3 text-white">
+                        <div className="col-span-2">
+                            <SlScreenSmartphone className="text-[45px]" />
+                        </div>
+                        <div className="col-span-10 text-lg pt-2">
+                            <p >0987654321 <br /> Customer Support</p>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
-        </div>
+        </div >
     )
 }
